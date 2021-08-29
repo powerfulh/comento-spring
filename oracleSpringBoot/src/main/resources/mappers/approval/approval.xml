@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.comento.oracleSpringBoot.approval.ApprovalS">
+	<select id="getApprovalFormList" resultType="FormVo">
+		select * from approvalForm
+	</select>
+	<select id="getNewApproval" resultType="ApprovalVo" parameterType="string">
+		select * from approval where target = #{sid} order BY approvalNo desc
+	</select>
+</mapper>

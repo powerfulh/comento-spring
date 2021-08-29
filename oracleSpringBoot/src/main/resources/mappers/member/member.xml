@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.comento.oracleSpringBoot.member.MemberS">
+	<select id="logicProc" resultType="int" parameterType="LoginVo">
+		select count(*) from member where id = #{id} and pw = #{pw}
+	</select>
+	<select id="getMainMail" resultType="MailVo" parameterType="string">
+		select * from mail where 4 > rownum and target = #{sid} order BY mailNo desc
+	</select>
+	<select id="getMainApproval" resultType="ApprovalVo" parameterType="string">
+		select * from approval where 4 > rownum and target = #{sid} order BY approvalNo desc
+	</select>
+</mapper>
