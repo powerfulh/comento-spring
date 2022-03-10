@@ -5,12 +5,9 @@
 
 <mapper namespace="com.comento.oracleSpringBoot.member.MemberS">
 	<select id="logicProc" resultType="int" parameterType="LoginVo">
-		select count(*) from member where id = #{id} and pw = #{pw}
+		select count(*) from member01 where id = #{id} and pw = #{pw}
 	</select>
 	<select id="getMainMail" resultType="MailVo" parameterType="string">
 		select * from mail where 4 > rownum and target = #{sid} order BY mailNo desc
-	</select>
-	<select id="getMainApproval" resultType="ApprovalVo" parameterType="string">
-		select * from approval where 4 > rownum and target = #{sid} order BY approvalNo desc
 	</select>
 </mapper>

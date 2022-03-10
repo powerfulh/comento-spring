@@ -1,7 +1,10 @@
 package com.comento.oracleSpringBoot.member.entity;
 
+import javax.validation.constraints.NotBlank;
+
 public class LoginVo {
-	String id;
+	@NotBlank(message = "id require")
+	private String id;
 	String pw;
 	public String getId() {
 		return id;
