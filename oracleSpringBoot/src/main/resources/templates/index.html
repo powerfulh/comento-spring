@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>템플릿 테스트</title>
-</head>
-<body>
-asd
-</body>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>인덱스 템플릿</title>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	</head>
+	
+	<body>
+		<p>[[${sid}]] 로그인중</p>
+		<form action="loginProc">
+			<input type="hidden" name="id" value="hh">
+			<input type="hidden" name="pw" value="hh">
+			<button>정상 로그인 테스트</button>
+		</form>
+		<form action="loginProc">
+			<input type="hidden" name="id" value="hh">
+			<input type="hidden" name="pw" value="h">
+			<button>실패 로그인 테스트</button>
+		</form>
+		<form action="loginProc">
+			<input type="hidden" name="id" value="hh">
+			<button>유효하지 않은 로그인 테스트</button>
+		</form>
+	</body>
+	
+	<script type="text/javascript">
+	function ajax(url, successCb, param, failCb, completeCb) {
+		$.ajax({
+			url: url,
+			data: param,
+			success: successCb,
+			error: failCb,
+			complete: completeCb
+		})
+	}
+	</script>
 </html>
