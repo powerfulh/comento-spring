@@ -22,9 +22,18 @@
 			<input type="hidden" name="id" value="hh">
 			<button>유효하지 않은 로그인 테스트</button>
 		</form>
+		
+		<div id="fragment-here">
+			re render
+		</div>
 	</body>
 	
 	<script type="text/javascript">
+	ajax("test", function(f) {
+		console.log(f)
+		$('#fragment-here').replaceWith($(f))
+	})
+	
 	function ajax(url, successCb, param, failCb, completeCb) {
 		$.ajax({
 			url: url,
