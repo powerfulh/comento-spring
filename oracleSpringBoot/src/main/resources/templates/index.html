@@ -3,11 +3,17 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>인덱스 템플릿</title>
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+		<script src="jq.js"></script>
+		<link rel="stylesheet" href="w3.css">
 	</head>
 	
 	<body>
-		<p>[[${sid}]] 로그인중</p>
+		<header class="w3-red">
+			<h1>헤더 영역</h1>
+		</header>
+		
+		<p th:if="${sid}">[[${sid}]] 로그인중</p>
 		<form action="loginProc">
 			<input type="hidden" name="id" value="hh">
 			<input type="hidden" name="pw" value="hh">
@@ -23,17 +29,12 @@
 			<button>유효하지 않은 로그인 테스트</button>
 		</form>
 		
-		<div id="fragment-here">
-			re render
-		</div>
+		<footer class="w3-blue">
+			<h2>푸터 영역</h2>
+		</footer>
 	</body>
 	
 	<script type="text/javascript">
-	ajax("test", function(f) {
-		console.log(f)
-		$('#fragment-here').replaceWith($(f))
-	})
-	
 	function ajax(url, successCb, param, failCb, completeCb) {
 		$.ajax({
 			url: url,
