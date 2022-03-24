@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.comento.oracleSpringBoot.mail.entity.MailVo;
@@ -26,7 +27,7 @@ public class MemberC {
 	@Autowired
 	PowerfulhS ps;
 	int cnt = 0;
-	@GetMapping("loginProc")
+	@PostMapping("loginProc")
 	public String logicProc(@Valid LoginVo lvo, Model model) {
 		if(service.logicProc(lvo) == 1) model.addAttribute("sid", lvo.getId());
 		return "index";

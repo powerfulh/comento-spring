@@ -9,29 +9,26 @@
 	</head>
 	
 	<body>
-		<header class="w3-red">
-			<h1>헤더 영역</h1>
-		</header>
+		<th:block th:replace="fragment/common :: header" />
 		
 		<p th:if="${sid}">[[${sid}]] 로그인중</p>
-		<form action="loginProc">
+		<form action="loginProc" method="post">
 			<input type="hidden" name="id" value="hh">
 			<input type="hidden" name="pw" value="hh">
 			<button>정상 로그인 테스트</button>
 		</form>
-		<form action="loginProc">
+		<form action="loginProc" method="post">
 			<input type="hidden" name="id" value="hh">
 			<input type="hidden" name="pw" value="h">
 			<button>실패 로그인 테스트</button>
 		</form>
-		<form action="loginProc">
+		<form action="loginProc" method="post">
 			<input type="hidden" name="id" value="hh">
 			<button>유효하지 않은 로그인 테스트</button>
 		</form>
+		<p>서버의 메시지: [[${msg}]]</p>
 		
-		<footer class="w3-blue">
-			<h2>푸터 영역</h2>
-		</footer>
+		<th:block th:replace="fragment/common :: footer" />
 	</body>
 	
 	<script type="text/javascript">
