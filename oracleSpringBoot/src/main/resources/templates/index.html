@@ -6,27 +6,34 @@
 		<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
 		<script src="jq.js"></script>
 		<link rel="stylesheet" href="w3.css">
+		<link rel="stylesheet" href="common.css">
 	</head>
 	
 	<body>
 		<th:block th:replace="fragment/common :: header" />
 		
-		<p th:if="${sid}">[[${sid}]] 로그인중</p>
-		<form action="loginProc" method="post">
-			<input type="hidden" name="id" value="hh">
-			<input type="hidden" name="pw" value="hh">
-			<button>정상 로그인 테스트</button>
-		</form>
-		<form action="loginProc" method="post">
-			<input type="hidden" name="id" value="hh">
-			<input type="hidden" name="pw" value="h">
-			<button>실패 로그인 테스트</button>
-		</form>
-		<form action="loginProc" method="post">
-			<input type="hidden" name="id" value="hh">
-			<button>유효하지 않은 로그인 테스트</button>
-		</form>
-		<p>서버의 메시지: [[${msg}]]</p>
+		<main class="w3-clear">
+			<th:block th:replace="fragment/common :: lnb" />
+			
+			<section class="w3-left">
+				<p th:if="${sid}">[[${sid}]] 로그인중</p>
+				<form action="loginProc" method="post">
+					<input type="hidden" name="id" value="hh">
+					<input type="hidden" name="pw" value="hh">
+					<button>정상 로그인 테스트</button>
+				</form>
+				<form action="loginProc" method="post">
+					<input type="hidden" name="id" value="hh">
+					<input type="hidden" name="pw" value="h">
+					<button>실패 로그인 테스트</button>
+				</form>
+				<form action="loginProc" method="post">
+					<input type="hidden" name="id" value="hh">
+					<button>유효하지 않은 로그인 테스트</button>
+				</form>
+				<p>서버의 메시지: [[${msg}]]</p>
+			</section>
+		</main>
 		
 		<th:block th:replace="fragment/common :: footer" />
 	</body>

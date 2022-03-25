@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-	<div th:fragment="header">
-		<header class="w3-red">
-			<h1>헤더</h1>
-		</header>
-	</div>
+	<header class="w3-red w3-padding" th:fragment="header">
+		<h1>헤더</h1>
+		<div class="w3-pink">
+			GNB
+			<span class="w3-btn w3-green">목록형 게시판</span>
+			<span class="w3-btn w3-green">사진형 게시판</span>
+		</div>
+	</header>
 	
-	<div th:fragment="footer">
-		<footer class="w3-blue">
-			<h2>푸터</h2>
-		</footer>
-	</div>
+	<footer class="w3-blue" th:fragment="footer">
+		<h2>푸터</h2>
+	</footer>
+	
+	<aside class="w3-green w3-left" th:fragment="lnb">
+		LNB
+	</aside>
 </body>
 </html>
