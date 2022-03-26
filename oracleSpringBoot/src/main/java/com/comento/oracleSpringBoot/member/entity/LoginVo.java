@@ -1,6 +1,6 @@
 package com.comento.oracleSpringBoot.member.entity;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 public class LoginVo {
 	String id;
-	@NotNull(message = "pw require")
+	@NotBlank(message = "pw require")
 	String pw;
 }

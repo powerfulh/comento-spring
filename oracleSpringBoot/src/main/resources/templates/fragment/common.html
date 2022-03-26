@@ -14,8 +14,24 @@
 		<h2>푸터</h2>
 	</footer>
 	
-	<aside class="w3-green w3-left" th:fragment="lnb">
+	<aside class="w3-green w3-left w3-padding" th:fragment="lnb">
 		LNB
+		<form action="loginProc" method="post">		
+			<input placeholder="ID" required name="id">
+			<br>
+			<input placeholder="PW" required name="pw" type="password">
+			<br>
+			<input type="submit">
+		</form>
+		<button id="loginSuccessTest">정상 로그인 테스트</button>
+		<button id="loginFailTest">실패 로그인 테스트</button>
+		<button id="login-invalid-test">유효하지 않은 로그인 테스트</button>
+		<script type="text/javascript">
+			$('#loginSuccessTest').click(function() {
+				$('form[action=loginProc] > input[name=id]').val('hh')
+				$('form[action=loginProc] > input[name=pw]').val('hh')
+			})
+		</script>
 	</aside>
 </body>
 </html>
