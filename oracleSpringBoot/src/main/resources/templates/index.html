@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>인덱스 템플릿</title>
-		<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
-		<script src="jq.js"></script>
 		<link rel="stylesheet" href="w3.css">
 		<link rel="stylesheet" href="common.css">
+		<script src="jq.js"></script>
+		<script src="https://kit.fontawesome.com/db65e38582.js"></script>
 	</head>
 	
 	<body>
@@ -16,7 +16,7 @@
 			<th:block th:replace="fragment/common :: lnb" />
 			
 			<section class="w3-left">
-				<p th:if="${sid}">[[${sid}]] 로그인중</p>
+				<p th:if="${sid}">[[${sid}]] 로그인중<i class="fa fa-user"></i></p>
 				<form action="loginProc" method="post">
 					<input type="hidden" name="id" value="hh">
 					<input type="hidden" name="pw" value="hh">
