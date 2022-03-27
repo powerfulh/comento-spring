@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginVo {
+	@NotBlank(message = "id require")
 	String id;
 	@NotBlank(message = "pw require")
 	String pw;

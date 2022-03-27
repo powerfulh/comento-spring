@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="w3.css">
 		<link rel="stylesheet" href="common.css">
 		<script src="jq.js"></script>
-		<script src="https://kit.fontawesome.com/db65e38582.js"></script>
+		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
 	</head>
 	
 	<body>
@@ -16,7 +16,6 @@
 			<th:block th:replace="fragment/common :: lnb" />
 			
 			<section class="w3-left w3-padding">
-				<p th:if="${sid}">[[${sid}]] 로그인중<i class="fa fa-user"></i></p>
 				<p>서버의 메시지: [[${msg}]]</p>
 			</section>
 		</main>

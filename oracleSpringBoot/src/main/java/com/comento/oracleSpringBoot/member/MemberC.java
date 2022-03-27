@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.comento.oracleSpringBoot.mail.entity.MailVo;
@@ -21,6 +22,7 @@ import com.comento.oracleSpringBoot.powerfulh.TestVO;
 
 @CrossOrigin
 @Controller
+@RequestMapping("m")
 public class MemberC {
 	@Autowired
 	MemberS service;

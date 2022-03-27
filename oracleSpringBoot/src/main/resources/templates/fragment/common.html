@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 	<header class="w3-red w3-padding" th:fragment="header">
-		<h1>헤더</h1>
+		<h1><a href="/">헤더</a></h1>
 		<div class="w3-pink">
 			GNB
 			<span class="w3-btn w3-green">목록형 게시판</span>
@@ -15,23 +15,42 @@
 	</footer>
 	
 	<aside class="w3-green w3-left w3-padding" th:fragment="lnb">
-		LNB
-		<form action="loginProc" method="post">		
-			<input placeholder="ID" required name="id">
-			<br>
-			<input placeholder="PW" required name="pw" type="password">
-			<br>
-			<input type="submit">
-		</form>
-		<button id="loginSuccessTest">정상 로그인 테스트</button>
-		<button id="loginFailTest">실패 로그인 테스트</button>
-		<button id="login-invalid-test">유효하지 않은 로그인 테스트</button>
-		<script type="text/javascript">
-			$('#loginSuccessTest').click(function() {
-				$('form[action=loginProc] > input[name=id]').val('hh')
-				$('form[action=loginProc] > input[name=pw]').val('hh')
-			})
-		</script>
+		<h2>LNB</h2>
+		<th:block th:if="${session.sid}">
+			[[${session.sid}]] 로그인중<i class="fa fa-user"></i>
+			<form action="login/out">
+				<button>로그아웃</button>
+			</form>
+		</th:block>
+		<th:block th:unless="${session.sid}">
+			<form action="login" method="post">		
+				<input placeholder="ID" required name="id">
+				<br>
+				<input placeholder="PW" required name="pw" type="password">
+				<br>
+				<input type="submit">
+			</form>
+			<button id="loginSuccessTest">정상 로그인 테스트</button>
+			<button id="loginFailTest">실패 로그인 테스트</button>
+			<button id="login-invalid-test">유효하지 않은 로그인 테스트</button>
+			<script type="text/javascript">
+				$('#loginSuccessTest').click(function() {
+					$('form[action=login] > input[name=id]').val('hh')
+					$('form[action=login] > input[name=pw]').val('hh')
+					$('form[action=login]').submit()
+				})
+				$('#loginFailTest').click(function() {
+					$('form[action=login] > input[name=id]').val('hh')
+					$('form[action=login] > input[name=pw]').val('zz')
+					$('form[action=login]').submit()
+				})
+				$('#login-invalid-test').click(function() {
+					$('form[action=login] > input[name=id]').val('hh')
+					$('form[action=login] > input[name=pw]').val(' ')
+					$('form[action=login]').submit()
+				})
+			</script>
+		</th:block>
 	</aside>
 </body>
 </html>
