@@ -3,10 +3,11 @@
 <body>
 	<header class="w3-red w3-padding" th:fragment="header">
 		<h1><a href="/">헤더</a></h1>
-		<div class="w3-pink">
+		<div class="w3-pink" id="gnb">
 			GNB
-			<span class="w3-btn w3-green">목록형 게시판</span>
-			<span class="w3-btn w3-green">사진형 게시판</span>
+			<a class="w3-btn w3-green">목록형 게시판</a>
+			<a class="w3-btn w3-green">사진형 게시판</a>
+			<a class="w3-btn w3-green" href="upload">파일 업로드</a>
 		</div>
 	</header>
 	
@@ -33,6 +34,7 @@
 			<button id="loginSuccessTest">정상 로그인 테스트</button>
 			<button id="loginFailTest">실패 로그인 테스트</button>
 			<button id="login-invalid-test">유효하지 않은 로그인 테스트</button>
+			
 			<script type="text/javascript">
 				$('#loginSuccessTest').click(function() {
 					$('form[action=login] > input[name=id]').val('hh')

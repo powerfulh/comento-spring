@@ -15,16 +15,18 @@ import com.comento.oracleSpringBoot.member.entity.LoginVo;
 
 @Controller
 @RequestMapping("login")
-public class LoginC {
+public class LoginC extends WebC{
 	@Autowired
 	MemberS service;
 	@PostMapping("")
 	public RedirectView proc(@Valid LoginVo lvo, HttpSession s) {
+		logger.info("Someone try to Login!");
 		if(service.logicProc(lvo) == 1) s.setAttribute("sid", lvo.getId());
 		return new RedirectView("");
 	}
 	@GetMapping("out")
 	public RedirectView out(HttpSession s) {
+		logger.info(s.getAttribute("sid") + " has logout");
 		s.removeAttribute("sid");
 		return new RedirectView("/");
 	}
