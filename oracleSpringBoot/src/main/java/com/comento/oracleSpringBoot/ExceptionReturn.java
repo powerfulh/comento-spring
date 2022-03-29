@@ -12,4 +12,11 @@ public class ExceptionReturn {
 		m.addAttribute("msg", e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
 		return "index";
 	}
+	
+	@ExceptionHandler
+	public String unexpectedException(Exception e, Model m) {
+		e.printStackTrace();
+		m.addAttribute("msg", "server error");
+		return "index";
+	}
 }
