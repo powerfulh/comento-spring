@@ -1,4 +1,4 @@
-package com.comento.oracleSpringBoot;
+package com.comento.oracleSpringBoot.webController;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
