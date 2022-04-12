@@ -7,6 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class Config implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry r) {
 		System.out.println("I add interceptor");
-		r.addInterceptor(new Interceptor());
+		r.addInterceptor(new Interceptor()).addPathPatterns("/**").excludePathPatterns("/favicon.ico", "/**/*.js", "/**/*.css");
 	}
 }
