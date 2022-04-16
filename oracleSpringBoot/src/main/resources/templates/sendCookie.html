@@ -7,6 +7,14 @@
 		<link rel="stylesheet" href="common.css">
 		<script src="jq.js"></script>
 		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
+		<style>
+		#origin {
+			width: 400px
+		}
+		label {
+			font-size: 20px
+		}
+		</style>
 	</head>
 	
 	<body class="w3-light-gray">
@@ -20,17 +28,38 @@
 				<div>
 					<input placeholder="name" required>
 					<input placeholder="value" required>
-					<button>쿠키보내기</button>
+					<button id="make-cookie">쿠키만들기</button>
+					<br>
+					<input type="radio" id="cross-origin" name="origin" checked><label for="cross-origin">Cross origin</label>
+					<input type="radio" id="same-origin" name="origin"><label for="same-origin">Same origin</label>
+					<br>
+					<input id="origin" placeholder="origin" value="//localhost:8001/getCookieFromCrossOrigin">
+					<button id="send-cookie">쿠키보내기</button>
 				</div>
 				<script type="text/javascript">
 				$(function() {
-					$('section button').click(function() {						
-						ajax('/sendCookie/send', function(res) {
-							console.log(res)
-						}, {
-							key: $('section input')[0].value,
-							val: $('section input')[1].value
+					$('#make-cookie').click(function() {
+						document.cookie = $('section input')[0].value + '=' + $('section input')[1].value
+					})
+					
+					$('#send-cookie').click(function() {
+						const url = $('#cross-origin').prop('checked') ? $('#origin').val() : '/sendCookie/send'
+						$.ajax({
+							url: url,
+							xhrFields: {
+								withCredentials: true
+							},
+							success: function(res) {
+								console.log(res)
+							},
+							error: function(err) {
+								console.log(err)
+							},
 						})
+					})
+					
+					$('input[name=origin]').change(function() {
+						$('#origin').toggle('')
 					})
 				})
 				</script>

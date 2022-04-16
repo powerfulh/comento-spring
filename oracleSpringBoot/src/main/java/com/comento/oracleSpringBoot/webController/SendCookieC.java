@@ -14,19 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SendCookieC extends WebC {
 	@GetMapping
 	public String index(HttpServletRequest r, HttpServletResponse res) {
-		for(Cookie item: r.getCookies()) {
-			System.out.printf("%s: %s%n", item.getName(), item.getValue());
-		}
-		Cookie c = new Cookie("test", "call");
-		res.addCookie(c);
+		
 		return "sendCookie";
 	}
 	@GetMapping("send")
 	@ResponseBody
-	public String cookieByAjax(String key, String val, HttpServletRequest r) { // 이제 쿠키를 받아보자
+	public String cookieByAjax(HttpServletRequest r) {
+		String res = "";
 		for(Cookie item: r.getCookies()) {
-			System.out.printf("%s: %s%n", item.getName(), item.getValue());
+			res += String.format("%s: %s%n", item.getName(), item.getValue());
 		}
-		return String.format("%s: %s", key, val);
+		return res;
 	}
 }
