@@ -3,7 +3,6 @@ package com.comento.oracleSpringBoot.webController;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,12 +15,13 @@ import com.comento.oracleSpringBoot.member.entity.LoginVo;
 @Controller
 @RequestMapping("login")
 public class LoginC extends WebC{
-	@Autowired
-	MemberS service;
+	public LoginC(MemberS ms) {
+		super(ms);
+	}
 	@PostMapping("")
 	public RedirectView proc(@Valid LoginVo lvo, HttpSession s) {
 		logger.info("Someone try to Login!");
-		if(service.logicProc(lvo) == 1) s.setAttribute("sid", lvo.getId());
+		if(ms.logicProc(lvo) == 1) s.setAttribute("sid", lvo.getId());
 		return new RedirectView("");
 	}
 	@GetMapping("out")

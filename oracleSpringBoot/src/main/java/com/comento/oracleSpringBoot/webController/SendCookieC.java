@@ -9,9 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.comento.oracleSpringBoot.member.MemberS;
+
 @Controller
 @RequestMapping("sendCookie")
 public class SendCookieC extends WebC {
+	public SendCookieC(MemberS ms) {
+		super(ms);
+	}
 	@GetMapping
 	public String index(HttpServletRequest r, HttpServletResponse res) {
 		

@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.comento.oracleSpringBoot.member.MemberS;
+
 @Controller
 @RequestMapping("upload")
 public class UploadC extends WebC {
+	public UploadC(MemberS ms) {
+		super(ms);
+	}
 	@GetMapping("")
 	public String index() {
 		
