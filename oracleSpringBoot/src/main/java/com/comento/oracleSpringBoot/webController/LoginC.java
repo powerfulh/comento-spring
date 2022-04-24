@@ -14,7 +14,7 @@ import com.comento.oracleSpringBoot.member.entity.LoginVo;
 
 @Controller
 @RequestMapping("login")
-public class LoginC extends WebC{
+public class LoginC extends WebC {
 	public LoginC(MemberS ms) {
 		super(ms);
 	}
@@ -29,5 +29,10 @@ public class LoginC extends WebC{
 		logger.info(s.getAttribute("sid") + " has logout");
 		s.removeAttribute("sid");
 		return new RedirectView("/");
+	}
+	@GetMapping("info")
+	public String myInfo() {
+		
+		return "member-info";
 	}
 }

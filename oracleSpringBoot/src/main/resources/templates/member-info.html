@@ -7,6 +7,17 @@
 		<link rel="stylesheet" href="/common.css">
 		<script src="/jq.js"></script>
 		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
+		<style type="text/css">
+		#member-info div.left {
+			display: inline-block;
+			width: 80px;
+			text-align: right;
+		}
+		#member-info div.right {
+			display: inline-block;
+			width: 120px;
+		}
+		</style>
 	</head>
 	
 	<body class="w3-light-gray">
@@ -16,11 +27,13 @@
 			<th:block th:replace="fragment/common :: lnb" />
 			
 			<section class="w3-left w3-padding">
-				<h3 class="w3-teal">파일 업로드</h3>
-				<form action="upload/proc" method="post" enctype="multipart/form-data">
-					<input type="file" required name="fileList">
-					<input type="submit">
-				</form>
+				<h3 class="w3-teal">회원 정보</h3>
+				<ul id="member-info">
+					<li>
+						<div class="left w3-blue w3-padding">ID</div>
+						<div class="right w3-red w3-padding">Thanos</div>
+					</li>
+				</ul>
 			</section>
 		</main>
 		

@@ -22,8 +22,11 @@
 		<h2>LNB</h2>
 		<th:block th:if="${session.sid}">
 			[[${session.sid}]] 로그인중<i class="fa fa-user"></i>
-			<form action="login/out">
+			<form action="/login/out">
 				<button>로그아웃</button>
+			</form>
+			<form action="/login/info">
+				<button>내 정보</button>
 			</form>
 		</th:block>
 		<th:block th:unless="${session.sid}">
