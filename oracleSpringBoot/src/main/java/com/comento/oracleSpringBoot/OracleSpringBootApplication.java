@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-@PropertySource("classpath:password.properties")
+//@PropertySource("classpath:password.properties")
 @EnableAsync
 @EnableConfigurationProperties({PropVo.class})
 public class OracleSpringBootApplication {
