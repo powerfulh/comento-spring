@@ -5,7 +5,7 @@
 
 <mapper namespace="com.comento.oracleSpringBoot.member.MemberS">
 	<select id="logicProc" resultType="int" parameterType="LoginVo">
-		select count(*) from member where id = #{id} and pw = #{pw}
+		select count(*) from Member where id = #{id} and pw = #{pw}
 	</select>
 	<select id="getLoginList" resultType="LoginVo">
 		select * from member

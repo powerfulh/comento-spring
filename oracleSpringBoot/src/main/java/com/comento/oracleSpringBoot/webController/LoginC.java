@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +20,11 @@ public class LoginC extends WebC {
 		super(ms);
 	}
 	@PostMapping("")
-	public RedirectView proc(@Valid LoginVo lvo, HttpSession s) {
+	public String proc(@Valid LoginVo lvo, HttpSession s, Model m) {
 		logger.info("Someone try to Login!");
 		if(ms.logicProc(lvo) == 1) s.setAttribute("sid", lvo.getId());
-		return new RedirectView("");
+		else m.addAttribute("msg", "Login fail");
+		return "index";
 	}
 	@GetMapping("out")
 	public RedirectView out(HttpSession s) {
