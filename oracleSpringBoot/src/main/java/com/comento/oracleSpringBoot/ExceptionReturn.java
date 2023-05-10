@@ -5,7 +5,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice("com.comento.oracleSpringBoot.webController")
 public class ExceptionReturn {
 	@ExceptionHandler
 	public String exception(BindException e, Model m) {
