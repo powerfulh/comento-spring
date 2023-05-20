@@ -12,6 +12,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.comento.oracleSpringBoot.member.MemberS;
 import com.comento.oracleSpringBoot.member.entity.LoginVo;
+import com.comento.oracleSpringBoot.member.entity.MemberVo;
 
 @Controller
 @RequestMapping("login")
@@ -33,8 +34,11 @@ public class LoginC extends WebC {
 		return new RedirectView("/");
 	}
 	@GetMapping("info")
-	public String myInfo() {
-		
+	public String myInfo(HttpSession s, Model model) {
+		String sid = (String) s.getAttribute("sid");
+		System.out.println("SID: " + sid);
+		MemberVo vo = ms.get(sid);
+		model.addAttribute("info", vo);
 		return "member-info";
 	}
 }

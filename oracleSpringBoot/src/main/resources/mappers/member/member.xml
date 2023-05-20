@@ -8,6 +8,10 @@
 		select count(*) from Member where id = #{id} and pw = #{pw}
 	</select>
 	<select id="getLoginList" resultType="LoginVo">
-		select * from member
+		select * from Member
+	</select>
+	<select id="get" resultType="MemberVo" parameterType="string">
+		select * from Member
+		where id = #{id}
 	</select>
 </mapper>

@@ -30,8 +30,20 @@
 				<h3 class="w3-teal">회원 정보</h3>
 				<ul id="member-info">
 					<li>
+						<div class="left w3-blue w3-padding">회원 번호</div>
+						<div class="right w3-red w3-padding">[[${info.n}]]</div>
+					</li>
+					<li>
 						<div class="left w3-blue w3-padding">ID</div>
-						<div class="right w3-red w3-padding">Thanos</div>
+						<div class="right w3-red w3-padding">[[${info.id}]]</div>
+					</li>
+					<li>
+						<div class="left w3-blue w3-padding">가입일</div>
+						<div class="right w3-red w3-padding">[[${info.createdDate}]]</div>
+					</li>
+					<li>
+						<div class="left w3-blue w3-padding">권한</div>
+						<div class="right w3-red w3-padding">[[${info.grade}]]</div>
 					</li>
 				</ul>
 			</section>
