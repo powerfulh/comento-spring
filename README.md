@@ -8,3 +8,4 @@
 * 타임리프
 * 롬복
 * font awesome
+* springfox-swagger2
