@@ -26,6 +26,7 @@ import com.comento.oracleSpringBoot.member.MemberS;
 import com.comento.oracleSpringBoot.member.entity.LoginVo;
 
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @CrossOrigin
@@ -52,7 +53,7 @@ public class PowerfulhC {
 	}
 	
 	@PostMapping("login")
-	public int login(@Valid @RequestBody LoginVo lvo, HttpSession s) {
+	public int login(@Valid @RequestBody LoginVo lvo, @ApiIgnore HttpSession s) {
 		final int cnt = service.logicProc(lvo);
 		if(cnt == 1) s.setAttribute("sid", lvo.getId());
 		return cnt;
