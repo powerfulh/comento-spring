@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comento.oracleSpringBoot.member.MemberS;
 import com.comento.oracleSpringBoot.member.entity.LoginVo;
+import com.comento.oracleSpringBoot.member.entity.MemberVo;
 
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
@@ -57,5 +59,9 @@ public class PowerfulhC {
 		final int cnt = service.logicProc(lvo);
 		if(cnt == 1) s.setAttribute("sid", lvo.getId());
 		return cnt;
+	}
+	@GetMapping("member/{id}")
+	public MemberVo member(@PathVariable String id) {
+		return service.get(id);
 	}
 }

@@ -1,6 +1,7 @@
 package com.comento.oracleSpringBoot;
 
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -9,6 +10,10 @@ public class RestExceptionReturn {
 	@ExceptionHandler
 	public String exception(BindException e) {
 		return e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+	}
+	@ExceptionHandler
+	public String reqParamMissing(MissingServletRequestParameterException e) {
+		return e.getMessage();
 	}
 	
 	@ExceptionHandler
