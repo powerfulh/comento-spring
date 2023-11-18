@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Xoo dance</title>
+		<link rel="stylesheet" href="/w3.css">
+		<link rel="stylesheet" href="/common.css">
+		<script src="/jq.js"></script>
+		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
+		<style type="text/css">
+		th, td {
+			border: 1px solid black
+		}
+		</style>
+	</head>
+	
+	<body class="w3-light-gray">
+		<th:block th:replace="fragment/common :: header" />
+		
+		<main class="w3-clear">
+			<th:block th:replace="fragment/common :: lnb" />
+			
+			<section class="w3-left w3-padding">
+				<h3 class="w3-teal">Xoo dance</h3>
+				<table>
+					<thead>
+						<tr>
+							<th width="100">댄스</th>
+							<th width="40">순위</th>
+							<th width="40">길이</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="name"></td>
+							<td class="rank"></td>
+							<td class="len"></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</main>
+		
+		<th:block th:replace="fragment/common :: footer" />
+	</body>
+	
+	<script type="text/javascript">
+	function ajax(url, successCb, param, failCb, completeCb) {
+		$.ajax({
+			url: url,
+			data: param,
+			success: successCb,
+			error: failCb,
+			complete: completeCb
+		})
+	}
+	
+	ajax('/blind/get-list', res => {
+		const temp = $('tbody > tr')
+		res.forEach(item => {
+			Object.keys(item).forEach(k => {
+				temp.find('td.' + k).text(item[k])
+			})
+			$('tbody').append('<tr>' + temp.html() + '</tr>')
+		})
+		temp.hide()
+	}, err => {
+		console.warn('Fail: ', err)
+	})
+	</script>
+</html>
