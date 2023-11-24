@@ -33,9 +33,9 @@
 		</th:block>
 		<th:block th:unless="${session.sid}">
 			<form action="login" method="post">
-				<input placeholder="ID" required name="id">
+				<input placeholder="ID" required name="id" style="width: 100%">
 				<br>
-				<input placeholder="PW" required name="pw" type="password">
+				<input placeholder="PW" required name="pw" style="width: 100%" type="password">
 				<br>
 				<input type="submit">
 			</form>
