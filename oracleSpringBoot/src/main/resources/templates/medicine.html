@@ -35,6 +35,12 @@
 		form {
 			padding: 8px;
 		}
+		.append-temp {
+			display: none;
+		}
+		td > input {
+			width: 100%;
+		}
 		</style>
 	</head>
 	
@@ -59,41 +65,43 @@
 						<input name="order" placeholder="Order" required type="number">
 					</p>
 					<p>
-						<input name="without" type="checkbox" id="able-without">
+						<input name="without" type="checkbox" id="able-without" value="1">
 						<label for="able-without">Without</label>
 					</p>
 					<p>
-						<input name="inside" type="checkbox" id="able-inside">
+						<input name="inside" type="checkbox" id="able-inside" value="1">
 						<label for="able-inside">Inside</label>
 					</p>
 					<input type="submit">
 				</form>
 				
 				<h4>List</h4>
-				<table>
+				<article>Loading~</article>
+				<table class="get-grid">
 					<thead>
 						<tr>
-							<th width="60">이름</th>
+							<th width="100">이름</th>
 							<th width="100">플러스</th>
 							<th width="40">Without</th>
 							<th width="40">inside</th>
-							<th width="100">번호</th>
 							<th width="100">순서</th>
-							<th width="40">생성일</th>
+							<th width="100">번호</th>
+							<th width="180">생성일</th>
+							<th width="100">수정</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="name">지우</td>
-							<td class="plus">10</td>
-							<td class="without">Y</td>
-							<td class="inside">N</td>
-							<td class="n">10</td>
-							<td class="order">10</td>
-							<td class="date">20211212</td>
-						</tr>
+						<tr class="append-temp"></tr>
 					</tbody>
 				</table>
+				
+				<h4>Delete</h4>
+				<form action="/medicine/delete" method="post">
+					<p>
+						<input name="n" placeholder="Target" required type="number">
+					</p>
+					<input type="submit">
+				</form>
 			</section>
 		</main>
 		
@@ -101,6 +109,36 @@
 	</body>
 	
 	<script type="text/javascript">
+	const getGrid = $('table.get-grid')
+	const colList = [
+		{
+			name: 'name',
+		},
+		{
+			name: 'plus',
+		},
+		{
+			name: 'ableWithout',
+			type: 'checkbox'
+		},
+		{
+			name: 'inside',
+			type: 'checkbox'
+		},
+		{
+			name: 'listOrder',
+		},
+		{
+			name: 'n',
+			readonly: true
+		},
+		{
+			name: 'createdDate',
+			readonly: true
+		},
+	]
+	const temp = $('tr.append-temp')
+	
 	function ajax(url, successCb, param, failCb, completeCb) {
 		$.ajax({
 			url: url,
@@ -110,18 +148,48 @@
 			complete: completeCb
 		})
 	}
+	function getCellVal(jqCell, col) {
+		return col.type == 'checkbox' ? (jqCell.prop('checked') ? 1 : 0) : jqCell.val()
+	}
 	
-	/* ajax('/blind/get-list', res => {
-		const temp = $('tbody > tr')
-		res.forEach(item => {
-			Object.keys(item).forEach(k => {
-				temp.find('td.' + k).text(item[k])
+	colList.forEach(item => {
+		temp.append(item.readonly ? '<td class="' + item.name + '"></td>' : '<td class="' + item.name + '"><input type="' + item.type + '"></td>')
+	})
+	temp.append('<td class="edit-btn"><button>Edit</button></td>')
+	getGrid.hide()
+	ajax('/medicine/get-list', res => {
+		$('article').hide()
+		getGrid.show()
+		res.forEach(item => {			
+			colList.forEach(col => {
+				const cell = temp.find('td.' + col.name + (col.readonly ? '' : ' > input'))
+				if(col.type == 'checkbox') cell.prop('checked', item[col.name] ?? false)
+				else cell[col.readonly ? 'text' : 'val'](item[col.name])
 			})
-			$('tbody').append('<tr>' + temp.html() + '</tr>')
+			getGrid.find('tbody').append(temp.clone().removeClass('append-temp'))
 		})
-		temp.hide()
+		temp.remove()
+		getGrid.find('tbody > tr').each(function(i) {
+			$(this).find('button').click(() => {
+				if(confirm(res[i].name + ' Update?')) {
+					const param = colList
+						.filter(item => item.readonly != true)
+						.reduce(
+							(r, item) => Object.assign(
+								r,
+								{[item.name]: getCellVal($(this).find('td.' + item.name + ' > input'), item)}
+							),
+							{}
+						)
+					param.n = res[i].n
+					ajax('/medicine/edit', () => {
+						location.reload()
+					}, param)
+				}
+			})
+		})
 	}, err => {
 		console.warn('Fail: ', err)
-	}) */
+	})
 	</script>
 </html>

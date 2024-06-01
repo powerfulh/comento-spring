@@ -9,4 +9,31 @@
 		FROM xooDance
 		order by rank desc, len desc
 	</select>
+	
+	<insert id="newMedicine" parameterType="java.util.Map">
+		INSERT into Medicine (name, plus, listOrder, ableWithout, inside)
+		values (#{name}, #{plus}, #{order}, #{without}, #{inside})
+	</insert>
+	
+	<select id="getMedicineList" resultType="map">
+		SELECT name, plus , ableWithout , inside , n, listOrder, createdDate 
+		FROM Medicine
+		order by listOrder
+	</select>
+	
+	<update id="editMedicine" parameterType="java.util.Map">
+		UPDATE Medicine
+		set
+			name = #{name},
+			plus = #{plus},
+			listOrder = #{listOrder},
+			ableWithout = #{ableWithout},
+			inside = #{inside}
+		WHERE n = #{n}
+	</update>
+	
+	<delete id="deleteMedicine" parameterType="java.util.Map">
+		DELETE FROM Medicine
+		where n = #{n}
+	</delete>
 </mapper>
