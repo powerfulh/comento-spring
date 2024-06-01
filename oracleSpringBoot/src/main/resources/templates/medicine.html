@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Medicine Grid</title>
+		<link rel="stylesheet" href="/w3.css">
+		<link rel="stylesheet" href="/common.css">
+		<script src="/jq.js"></script>
+		<style type="text/css">
+		@media (min-width: 800px) {
+			body > header {
+				display: none;
+			}
+			main > aside {
+				display: none;
+			}
+			section > h3 {
+				font-size: 36px;
+			}
+			section > table * {
+				font-size: 24px;
+			}
+			p > input, p > label, input[type=submit] {
+				font-size: 36px;
+			}
+			input[type=checkbox] {
+				width: 40px;
+				height: 40px;
+			}
+		}
+		th, td {
+			border: 1px solid black;
+			padding: 4px;
+		}
+		form {
+			padding: 8px;
+		}
+		</style>
+	</head>
+	
+	<body class="w3-light-gray">
+		<th:block th:replace="fragment/common :: header" />
+		
+		<main class="w3-clear">
+			<th:block th:replace="fragment/common :: lnb" />
+			
+			<section class="w3-left w3-padding">
+				<h3 class="w3-teal">Medicine</h3>
+				
+				<h4>New</h4>
+				<form action="/medicine/new" method="post">
+					<p>
+						<input name="name" placeholder="Name" required>
+					</p>
+					<p>
+						<input name="plus" placeholder="+" required type="number">
+					</p>
+					<p>
+						<input name="order" placeholder="Order" required type="number">
+					</p>
+					<p>
+						<input name="without" type="checkbox" id="able-without">
+						<label for="able-without">Without</label>
+					</p>
+					<p>
+						<input name="inside" type="checkbox" id="able-inside">
+						<label for="able-inside">Inside</label>
+					</p>
+					<input type="submit">
+				</form>
+				
+				<h4>List</h4>
+				<table>
+					<thead>
+						<tr>
+							<th width="60">이름</th>
+							<th width="100">플러스</th>
+							<th width="40">Without</th>
+							<th width="40">inside</th>
+							<th width="100">번호</th>
+							<th width="100">순서</th>
+							<th width="40">생성일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="name">지우</td>
+							<td class="plus">10</td>
+							<td class="without">Y</td>
+							<td class="inside">N</td>
+							<td class="n">10</td>
+							<td class="order">10</td>
+							<td class="date">20211212</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</main>
+		
+		<th:block th:replace="fragment/common :: footer" />
+	</body>
+	
+	<script type="text/javascript">
+	function ajax(url, successCb, param, failCb, completeCb) {
+		$.ajax({
+			url: url,
+			data: param,
+			success: successCb,
+			error: failCb,
+			complete: completeCb
+		})
+	}
+	
+	/* ajax('/blind/get-list', res => {
+		const temp = $('tbody > tr')
+		res.forEach(item => {
+			Object.keys(item).forEach(k => {
+				temp.find('td.' + k).text(item[k])
+			})
+			$('tbody').append('<tr>' + temp.html() + '</tr>')
+		})
+		temp.hide()
+	}, err => {
+		console.warn('Fail: ', err)
+	}) */
+	</script>
+</html>
