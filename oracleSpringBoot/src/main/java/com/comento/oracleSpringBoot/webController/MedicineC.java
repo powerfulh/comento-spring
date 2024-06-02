@@ -48,4 +48,9 @@ public class MedicineC extends WebC {
 		pMapper.deleteMedicine(param);
 		return "redirect:/medicine";
 	}
+	@GetMapping("get-list-most-plus")
+	@ResponseBody
+	public List<Map<String, Object>> getListMostPlus() {
+		return pMapper.getMedicineListMostPlus();
+	}
 }

@@ -14,4 +14,5 @@ public interface PowerfulMapper {
 	public List<Map<String, Object>> getMedicineList();
 	public int editMedicine(Map<String, String> param);
 	public int deleteMedicine(Map<String, String> param);
+	public List<Map<String, Object>> getMedicineListMostPlus();
 }

@@ -18,7 +18,7 @@
 	<select id="getMedicineList" resultType="map">
 		SELECT name, plus , ableWithout , inside , n, listOrder, createdDate 
 		FROM Medicine
-		order by listOrder
+		order by listOrder, n
 	</select>
 	
 	<update id="editMedicine" parameterType="java.util.Map">
@@ -36,4 +36,10 @@
 		DELETE FROM Medicine
 		where n = #{n}
 	</delete>
+	
+	<select id="getMedicineListMostPlus" resultType="map">
+		SELECT name, plus , ableWithout , inside
+		FROM Medicine
+		order by plus DESC, listOrder, n
+	</select>
 </mapper>

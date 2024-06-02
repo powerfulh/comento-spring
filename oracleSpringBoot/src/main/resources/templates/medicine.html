@@ -20,12 +20,19 @@
 			section > table * {
 				font-size: 24px;
 			}
-			p > input, p > label, input[type=submit] {
+			p > input, p > label, input[type=submit], input[type=radio] + label {
 				font-size: 36px;
 			}
 			input[type=checkbox] {
 				width: 40px;
 				height: 40px;
+			}
+			input[type=radio] {
+				width: 60px;
+				height: 60px;
+			}
+			table.most-plus * {
+				font-size: 48px;
 			}
 		}
 		th, td {
@@ -40,6 +47,9 @@
 		}
 		td > input {
 			width: 100%;
+		}
+		table.hide {
+			display: none !important;
 		}
 		</style>
 	</head>
@@ -76,6 +86,12 @@
 				</form>
 				
 				<h4>List</h4>
+				<p>
+					<input type="radio" id="order-by-normal" name="order-by" checked value="normal">
+					<label for="order-by-normal">출근부순</label>
+					<input type="radio" id="order-by-most-plus" name="order-by" value="mostPlus">
+					<label for="order-by-most-plus">가치순</label>
+				</p>
 				<article>Loading~</article>
 				<table class="get-grid">
 					<thead>
@@ -91,7 +107,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="append-temp"></tr>
+						<tr class="append-temp append-temp-normal"></tr>
+					</tbody>
+				</table>
+				<table class="most-plus hide">
+					<thead>
+						<tr>
+							<th width="180">이름</th>
+							<th width="180">플러스</th>
+							<th width="80">Without</th>
+							<th width="80">inside</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="append-temp append-temp-most-plus"></tr>
 					</tbody>
 				</table>
 				
@@ -110,20 +139,25 @@
 	
 	<script type="text/javascript">
 	const getGrid = $('table.get-grid')
+	const mostPlus = $('table.most-plus')
 	const colList = [
 		{
 			name: 'name',
+			mostPlus: true
 		},
 		{
 			name: 'plus',
+			mostPlus: true
 		},
 		{
 			name: 'ableWithout',
-			type: 'checkbox'
+			type: 'checkbox',
+			mostPlus: true
 		},
 		{
 			name: 'inside',
-			type: 'checkbox'
+			type: 'checkbox',
+			mostPlus: true
 		},
 		{
 			name: 'listOrder',
@@ -137,7 +171,8 @@
 			readonly: true
 		},
 	]
-	const temp = $('tr.append-temp')
+	const temp = $('tr.append-temp-normal')
+	const tempMostPlus = $('tr.append-temp-most-plus')
 	
 	function ajax(url, successCb, param, failCb, completeCb) {
 		$.ajax({
@@ -154,9 +189,11 @@
 	
 	colList.forEach(item => {
 		temp.append(item.readonly ? '<td class="' + item.name + '"></td>' : '<td class="' + item.name + '"><input type="' + item.type + '"></td>')
+		if(item.mostPlus) tempMostPlus.append('<td class="' + item.name + '"></td>')
 	})
 	temp.append('<td class="edit-btn"><button>Edit</button></td>')
 	getGrid.hide()
+	mostPlus.hide()
 	ajax('/medicine/get-list', res => {
 		$('article').hide()
 		getGrid.show()
@@ -190,6 +227,26 @@
 		})
 	}, err => {
 		console.warn('Fail: ', err)
+	})
+	ajax('/medicine/get-list-most-plus', res => {
+		$('article').hide()
+		mostPlus.show()
+		res.forEach(item => {			
+			colList.filter(col => col.mostPlus).forEach(col => {
+				const cell = tempMostPlus.find('td.' + col.name)
+				if(col.type == 'checkbox') cell.text(item[col.name] ? 'Y!' : 'N').addClass(item[col.name] ? 'w3-blue' : 'w3-red')
+				else cell.text(item[col.name])
+			})
+			mostPlus.find('tbody').append(tempMostPlus.clone().removeClass('append-temp'))
+			tempMostPlus.find('td').removeClass('w3-blue').removeClass('w3-red')
+		})
+		tempMostPlus.remove()
+	}, err => {
+		console.warn('Fail: ', err)
+	})
+	$('input[name=order-by]').change(() => {
+		($('input[name=order-by]:checked').val() == 'normal' ? getGrid : mostPlus).removeClass('hide');
+		($('input[name=order-by]:checked').val() == 'normal' ? mostPlus : getGrid).addClass('hide')
 	})
 	</script>
 </html>
