@@ -7,7 +7,8 @@
 		<link rel="stylesheet" href="/common.css">
 		<script src="/jq.js"></script>
 		<style type="text/css">
-		@media (min-width: 800px) {
+		/* 가로가 800 이하인 경우 적용, 즉 모바일 전용 */
+		@media (max-width: 800px) {
 			body > header {
 				display: none;
 			}
@@ -92,37 +93,49 @@
 					<input type="radio" id="order-by-most-plus" name="order-by" value="mostPlus">
 					<label for="order-by-most-plus">가치순</label>
 				</p>
-				<article>Loading~</article>
-				<table class="get-grid">
-					<thead>
-						<tr>
-							<th width="100">이름</th>
-							<th width="100">플러스</th>
-							<th width="40">Without</th>
-							<th width="40">inside</th>
-							<th width="100">순서</th>
-							<th width="100">번호</th>
-							<th width="180">생성일</th>
-							<th width="100">수정</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="append-temp append-temp-normal"></tr>
-					</tbody>
-				</table>
-				<table class="most-plus hide">
-					<thead>
-						<tr>
-							<th width="180">이름</th>
-							<th width="180">플러스</th>
-							<th width="80">Without</th>
-							<th width="80">inside</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="append-temp append-temp-most-plus"></tr>
-					</tbody>
-				</table>
+				<article id="loading-article">Loading~</article>
+				<div style="max-height: 1000px; overflow: scroll">
+					<table class="get-grid">
+						<thead>
+							<tr>
+								<th width="100">이름</th>
+								<th width="100">플러스</th>
+								<th width="40">Without</th>
+								<th width="40">inside</th>
+								<th width="100">순서</th>
+								<th width="100">번호</th>
+								<th width="180">생성일</th>
+								<th width="100">수정</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="append-temp append-temp-normal"></tr>
+						</tbody>
+					</table>
+					<table class="most-plus hide">
+						<thead>
+							<tr>
+								<th width="180">이름</th>
+								<th width="180">플러스</th>
+								<th width="80">Without</th>
+								<th width="80">inside</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="append-temp append-temp-most-plus"></tr>
+						</tbody>
+					</table>
+				</div>
+				<article>
+					<div>					
+						Total:
+						<span id="grid-total-count"></span>
+					</div>
+					<div>
+						Group by:
+						<span id="group-by-count"></span>
+					</div>
+				</article>
 				
 				<h4>Delete</h4>
 				<form action="/medicine/delete" method="post">
@@ -186,6 +199,9 @@
 	function getCellVal(jqCell, col) {
 		return col.type == 'checkbox' ? (jqCell.prop('checked') ? 1 : 0) : jqCell.val()
 	}
+	function hideLoading() {
+		$('#loading-article').hide()
+	}
 	
 	colList.forEach(item => {
 		temp.append(item.readonly ? '<td class="' + item.name + '"></td>' : '<td class="' + item.name + '"><input type="' + item.type + '"></td>')
@@ -195,7 +211,7 @@
 	getGrid.hide()
 	mostPlus.hide()
 	ajax('/medicine/get-list', res => {
-		$('article').hide()
+		hideLoading()
 		getGrid.show()
 		res.forEach(item => {			
 			colList.forEach(col => {
@@ -229,7 +245,7 @@
 		console.warn('Fail: ', err)
 	})
 	ajax('/medicine/get-list-most-plus', res => {
-		$('article').hide()
+		hideLoading()
 		mostPlus.show()
 		res.forEach(item => {			
 			colList.filter(col => col.mostPlus).forEach(col => {

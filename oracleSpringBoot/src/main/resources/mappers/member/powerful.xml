@@ -42,4 +42,10 @@
 		FROM Medicine
 		order by plus DESC, listOrder, n
 	</select>
+	
+	<select id="selectMedicineCnt" resultType="com.comento.oracleSpringBoot.dto.medicine.Count">
+		SELECT COUNT(*) total, plus name FROM Medicine m
+		group by plus
+		order by plus DESC
+	</select>
 </mapper>

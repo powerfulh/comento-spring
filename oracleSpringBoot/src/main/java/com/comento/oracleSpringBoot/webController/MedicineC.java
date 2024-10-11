@@ -11,21 +11,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.comento.oracleSpringBoot.dto.medicine.Count;
 import com.comento.oracleSpringBoot.member.MemberS;
 import com.comento.oracleSpringBoot.powerfulh.PowerfulMapper;
+import com.comento.oracleSpringBoot.service.MedicineS;
 
 @Controller
 @RequestMapping("medicine")
 public class MedicineC extends WebC {
 	@Autowired
 	PowerfulMapper pMapper;
+	@Autowired
+	MedicineS ms;
 
 	public MedicineC(MemberS ms) {
 		super(ms);
 	}
 	@GetMapping("")
 	public String index() {
-		// 선릉 프리티 목록
+		// 프리티 목록
 		return "medicine";
 	}
 	@PostMapping("new")
@@ -52,5 +56,10 @@ public class MedicineC extends WebC {
 	@ResponseBody
 	public List<Map<String, Object>> getListMostPlus() {
 		return pMapper.getMedicineListMostPlus();
+	}
+	@GetMapping("get-count")
+	@ResponseBody
+	public List<Count> getCount() {
+		return ms.getCount();
 	}
 }
