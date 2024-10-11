@@ -52,6 +52,11 @@
 		table.hide {
 			display: none !important;
 		}
+		table > thead {
+			position: sticky;
+			top: 0;
+			background-color: aqua;
+		}
 		</style>
 	</head>
 	
@@ -94,7 +99,7 @@
 					<label for="order-by-most-plus">가치순</label>
 				</p>
 				<article id="loading-article">Loading~</article>
-				<div style="max-height: 1000px; overflow: scroll">
+				<div style="max-height: 800px; overflow: scroll">
 					<table class="get-grid">
 						<thead>
 							<tr>
@@ -257,6 +262,12 @@
 			tempMostPlus.find('td').removeClass('w3-blue').removeClass('w3-red')
 		})
 		tempMostPlus.remove()
+	}, err => {
+		console.warn('Fail: ', err)
+	})
+	ajax('/medicine/get-count', res => {
+		$('#grid-total-count').text(res.find(item => item.name == 'T').total)
+		$('#group-by-count').text(res.filter(item => item.name != 'T').map(item => `『${item.name}+: ${item.total}』`))
 	}, err => {
 		console.warn('Fail: ', err)
 	})
