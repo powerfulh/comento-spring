@@ -11,7 +11,6 @@ import com.comento.oracleSpringBoot.dto.medicine.Count;
 @Mapper
 @Repository
 public interface PowerfulMapper {
-	public List<Map<String, Object>> getXooDanceList();
 	public void newMedicine(Map<String, String> param);
 	public List<Map<String, Object>> getMedicineList();
 	public int editMedicine(Map<String, String> param);
