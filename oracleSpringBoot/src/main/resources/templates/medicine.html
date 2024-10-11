@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="/w3.css">
 		<link rel="stylesheet" href="/common.css">
 		<script src="/jq.js"></script>
+		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
 		<style type="text/css">
 		/* 가로가 800 이하인 경우 적용, 즉 모바일 전용 */
 		@media (max-width: 800px) {
@@ -69,7 +70,7 @@
 			<section class="w3-left w3-padding">
 				<h3 class="w3-teal">Medicine</h3>
 				
-				<h4>New</h4>
+				<h4>New <i class="fa fa-solid fa-file"></i></h4>
 				<form action="/medicine/new" method="post">
 					<p>
 						<input name="name" placeholder="Name" required>
@@ -91,7 +92,7 @@
 					<input type="submit">
 				</form>
 				
-				<h4>List</h4>
+				<h4>List <i class="fa fa-solid fa-list"></i></h4>
 				<p>
 					<input type="radio" id="order-by-normal" name="order-by" checked value="normal">
 					<label for="order-by-normal">출근부순</label>
@@ -142,7 +143,7 @@
 					</div>
 				</article>
 				
-				<h4>Delete</h4>
+				<h4>Delete <i class="fa fa-solid fa-trash"></i></h4>
 				<form action="/medicine/delete" method="post">
 					<p>
 						<input name="n" placeholder="Target" required type="number">
