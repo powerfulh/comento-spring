@@ -29,7 +29,6 @@ public class MedicineC extends WebC {
 	}
 	@GetMapping("")
 	public String index() {
-		// 프리티 목록
 		return "medicine";
 	}
 	@PostMapping("new")
