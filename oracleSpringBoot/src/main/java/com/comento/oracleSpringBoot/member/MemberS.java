@@ -12,6 +12,6 @@ import com.comento.oracleSpringBoot.member.entity.MemberVo;
 @Repository
 public interface MemberS {
 	public int logicProc(LoginVo lvo);
-	public List<LoginVo> getLoginList();
+	public List<LoginVo> selectMemberAll();
 	public MemberVo get(String id);
 }
