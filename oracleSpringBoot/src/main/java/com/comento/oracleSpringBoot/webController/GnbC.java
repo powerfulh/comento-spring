@@ -1,9 +1,12 @@
 package com.comento.oracleSpringBoot.webController;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,5 +30,11 @@ public class GnbC extends WebC {
 	@ResponseBody
 	public int post(@RequestBody @Valid Gnb dto) {
 		return gnbMapper.insert(dto);
+	}
+	
+	@GetMapping
+	@ResponseBody
+	public List<Gnb> get() {
+		return gnbMapper.select();
 	}
 }

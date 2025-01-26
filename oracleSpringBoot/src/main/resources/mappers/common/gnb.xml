@@ -7,4 +7,10 @@
 	<insert id="insert" parameterType="Gnb">
 		INSERT into GNB (name, href) values(#{name}, #{href})
 	</insert>
+	
+	<select id="select" resultType="Gnb">
+		SELECT n, name, href FROM GNB
+		where activate = true
+		order by seq
+	</select>
 </mapper>

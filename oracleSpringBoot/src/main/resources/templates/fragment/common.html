@@ -12,9 +12,9 @@
 			<a class="w3-btn w3-green" href="/medicine">삼계탕</a>
 			<a class="w3-btn w3-green" href="/table-maker">태이블 생성</a>
 		</div>
-		<div class="w3-pink" id="gnb">
+		<div class="w3-pink" id="gnb-v2">
 			GNB V2
-			
+			<a class="w3-btn w3-green template" data-temp="gnb"></a>
 		</div>
 	</header>
 	
@@ -47,6 +47,27 @@
 			<button id="login-invalid-test">유효하지 않은 로그인 테스트</button>
 			
 			<script type="text/javascript">
+				const temp = {}
+				$('.template').each(i => {
+					temp[$($('.template')[i]).data('temp')] = $('.template')[i]
+				})
+			
+				$.ajax({
+					url: '/gnb',
+// 					data: param,
+					success: res => {
+						res.forEach(item => {
+							const current = $(temp.gnb).clone().removeClass('template')
+							current.text(item.name)
+							current.attr('href', item.href)
+							$(temp.gnb).after(current)
+						})
+						
+					},
+// 					error: failCb,
+// 					complete: completeCb
+				})
+			
 				$('#loginSuccessTest').click(function() {
 					$('form[action=login] > input[name=id]').val('test')
 					$('form[action=login] > input[name=pw]').val('test')
