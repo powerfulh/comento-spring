@@ -1,5 +1,9 @@
 # comento-spring
 ## 일지
+### 250221
+- 인터셉터 제거
+- 모든 요청에 대한 DB 로깅 AOP 추가
+
 ### 250126
 - 필요 없을것 같아 아작스 다운로드 메뉴 삭제
 - final 필드 적용한 Dto 도입
@@ -70,3 +74,10 @@ resources/templates 경로가 타임리프를 쓰는 화면 경로이다
 ### springfox-swagger2
 요즘은 fox가 아닌 doc
 즉 최신 버전인 스웨거 3을 쓰는 추세지만 왜 2를 고르게 됐는지 경위가 기억나지 않는다
+
+## 개요
+### [Aspect](https://github.com/powerfulh/comento-spring/blob/main/oracleSpringBoot/src/main/java/com/comento/oracleSpringBoot/Aop.java)
+#### 요청 로깅
+- 로깅에 필요한 파라미터 객체, 매퍼 인터패이스는 로깅에만 필요하므로 내부 클라스로 만들었다
+- 로깅은 요청자의 로그인 여부를 따지지 않는다
+- 현재 모든 메소드에 대해 파라미터 로깅이 제대로 되지 않을 듯 하니 추후 확인 및 개선 필요 250221
