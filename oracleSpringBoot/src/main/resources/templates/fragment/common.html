@@ -35,7 +35,7 @@
 			</form>
 		</th:block>
 		<th:block th:unless="${session.sid}">
-			<form action="login" method="post">
+			<form action="/login" method="post">
 				<input placeholder="ID" required name="id" style="width: 100%">
 				<br>
 				<input placeholder="PW" required name="pw" style="width: 100%" type="password">
@@ -47,44 +47,56 @@
 			<button id="login-invalid-test">유효하지 않은 로그인 테스트</button>
 			
 			<script type="text/javascript">
-				const temp = {}
-				$('.template').each(i => {
-					temp[$($('.template')[i]).data('temp')] = $('.template')[i]
-				})
-			
-				$.ajax({
-					url: '/gnb',
-// 					data: param,
-					success: res => {
-						res.forEach(item => {
-							const current = $(temp.gnb).clone().removeClass('template')
-							current.text(item.name)
-							current.attr('href', item.href)
-							$(temp.gnb).after(current)
-						})
-						
-					},
-// 					error: failCb,
-// 					complete: completeCb
-				})
-			
-				$('#loginSuccessTest').click(function() {
-					$('form[action=login] > input[name=id]').val('test')
-					$('form[action=login] > input[name=pw]').val('test')
-					$('form[action=login]').submit()
-				})
-				$('#loginFailTest').click(function() {
-					$('form[action=login] > input[name=id]').val('hh')
-					$('form[action=login] > input[name=pw]').val('zz')
-					$('form[action=login]').submit()
-				})
-				$('#login-invalid-test').click(function() {
-					$('form[action=login] > input[name=id]').val('hh')
-					$('form[action=login] > input[name=pw]').val(' ')
-					$('form[action=login]').submit()
-				})
+				function initButton() {
+					const selector = {
+							loginForm: 'form[action="/login"]'
+					}
+					$('#loginSuccessTest').click(function() {
+						$(`${selector.loginForm} > input[name=id]`).val('test')
+						$(`${selector.loginForm} > input[name=pw]`).val('test')
+						$(selector.loginForm).submit()
+					})
+					$('#loginFailTest').click(function() {
+						$(`${selector.loginForm} > input[name=id]`).val('hh')
+						$(`${selector.loginForm} > input[name=pw]`).val('zz')
+						$(selector.loginForm).submit()
+					})
+					$('#login-invalid-test').click(function() {
+						$(`${selector.loginForm} > input[name=id]`).val('hh')
+						$(`${selector.loginForm} > input[name=pw]`).val(' ')
+						$(selector.loginForm).submit()
+					})
+				}
+				
+				initButton()
 			</script>
 		</th:block>
+		<script>
+		function initGnb() {					
+			const temp = {}
+			$('.template').each(i => {
+				temp[$($('.template')[i]).data('temp')] = $('.template')[i]
+			})
+		
+			$.ajax({
+				url: '/gnb',
+// 					data: param,
+				success: res => {
+					res.forEach(item => {
+						const current = $(temp.gnb).clone().removeClass('template')
+						current.text(item.name)
+						current.attr('href', "/index" + item.href)
+						$(temp.gnb).after(current)
+					})
+					
+				},
+// 					error: failCb,
+// 					complete: completeCb
+			})
+		}
+		
+		initGnb()
+		</script>
 	</aside>
 </body>
 </html>

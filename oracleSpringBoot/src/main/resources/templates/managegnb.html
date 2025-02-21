@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/w3.css">
+		<link rel="stylesheet" href="/common.css">
+		<script src="/jq.js"></script>
+		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
+		<style type="text/css">
+		</style>
+	</head>
+	
+	<body class="w3-light-gray">
+		<th:block th:replace="fragment/common :: header" />
+		
+		<main class="w3-clear">
+			<th:block th:replace="fragment/common :: lnb" />
+			
+			<section class="w3-left w3-padding">
+				<h3 id="view-title" class="w3-teal"></h3>
+				<!-- 화면 시작 -->
+				
+				<!-- 화면 끝 -->
+			</section>
+		</main>
+		
+		<th:block th:replace="fragment/common :: footer" />
+	</body>
+	
+	<script type="text/javascript">
+	const viewTitle = 'Manage GNB'
+		
+	function initView() {
+		document.title = viewTitle
+		$('#view-title').text(viewTitle)
+	}
+	
+	initView()
+	</script>
+</html>
