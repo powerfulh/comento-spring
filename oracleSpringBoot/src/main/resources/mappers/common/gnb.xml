@@ -8,9 +8,12 @@
 		INSERT into GNB (name, href) values(#{name}, #{href})
 	</insert>
 	
-	<select id="select" resultType="Gnb">
-		SELECT n, name, href FROM GNB
+	<select id="selectActivated" resultType="Gnb">
+		SELECT name , href FROM GNB
 		where activate = true
 		order by seq
+	</select>
+	<select id="select" resultType="map">
+		SELECT name , href, n, seq, activate FROM GNB
 	</select>
 </mapper>

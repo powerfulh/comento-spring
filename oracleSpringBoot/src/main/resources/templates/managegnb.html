@@ -8,6 +8,19 @@
 		<script src="/jq.js"></script>
 		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
 		<style type="text/css">
+		table > thead {
+			background-color: aqua;
+		}
+		th, td {
+			border: 1px solid black;
+			padding: 4px;
+		}
+		td > input {
+			width: 100%;
+		}
+		.append-temp {
+			display: none;
+		}
 		</style>
 	</head>
 	
@@ -20,7 +33,20 @@
 			<section class="w3-left w3-padding">
 				<h3 id="view-title" class="w3-teal"></h3>
 				<!-- 화면 시작 -->
-				
+				<table>
+					<thead>
+						<tr>
+							<th>이름</th>
+							<th>주소</th>
+							<th>순서</th>
+							<th>활성</th>
+							<th>번호</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="append-temp"></tr>
+					</tbody>
+				</table>
 				<!-- 화면 끝 -->
 			</section>
 		</main>
@@ -30,10 +56,60 @@
 	
 	<script type="text/javascript">
 	const viewTitle = 'Manage GNB'
-		
+	const colList = [
+		{
+			name: 'name',
+		},
+		{
+			name: 'href',
+		},
+		{
+			name: 'seq',
+		},
+		{
+			name: 'activate',
+			type: 'checkbox',
+		},
+		{
+			name: 'n',
+			readonly: true
+		},
+	]
+	const temp = $('tr.append-temp')
+
+	function ajax(url, successCb, param, failCb, completeCb) {
+		$.ajax({
+			url: url,
+			data: param,
+			success: successCb,
+			error: failCb,
+			complete: completeCb
+		})
+	}
 	function initView() {
 		document.title = viewTitle
 		$('#view-title').text(viewTitle)
+		
+		colList.forEach(item => {
+			const td = document.createElement('td')
+			td.setAttribute('class', item.name)
+			if(item.readonly != true) {
+				const input = document.createElement('input')
+				input.setAttribute('type', item.type)
+				td.appendChild(input)
+			}
+			temp.append(td)
+		})
+		ajax('/gnb/all', res => {
+			res.forEach(item => {
+				colList.forEach(col => {
+					const cell = temp.find('td.' + col.name + (col.readonly ? '' : ' > input'))
+					if(col.type == 'checkbox') cell.prop('checked', item[col.name] ?? false)
+					else cell[col.readonly ? 'text' : 'val'](item[col.name])
+				})
+				$('tbody').append(temp.clone().removeClass('append-temp'))
+			})
+		})
 	}
 	
 	initView()
