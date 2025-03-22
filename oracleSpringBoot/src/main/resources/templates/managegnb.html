@@ -8,9 +8,6 @@
 		<script src="/jq.js"></script>
 		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
 		<style type="text/css">
-		table > thead {
-			background-color: aqua;
-		}
 		th, td {
 			border: 1px solid black;
 			padding: 4px;
@@ -31,10 +28,10 @@
 			<th:block th:replace="fragment/common :: lnb" />
 			
 			<section class="w3-left w3-padding">
-				<h3 id="view-title" class="w3-teal"></h3>
+				<h3 id="view-title" class="w3-teal w3-card"></h3>
 				<!-- 화면 시작 -->
-				<table>
-					<thead>
+				<table class="w3-card">
+					<thead class="w3-aqua">
 						<tr>
 							<th>이름</th>
 							<th>주소</th>
