@@ -41,6 +41,12 @@
 						</tr>
 					</thead>
 					<tbody>
+						<tr class="new" onkeypress="onEnterNew(event)">
+							<td><input placeholder="New menu" name="name"></td>
+							<td><input placeholder="New menu" name="href"></td>
+							<td><input placeholder="New menu" name="seq"></td>
+							<td><input type="checkbox" name="activate"></td>
+						</tr>
 						<tr class="append-temp"></tr>
 					</tbody>
 				</table>
@@ -107,6 +113,15 @@
 				$('tbody').append(temp.clone().removeClass('append-temp'))
 			})
 		})
+	}
+	function onEnterNew(e) {
+		if(e.key == 'Enter') {
+			const p = {}
+			$('tr.new input').each(function() {
+				p[this.name] = this.type == 'text' ? this.value : this.checked
+			})
+			console.log(p)
+		}
 	}
 	
 	initView()
