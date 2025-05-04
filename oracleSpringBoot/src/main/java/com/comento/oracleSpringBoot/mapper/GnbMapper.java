@@ -6,10 +6,11 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.comento.oracleSpringBoot.dto.common.Gnb;
+import com.comento.oracleSpringBoot.dto.gnb.Post;
 
 @Mapper
 public interface GnbMapper {
-	int insert(Gnb param);
+	int insert(Post param);
 	List<Gnb> selectActivated();
 	List<Map<String, Object>> select();
 }

@@ -82,7 +82,7 @@
 				url: '/gnb',
 // 					data: param,
 				success: res => {
-					res.forEach(item => {
+					res.reverse().forEach(item => {
 						const current = $(temp.gnb).clone().removeClass('template')
 						current.text(item.name)
 						current.attr('href', "/index" + item.href)
