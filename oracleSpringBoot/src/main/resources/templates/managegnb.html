@@ -44,7 +44,7 @@
 						<tr class="new" onkeypress="onEnterNew(event)">
 							<td><input placeholder="New menu" name="name"></td>
 							<td><input placeholder="New menu" name="href"></td>
-							<td><input placeholder="New menu" name="seq"></td>
+							<td><input placeholder="New menu" name="seq" type="number" value=0></td>
 							<td><input type="checkbox" name="activate"></td>
 						</tr>
 						<tr class="append-temp"></tr>
@@ -55,6 +55,7 @@
 		</main>
 		
 		<th:block th:replace="fragment/common :: footer" />
+		<!-- <div class="float-toast"><span class="w3-card w3-green w3-padding">test</span></div> -->
 	</body>
 	
 	<script type="text/javascript">
@@ -80,13 +81,16 @@
 	]
 	const temp = $('tr.append-temp')
 
-	function ajax(url, successCb, param, failCb, completeCb) {
+	function ajax(url, successCb, param, failCb, completeCb, method = 'GET') {
 		$.ajax({
 			url: url,
-			data: param,
+			data: JSON.stringify(param),
 			success: successCb,
 			error: failCb,
-			complete: completeCb
+			complete: completeCb,
+			method,
+			contentType: 'application/json'
+			// dataType: method == 'GET' ? 'text' : 'json'
 		})
 	}
 	function initView() {
@@ -118,10 +122,22 @@
 		if(e.key == 'Enter') {
 			const p = {}
 			$('tr.new input').each(function() {
-				p[this.name] = this.type == 'text' ? this.value : this.checked
+				p[this.name] = this.type == 'checkbox' ? this.checked : this.value
 			})
-			console.log(p)
+			p.gnb = {...p}
+			ajax('/api/gnb', res => {
+				console.log(res)
+			}, p, ({responseText}) => {
+				toast(responseText)
+			}, null, 'POST')
 		}
+	}
+	function toast(msg) {
+		// todo common
+		const wrap = document.createElement('div')
+		const span = document.createElement('span')
+		$('body').append($(wrap).addClass('float-toast').append($(span).addClass('w3-card w3-green w3-padding').text(msg)))
+		setTimeout(() => $(wrap).remove(), 3000)
 	}
 	
 	initView()
