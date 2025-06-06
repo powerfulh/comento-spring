@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class Post {
 	@NotNull
 	final Integer seq;
+	final boolean activate;
 	@NotNull
 	@Valid
 	final Gnb gnb;

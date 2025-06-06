@@ -134,15 +134,15 @@
 				toast(`${res} 행 등록`)
 				if(res) getList()
 			}, p, ({responseText}) => {
-				toast(responseText)
+				toast(responseText, true)
 			}, null, 'POST')
 		}
 	}
-	function toast(msg) {
+	function toast(msg, red) {
 		// todo common
 		const wrap = document.createElement('div')
 		const span = document.createElement('span')
-		$('body').append($(wrap).addClass('float-toast').append($(span).addClass('w3-card w3-green w3-padding').text(msg)))
+		$('body').append($(wrap).addClass('float-toast').append($(span).addClass(`w3-card ${red ? 'w3-red' : 'w3-green'} w3-padding`).text(msg)))
 		setTimeout(() => $(wrap).remove(), 3000)
 	}
 	

@@ -1,5 +1,6 @@
 package com.comento.oracleSpringBoot;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -17,6 +18,12 @@ public class RestExceptionReturn {
 	@ExceptionHandler
 	public String reqParamMissing(MissingServletRequestParameterException e) {
 		return e.getMessage();
+	}
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.CONFLICT)
+	public String sqlUniqueDuplicate(DuplicateKeyException e) {
+		e.printStackTrace();
+		return "중복 데이타로 인해 반려";
 	}
 	
 	@ExceptionHandler
