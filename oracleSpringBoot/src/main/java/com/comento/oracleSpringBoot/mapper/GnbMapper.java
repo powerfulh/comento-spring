@@ -13,4 +13,5 @@ public interface GnbMapper {
 	int insert(Post param);
 	List<Gnb> selectActivated();
 	List<Map<String, Object>> select();
+	int update(Post param, int n);
 }

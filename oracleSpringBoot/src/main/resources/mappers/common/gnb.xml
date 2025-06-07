@@ -16,4 +16,8 @@
 	<select id="select" resultType="map">
 		SELECT name , href, n, seq, activate FROM GNB
 	</select>
+	
+	<update id="update">
+		update GNB set name = #{param.gnb.name}, href = #{param.gnb.href}, seq = #{param.seq}, activate = #{param.activate} WHERE n = #{n}
+	</update>
 </mapper>

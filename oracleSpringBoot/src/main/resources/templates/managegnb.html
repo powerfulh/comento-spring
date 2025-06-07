@@ -69,6 +69,7 @@
 		},
 		{
 			name: 'seq',
+			type: 'number'
 		},
 		{
 			name: 'activate',
@@ -102,7 +103,21 @@
 					if(col.type == 'checkbox') cell.prop('checked', item[col.name] ?? false)
 					else cell[col.readonly ? 'text' : 'val'](item[col.name])
 				})
-				$('tbody').append(temp.clone().removeClass('append-temp'))
+				$('tbody').append(temp.clone().removeClass('append-temp').keypress(function(e) {
+					if(e.key == 'Enter') {
+						const p = {}
+						$(this).find('input').each(function() {
+							p[this.name] = this.type == 'checkbox' ? this.checked : this.value
+						})
+						p.gnb = {...p}
+						ajax(`/api/gnb/${item.n}`, res => {
+							toast(`${res} 행 편집`)
+							if(res) getList()
+						}, p, ({responseText}) => {
+							toast(responseText, true)
+						}, null, 'PUT')
+					}
+				}))
 			})
 		})
 	}
@@ -116,6 +131,7 @@
 			if(item.readonly != true) {
 				const input = document.createElement('input')
 				input.setAttribute('type', item.type)
+				input.setAttribute('name', item.name)
 				td.appendChild(input)
 			}
 			temp.append(td)
@@ -124,7 +140,6 @@
 	}
 	function onEnterNew(e) {
 		if(e.key == 'Enter') {
-			// 활성이 반영 안되는 중 todo
 			const p = {}
 			$('tr.new input').each(function() {
 				p[this.name] = this.type == 'checkbox' ? this.checked : this.value
