@@ -94,6 +94,14 @@
 			// dataType: method == 'GET' ? 'text' : 'json'
 		})
 	}
+	function toParam(targetInputJq) {
+		const p = {}
+		targetInputJq.each(function() {
+			p[this.name] = this.type == 'checkbox' ? this.checked : this.value
+		})
+		p.gnb = {...p}
+		return p
+	}
 	function getList() {
 		$('tbody > tr:not(.new):not(.append-temp)').remove()
 		ajax('/gnb/all', res => {
@@ -105,11 +113,7 @@
 				})
 				$('tbody').append(temp.clone().removeClass('append-temp').keypress(function(e) {
 					if(e.key == 'Enter') {
-						const p = {}
-						$(this).find('input').each(function() {
-							p[this.name] = this.type == 'checkbox' ? this.checked : this.value
-						})
-						p.gnb = {...p}
+						const p = toParam($(this).find('input'))
 						ajax(`/api/gnb/${item.n}`, res => {
 							toast(`${res} 행 편집`)
 							if(res) getList()
@@ -140,11 +144,7 @@
 	}
 	function onEnterNew(e) {
 		if(e.key == 'Enter') {
-			const p = {}
-			$('tr.new input').each(function() {
-				p[this.name] = this.type == 'checkbox' ? this.checked : this.value
-			})
-			p.gnb = {...p}
+			const p = toParam($('tr.new input'))
 			ajax('/api/gnb', res => {
 				toast(`${res} 행 등록`)
 				if(res) getList()
