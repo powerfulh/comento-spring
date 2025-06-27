@@ -29,4 +29,8 @@ public class HtmlC extends WebC {
 	public String managegnb(HttpSession s, Model m) {
 		return loginCheck(s, m, "managegnb");
 	}
+	@GetMapping("song")
+	public String song(HttpSession s, Model m) {
+		return "song";
+	}
 }

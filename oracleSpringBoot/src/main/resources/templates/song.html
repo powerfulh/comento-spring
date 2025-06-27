@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/w3.css">
+		<link rel="stylesheet" href="/common.css">
+		<script src="/jq.js"></script>
+		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
+		<style type="text/css">
+		th, td {
+			border: 1px solid black;
+			padding: 4px;
+		}
+		td > input {
+			width: 100%;
+		}
+		.append-temp {
+			display: none;
+		}
+		</style>
+	</head>
+	
+	<body class="w3-light-gray">
+		<th:block th:replace="fragment/common :: header" />
+		
+		<main class="w3-clear">
+			<th:block th:replace="fragment/common :: lnb" />
+			
+			<section class="w3-left w3-padding">
+				<h3 id="view-title" class="w3-teal w3-card"></h3>
+				<!-- 화면 시작 -->
+				<table class="w3-card">
+					<thead class="w3-aqua">
+						<tr>
+							<th>이름</th>
+							<th>가수</th>
+							<th>번호</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="new" onkeypress="onEnterNew(event)">
+							<td><input placeholder="New" name="name"></td>
+							<td><input placeholder="New" name="songBy"></td>
+						</tr>
+						<tr class="append-temp"></tr>
+					</tbody>
+				</table>
+				<!-- 화면 끝 -->
+			</section>
+		</main>
+		
+		<th:block th:replace="fragment/common :: footer" />
+	</body>
+	
+	<script type="text/javascript">
+	const viewTitle = 'Manage song'
+	const colList = [
+		{
+			name: 'name',
+		},
+		{
+			name: 'songBy',
+		},
+		{
+			name: 'n',
+			readonly: true
+		},
+	]
+	const temp = $('tr.append-temp')
+
+	function ajax(url, successCb, param, failCb, completeCb, method = 'GET') {
+		$.ajax({
+			url: url,
+			data: JSON.stringify(param),
+			success: successCb,
+			error: failCb,
+			complete: completeCb,
+			method,
+			contentType: 'application/json'
+			// dataType: method == 'GET' ? 'text' : 'json'
+		})
+	}
+	function toParam(targetInputJq) {
+		const p = {}
+		targetInputJq.each(function() {
+			p[this.name] = this.type == 'checkbox' ? this.checked : this.value
+		})
+		p.gnb = {...p}
+		return p
+	}
+	function getList() {
+		$('tbody > tr:not(.new):not(.append-temp)').remove()
+		ajax('/api/song', res => {
+			res.forEach(item => {
+				colList.forEach(col => {
+					const cell = temp.find('td.' + col.name + (col.readonly ? '' : ' > input'))
+					if(col.type == 'checkbox') cell.prop('checked', item[col.name] ?? false)
+					else cell[col.readonly ? 'text' : 'val'](item[col.name])
+				})
+				$('tbody').append(temp.clone().removeClass('append-temp').keypress(function(e) {
+					if(e.key == 'Enter') {
+						return // todo
+						const p = toParam($(this).find('input'))
+						ajax(`/api/gnb/${item.n}`, res => {
+							toast(`${res} 행 편집`)
+							if(res) getList()
+						}, p, ({responseText}) => {
+							toast(responseText, true)
+						}, null, 'PUT')
+					}
+				}))
+			})
+		})
+	}
+	function initView() {
+		document.title = viewTitle
+		$('#view-title').text(viewTitle)
+		
+		colList.forEach(item => {
+			const td = document.createElement('td')
+			td.setAttribute('class', item.name)
+			if(item.readonly != true) {
+				const input = document.createElement('input')
+				input.setAttribute('type', item.type)
+				input.setAttribute('name', item.name)
+				td.appendChild(input)
+			}
+			temp.append(td)
+		})
+		getList()
+	}
+	function onEnterNew(e) {
+		if(e.key == 'Enter') {
+			const p = toParam($('tr.new input'))
+			ajax('/api/gnb', res => {
+				toast(`${res} 행 등록`)
+				if(res) getList()
+			}, p, ({responseText}) => {
+				toast(responseText, true)
+			}, null, 'POST')
+		}
+	}
+	function toast(msg, red) {
+		// todo common
+		const wrap = document.createElement('div')
+		const span = document.createElement('span')
+		$('body').append($(wrap).addClass('float-toast').append($(span).addClass(`w3-card ${red ? 'w3-red' : 'w3-green'} w3-padding`).text(msg)))
+		setTimeout(() => $(wrap).remove(), 3000)
+	}
+	
+	initView()
+	</script>
+</html>
