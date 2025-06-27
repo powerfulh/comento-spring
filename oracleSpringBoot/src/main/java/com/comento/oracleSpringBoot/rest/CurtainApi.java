@@ -6,9 +6,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.comento.oracleSpringBoot.dto.curtain.Chart;
 import com.comento.oracleSpringBoot.mapper.CurtainMapper;
 
 @RestController
@@ -21,5 +23,17 @@ public class CurtainApi {
 	@GetMapping
 	public List<Map<String, Object>> blind100() {
 		return mapper.select100();
+	}
+	@GetMapping("{company}")
+	public List<Map<String, Object>> blind100company(@PathVariable String company) {
+		return mapper.select100comp(company);
+	}
+	@GetMapping("chart")
+	public Chart getChart() {
+		return Chart.builder().total(mapper.selectCnt().get(0)).comp(mapper.selectCompCnt()).topic(mapper.selectTopicCnt()).build();
+	}
+	@GetMapping("rand")
+	public List<Map<String, Object>> blind100rand() {
+		return mapper.select100rand();
 	}
 }

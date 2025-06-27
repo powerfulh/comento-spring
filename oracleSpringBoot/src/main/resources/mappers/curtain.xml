@@ -5,4 +5,9 @@
 
 <mapper namespace="com.comento.oracleSpringBoot.mapper.CurtainMapper">
 	<select id="select100" resultType="map">call blind100()</select>
+	<select id="select100comp" resultType="map" parameterType="string">call blind100company(#{company})</select>
+	<select id="selectCnt" resultType="map">call blindcnt()</select>
+	<select id="selectCompCnt" resultType="map">call blindcompany()</select>
+	<select id="selectTopicCnt" resultType="map">call blindtopic()</select>
+	<select id="select100rand" resultType="map">call blind100rand()</select>
 </mapper>
