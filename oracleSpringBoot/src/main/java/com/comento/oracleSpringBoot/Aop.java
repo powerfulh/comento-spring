@@ -28,7 +28,7 @@ public class Aop {
 	static Logger logger = LoggerFactory.getLogger(Aop.class);
 	final LogMapper mapper;
 	
-	@Pointcut("execution(* com.comento.oracleSpringBoot.webController.*.*(..))")
+	@Pointcut("execution(* com.comento.oracleSpringBoot.webController.*.*(..)) || execution(* com.comento.oracleSpringBoot.rest.*.*(..))")
 	public void allPoint() {
 		System.out.println("포인트컷은 명시적인 함수로 실제로 실행되는 일은 없다");
 	}
