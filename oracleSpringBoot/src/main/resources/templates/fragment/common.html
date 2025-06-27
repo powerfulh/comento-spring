@@ -9,7 +9,6 @@
 			<a class="w3-btn w3-green" href="/sendCookie">아작스 쿠키 전달</a>
 			<a class="w3-btn w3-green" href="/use-prop">프로퍼티 활용</a>
 			<a class="w3-btn w3-green" href="/send-string">서버에 문자 전달</a>
-			<a class="w3-btn w3-green" href="/medicine">삼계탕</a>
 			<a class="w3-btn w3-green" href="/table-maker">태이블 생성</a>
 		</div>
 		<div class="w3-pink" id="gnb-v2">
@@ -42,7 +41,6 @@
 				<br>
 				<input type="submit">
 			</form>
-			<button id="loginSuccessTest">정상 로그인 테스트</button>
 			<button id="loginFailTest">실패 로그인 테스트</button>
 			<button id="login-invalid-test">유효하지 않은 로그인 테스트</button>
 			
@@ -51,11 +49,6 @@
 					const selector = {
 							loginForm: 'form[action="/login"]'
 					}
-					$('#loginSuccessTest').click(function() {
-						$(`${selector.loginForm} > input[name=id]`).val('test')
-						$(`${selector.loginForm} > input[name=pw]`).val('test')
-						$(selector.loginForm).submit()
-					})
 					$('#loginFailTest').click(function() {
 						$(`${selector.loginForm} > input[name=id]`).val('hh')
 						$(`${selector.loginForm} > input[name=pw]`).val('zz')

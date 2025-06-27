@@ -131,6 +131,7 @@
 		getList()
 	}
 	function onEnterNew(e) {
+		return // todo
 		if(e.key == 'Enter') {
 			const p = toParam($('tr.new input'))
 			ajax('/api/gnb', res => {
