@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.comento.oracleSpringBoot.powerfulh.PowerfulMapper">	
+	<insert id="insert" parameterType="string">
+		INSERT into powerful_api(name) values(#{name})
+	</insert>
+	
+	<select id="select" resultType="map">
+		SELECT a.name, a.data FROM powerful_api a
+	</select>
+	
+	<update id="update" parameterType="com.comento.oracleSpringBoot.powerfulh.PowerfulApi">
+		UPDATE powerful_api set data = #{data}, updated_date = NOW() WHERE name = #{name}
+	</update>
+</mapper>
