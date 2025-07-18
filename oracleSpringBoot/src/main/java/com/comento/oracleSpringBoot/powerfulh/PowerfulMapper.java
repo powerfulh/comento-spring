@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface PowerfulMapper {
-	List<Map<String, String>> select();
-	int insert(String name);
+	List<Map<String, String>> select(int owner);
+	int insert(String name, int owner);
 	int update(PowerfulApi a);
 }

@@ -4,15 +4,15 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.comento.oracleSpringBoot.powerfulh.PowerfulMapper">	
-	<insert id="insert" parameterType="string">
-		INSERT into powerful_api(name) values(#{name})
+	<insert id="insert">
+		INSERT into powerful_api(name, owner) values(#{name}, #{owner})
 	</insert>
 	
 	<select id="select" resultType="map">
-		SELECT a.name, a.data FROM powerful_api a
+		SELECT a.name, a.data FROM powerful_api a where a.owner = #{owner}
 	</select>
 	
 	<update id="update" parameterType="com.comento.oracleSpringBoot.powerfulh.PowerfulApi">
-		UPDATE powerful_api set data = #{data}, updated_date = NOW() WHERE name = #{name}
+		UPDATE powerful_api set data = #{data}, updated_date = NOW() WHERE name = #{name} and owner = #{owner}
 	</update>
 </mapper>

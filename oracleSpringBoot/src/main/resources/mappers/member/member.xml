@@ -7,11 +7,11 @@
 	<select id="logicProc" resultType="int" parameterType="LoginVo">
 		select count(*) from Member where id = #{id} and pw = #{pw}
 	</select>
-	<select id="selectMemberAll" resultType="LoginVo">
-		select * from Member
-	</select>
 	<select id="get" resultType="MemberVo" parameterType="string">
 		select * from Member
 		where id = #{id}
+	</select>
+	<select id="selectPk" resultType="int" parameterType="LoginVo">
+		select n from Member where id = #{id} and pw = #{pw}
 	</select>
 </mapper>

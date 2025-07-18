@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @RequiredArgsConstructor
 @Getter
@@ -12,4 +13,6 @@ public class PowerfulApi {
 	final String name;
 	@NotBlank
 	final String data;
+	@Setter
+	int owner;
 }
