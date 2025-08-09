@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = {"http://localhost:5173", "https://powerfulh.github.io"}, allowCredentials = "true")
 @RequestMapping("powerful")
 @RequiredArgsConstructor
 public class PowerfulhC {

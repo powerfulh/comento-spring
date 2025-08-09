@@ -1,5 +1,6 @@
 package com.comento.oracleSpringBoot.powerfulh;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +19,17 @@ public class PowerfulExceptionReturn {
 	public String needAuthenticate(NoSessionNumber e) {
 		return e.getMessage();
 	}
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.CONFLICT)
+	public String sqlError(DuplicateKeyException e) {
+		return e.getMessage();
+	}
 	
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public String unexpected(RuntimeException e) {
+		return e.getMessage();
+	}
 }
 
 class NoSessionNumber extends RuntimeException {
