@@ -13,4 +13,14 @@ public class PowerfulExceptionReturn {
 	public String badReq(MethodArgumentNotValidException e) {
 		return e.getFieldError().getDefaultMessage();
 	}
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public String needAuthenticate(NoSessionNumber e) {
+		return e.getMessage();
+	}
+	
+}
+
+class NoSessionNumber extends RuntimeException {
+	private static final long serialVersionUID = 1L;
 }

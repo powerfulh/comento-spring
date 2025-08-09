@@ -52,7 +52,11 @@ public class PowerfulhC {
 		return true;
 	}
 	int requester(HttpSession s) {
-		return (int) s.getAttribute("sn");
+		try {
+			return (int) s.getAttribute("sn");			
+		} catch(NullPointerException e) {
+			throw new NoSessionNumber();
+		}
 	}
 	@GetMapping("api")
 	public List<Map<String, String>> getApi(@ApiIgnore HttpSession s) {
