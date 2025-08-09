@@ -3,6 +3,7 @@ package com.comento.oracleSpringBoot.powerfulh;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.comento.oracleSpringBoot.member.MemberS;
 import com.comento.oracleSpringBoot.member.entity.LoginVo;
 import com.comento.oracleSpringBoot.member.entity.MemberVo;
+import com.comento.oracleSpringBoot.service.HeaderSetter;
 
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
@@ -30,6 +32,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public class PowerfulhC {
 	final MemberS service;
 	final PowerfulMapper mapper;
+	final HeaderSetter headerSetter;
 	
 	@PostMapping("login")
 	public int login(@Valid @RequestBody LoginVo lvo, @ApiIgnore HttpSession s) {
@@ -42,13 +45,14 @@ public class PowerfulhC {
 		return service.get(id);
 	}
 	@PostMapping("authenticate")
-	public boolean authenticate(@Valid @RequestBody LoginVo lvo, @ApiIgnore HttpSession s) {
+	public boolean authenticate(@Valid @RequestBody LoginVo lvo, @ApiIgnore HttpSession s, HttpServletResponse res) {
 		try {			
 			final int n = service.selectPk(lvo);
 			s.setAttribute("sn", n);
 		} catch(BindingException e) {
 			return false;
 		}
+		headerSetter.setAuthentication(res);
 		return true;
 	}
 	int requester(HttpSession s) {
