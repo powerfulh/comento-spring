@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +24,9 @@ public class PlmApi {
 	@GetMapping("word")
 	public List<Word> getWord(String s) {
 		return mapper.selectWord(s);
+	}
+	@PostMapping("word")
+	public void postWord(@RequestBody Word dto) {
+		System.out.println(dto.getWord()); // 리플렉션으로 셋이 됐다
 	}
 }
