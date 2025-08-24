@@ -1,5 +1,8 @@
 # comento-spring
 ## 일지
+### 250824
+- Powerful SLM 지원 시작
+
 ### 250628
 - 프론트 토이 프로젝트를 위한 cors 허용 레스트 API 구조 초기화
 

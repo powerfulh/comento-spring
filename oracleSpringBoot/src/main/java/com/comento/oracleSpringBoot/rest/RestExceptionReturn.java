@@ -1,4 +1,4 @@
-package com.comento.oracleSpringBoot;
+package com.comento.oracleSpringBoot.rest;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -25,10 +25,19 @@ public class RestExceptionReturn {
 		e.printStackTrace();
 		return "중복 데이타로 인해 반려";
 	}
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String needAuthenticate(Authentication e) {
+        return "인증이 필요한 레스트";
+    }
 	
 	@ExceptionHandler
 	public String unexpectedException(Exception e) {
 		e.printStackTrace();
 		return "unexpectedException";
 	}
+}
+
+class Authentication extends RuntimeException {
+
 }

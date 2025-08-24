@@ -13,12 +13,15 @@ import com.comento.oracleSpringBoot.dto.plm.Word;
 import com.comento.oracleSpringBoot.mapper.PlmMapper;
 
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:5173", "https://powerfulh.github.io"}, allowCredentials = "true")
 @RequestMapping("plm")
 @RequiredArgsConstructor
-public class PlmApi {
+public class PlmApi extends RestApi {
 	final PlmMapper mapper;
 	
 	@GetMapping("word")
@@ -26,7 +29,8 @@ public class PlmApi {
 		return mapper.selectWord(s);
 	}
 	@PostMapping("word")
-	public void postWord(@RequestBody Word dto) {
+	public void postWord(@RequestBody Word dto, @ApiIgnore HttpSession s) {
+        requester(s);
 		mapper.insertWord(dto);
 	}
 }
