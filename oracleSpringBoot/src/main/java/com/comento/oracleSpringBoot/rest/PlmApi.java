@@ -27,6 +27,6 @@ public class PlmApi {
 	}
 	@PostMapping("word")
 	public void postWord(@RequestBody Word dto) {
-		System.out.println(dto.getWord()); // 리플렉션으로 셋이 됐다
+		mapper.insertWord(dto);
 	}
 }

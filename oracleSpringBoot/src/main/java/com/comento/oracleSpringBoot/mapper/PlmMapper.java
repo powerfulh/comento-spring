@@ -9,4 +9,5 @@ import com.comento.oracleSpringBoot.dto.plm.Word;
 @Mapper
 public interface PlmMapper {
 	List<Word> selectWord(String s);
+    void insertWord(Word w);
 }
