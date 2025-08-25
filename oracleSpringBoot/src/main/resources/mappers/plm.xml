@@ -5,6 +5,15 @@
 
 <mapper namespace="com.comento.oracleSpringBoot.mapper.PlmMapper">
 	<select id="selectWord" resultType="com.comento.oracleSpringBoot.dto.plm.Word">SELECT * FROM llm_word w where w.word = #{s}</select>
+    <select id="selectCompounded" resultType="com.comento.oracleSpringBoot.dto.plm.Compound">
+        select c.n, c.word, c.leftword, c.rightword, w.word cw, lw.word lw, rw.word rw
+        from llm_word_compound c, llm_word w, llm_word lw, llm_word rw
+        where #{n} in (c.leftword , c.rightword)
+        and c.word = w.n
+        and c.leftword = lw.n
+        and c.rightword = rw.n
+    </select>
+    
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
         insert into llm_word(word, type, memo) values(#{word}, #{type}, #{memo})
     </insert>

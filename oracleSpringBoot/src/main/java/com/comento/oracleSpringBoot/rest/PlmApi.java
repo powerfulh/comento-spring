@@ -2,12 +2,8 @@ package com.comento.oracleSpringBoot.rest;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.comento.oracleSpringBoot.dto.plm.Compound;
+import org.springframework.web.bind.annotation.*;
 
 import com.comento.oracleSpringBoot.dto.plm.Word;
 import com.comento.oracleSpringBoot.mapper.PlmMapper;
@@ -34,4 +30,8 @@ public class PlmApi extends RestApi {
         requester(s);
 		mapper.insertWord(dto);
 	}
+    @GetMapping("compound/{n}")
+    public List<Compound> getCompound(@PathVariable int n) {
+        return mapper.selectCompounded(n);
+    }
 }
