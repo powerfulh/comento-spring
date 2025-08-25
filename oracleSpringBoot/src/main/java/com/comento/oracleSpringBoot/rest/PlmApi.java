@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:5173", "https://powerfulh.github.io"}, allowCredentials = "true")
@@ -29,7 +30,7 @@ public class PlmApi extends RestApi {
 		return mapper.selectWord(s);
 	}
 	@PostMapping("word")
-	public void postWord(@RequestBody Word dto, @ApiIgnore HttpSession s) {
+	public void postWord(@RequestBody @Valid Word dto, @ApiIgnore HttpSession s) {
         requester(s);
 		mapper.insertWord(dto);
 	}
