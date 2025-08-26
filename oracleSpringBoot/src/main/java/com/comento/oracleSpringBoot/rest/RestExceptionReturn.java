@@ -32,6 +32,7 @@ public class RestExceptionReturn {
     }
 	
 	@ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public String unexpectedException(Exception e) {
 		e.printStackTrace();
 		return "unexpectedException";
