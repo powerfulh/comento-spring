@@ -15,6 +15,6 @@
     </select>
     
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
-        insert into llm_word(word, type, memo) values(#{word}, #{type}, #{memo})
+        insert into llm_word(word, type, memo) values(#{word}, #{type}, #{wordMemo})
     </insert>
 </mapper>
