@@ -34,4 +34,10 @@ public class PlmApi extends RestApi {
     public List<Compound> getCompound(@PathVariable int n) {
         return mapper.selectCompounded(n);
     }
+    @PostMapping("compound")
+    public List<Compound> postCompound(@RequestBody @Valid Compound dto, @ApiIgnore HttpSession s) {
+        requester(s);
+        mapper.insertCompound(dto);
+        return mapper.selectCompounded(dto.getLeftword());
+    }
 }

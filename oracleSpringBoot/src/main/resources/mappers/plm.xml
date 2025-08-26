@@ -17,4 +17,7 @@
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
         insert into llm_word(word, type, memo) values(#{word}, #{type}, #{wordMemo})
     </insert>
+    <insert id="insertCompound" parameterType="com.comento.oracleSpringBoot.dto.plm.Compound">
+        INSERT into llm_word_compound (word, leftword, rightword) values(#{word}, #{leftword}, #{rightword})
+    </insert>
 </mapper>

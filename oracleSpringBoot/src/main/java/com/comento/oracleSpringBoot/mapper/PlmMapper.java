@@ -12,4 +12,5 @@ public interface PlmMapper {
 	List<Word> selectWord(String s);
     void insertWord(Word w);
     List<Compound> selectCompounded(int n);
+    void insertCompound(Compound c);
 }
