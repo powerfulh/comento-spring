@@ -40,4 +40,8 @@ public class PlmApi extends RestApi {
         mapper.insertCompound(dto);
         return mapper.selectCompounded(dto.getLeftword());
     }
+    @GetMapping("leftright/{n}")
+    public List<Word> getLeftRight(@PathVariable int n) {
+        return mapper.selectLeftRight(n);
+    }
 }

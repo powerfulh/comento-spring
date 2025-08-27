@@ -13,4 +13,5 @@ public interface PlmMapper {
     void insertWord(Word w);
     List<Compound> selectCompounded(int n);
     void insertCompound(Compound c);
+    List<Word> selectLeftRight(int n);
 }

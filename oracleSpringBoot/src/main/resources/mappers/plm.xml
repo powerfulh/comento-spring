@@ -13,6 +13,11 @@
         and c.leftword = lw.n
         and c.rightword = rw.n
     </select>
+    <select id="selectLeftRight" resultType="com.comento.oracleSpringBoot.dto.plm.Word">
+        select w.* from llm_word w, llm_word_compound c
+        where w.n = c.leftword and c.word = #{n}
+        or w.n = c.rightword and c.word = #{n}
+    </select>
     
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
         insert into llm_word(word, type, memo) values(#{word}, #{type}, #{wordMemo})
