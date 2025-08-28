@@ -24,5 +24,6 @@
     </insert>
     <insert id="insertCompound" parameterType="com.comento.oracleSpringBoot.dto.plm.Compound">
         INSERT into llm_word_compound (word, leftword, rightword) values(#{word}, #{leftword}, #{rightword})
+        on duplicate key update leftword = #{leftword}, rightword = #{rightword}
     </insert>
 </mapper>
