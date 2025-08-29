@@ -1,6 +1,7 @@
 package com.comento.oracleSpringBoot.rest;
 
 import java.util.List;
+import java.util.Map;
 
 import com.comento.oracleSpringBoot.dto.plm.Compound;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +44,9 @@ public class PlmApi extends RestApi {
     @GetMapping("leftright/{n}")
     public List<Word> getLeftRight(@PathVariable int n) {
         return mapper.selectLeftRight(n);
+    }
+    @GetMapping("learn")
+    public List<Map<String, Object>> getLearn() {
+        return mapper.selectLearn();
     }
 }
