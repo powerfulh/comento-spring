@@ -27,4 +27,7 @@
         INSERT into llm_word_compound (word, leftword, rightword) values(#{word}, #{leftword}, #{rightword})
         on duplicate key update leftword = #{leftword}, rightword = #{rightword}
     </insert>
+
+    <delete id="deleteLearn">delete from plm_learn where word = #{n}</delete>
+    <delete id="deleteCanceledWord">delete from llm_word where type like '학습%' and not exists(select 1 from plm_learn l where l.word = llm_word.n)</delete>
 </mapper>

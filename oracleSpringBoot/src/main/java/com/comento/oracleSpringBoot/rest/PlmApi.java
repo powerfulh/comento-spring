@@ -49,4 +49,10 @@ public class PlmApi extends RestApi {
     public List<Map<String, Object>> getLearn() {
         return mapper.selectLearn();
     }
+    @DeleteMapping("learn/{n}")
+    public void deleteLearn(@PathVariable int n, @ApiIgnore HttpSession s) {
+        requester(s);
+        mapper.deleteLearn(n);
+        mapper.deleteCanceledWord();
+    }
 }

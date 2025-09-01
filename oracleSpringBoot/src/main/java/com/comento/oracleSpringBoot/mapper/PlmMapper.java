@@ -16,4 +16,6 @@ public interface PlmMapper {
     void insertCompound(Compound c);
     List<Word> selectLeftRight(int n);
     List<Map<String, Object>> selectLearn();
+    void deleteLearn(int n);
+    void deleteCanceledWord();
 }
