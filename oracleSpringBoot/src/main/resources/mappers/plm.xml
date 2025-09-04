@@ -25,7 +25,7 @@
     </insert>
     <insert id="insertCompound" parameterType="com.comento.oracleSpringBoot.dto.plm.Compound">
         INSERT into llm_word_compound (word, leftword, rightword) values(#{word}, #{leftword}, #{rightword})
-        on duplicate key update leftword = #{leftword}, rightword = #{rightword}
+        on duplicate key update leftword = #{leftword}, rightword = #{rightword}, updated_date = now()
     </insert>
 
     <delete id="deleteLearn">delete from plm_learn where word = #{n}</delete>
