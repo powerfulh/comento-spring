@@ -19,7 +19,8 @@
         or w.n = c.rightword and c.word = #{n}
     </select>
     <select id="selectLearn" resultType="map">select * from plm_learn l order by l.n desc limit 100</select>
-    
+    <select id="selectOneLearn" resultType="map">select * from plm_learn l where l.word = #{n}</select>
+
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
         insert into llm_word(word, type, memo) values(#{word}, #{type}, #{wordMemo})
     </insert>

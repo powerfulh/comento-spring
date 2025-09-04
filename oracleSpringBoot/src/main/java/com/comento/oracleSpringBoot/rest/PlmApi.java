@@ -46,7 +46,7 @@ public class PlmApi extends RestApi {
         return mapper.selectLeftRight(n);
     }
     @GetMapping("learn")
-    public List<Map<String, Object>> getLearn() {
+    public List<Map<String, Object>> getLearnList() {
         return mapper.selectLearn();
     }
     @DeleteMapping("learn/{n}")
@@ -54,5 +54,9 @@ public class PlmApi extends RestApi {
         requester(s);
         mapper.deleteLearn(n);
         mapper.deleteCanceledWord();
+    }
+    @GetMapping("learn/{n}")
+    public Map<String, Object> getLearn(@PathVariable int n) {
+        return mapper.selectOneLearn(n);
     }
 }
