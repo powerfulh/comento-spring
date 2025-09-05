@@ -50,10 +50,12 @@ public class PlmApi extends RestApi {
         return mapper.selectLearn();
     }
     @DeleteMapping("learn/{n}")
-    public void deleteLearn(@PathVariable int n, @ApiIgnore HttpSession s) {
+    public Map<String, Object> deleteLearn(@PathVariable int n, @ApiIgnore HttpSession s) {
         requester(s);
+        Map<String, Object> r = mapper.selectOneLearn(n);
         mapper.deleteLearn(n);
         mapper.deleteCanceledWord();
+        return r;
     }
     @GetMapping("learn/{n}")
     public Map<String, Object> getLearn(@PathVariable int n) {
