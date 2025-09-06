@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/w3.css">
+		<link rel="stylesheet" href="/common.css">
+		<script src="/jq.js"></script>
+		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
+		<style type="text/css">
+		th, td {
+			border: 1px solid black;
+			padding: 4px;
+		}
+		td > input {
+			width: 100%;
+		}
+		.append-temp {
+			display: none;
+		}
+		</style>
+	</head>
+	
+	<body class="w3-light-gray">
+		<th:block th:replace="fragment/common :: header" />
+		
+		<main class="w3-clear">
+			<th:block th:replace="fragment/common :: lnb" />
+			
+			<section class="w3-left w3-padding">
+				<h3 id="view-title" class="w3-teal w3-card"></h3>
+				<!-- 화면 시작 -->
+                <div style="display: inline-block">
+                    <table class="w3-card">
+                        <thead class="w3-aqua">
+                            <tr>
+                                <th>이름</th>
+                                <th>가수</th>
+                                <th>번호</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="append-temp"></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="display: inline-block; vertical-align: top">
+                    <ol class="selected-songs"></ol>
+                    <input type="date" name="playDate" class="param" onkeypress="postPlay(event)">
+                    <input type="number" name="stage" value="1" class="param" onkeypress="postPlay(event)">
+                </div>
+				<!-- 화면 끝 -->
+			</section>
+		</main>
+		
+		<th:block th:replace="fragment/common :: footer" />
+	</body>
+	
+	<script type="text/javascript">
+	const viewTitle = 'Manage song play'
+	const colList = [
+		{
+			name: 'name',
+		},
+		{
+			name: 'songBy',
+		},
+		{
+			name: 'n',
+			readonly: true
+		},
+	]
+	const temp = $('tr.append-temp')
+	const selectList = []
+
+	function ajax(url, successCb, param, failCb, completeCb, method = 'GET') {
+		$.ajax({
+			url: url,
+			data: JSON.stringify(param),
+			success: successCb,
+			error: failCb,
+			complete: completeCb,
+			method,
+			contentType: 'application/json'
+			// dataType: method == 'GET' ? 'text' : 'json'
+		})
+	}
+	function toParam(targetInputJq) {
+		const p = {}
+		targetInputJq.each(function() {
+			p[this.name] = this.type == 'checkbox' ? this.checked : this.value
+		})
+		return p
+	}
+	function getList() {
+		$('tbody > tr:not(.new):not(.append-temp)').remove()
+		ajax('/api/song', res => {
+			res.forEach(item => {
+				colList.forEach(col => {
+					const cell = temp.find('td.' + col.name)
+					cell.text(item[col.name])
+				})
+				$('tbody').append(temp.clone().removeClass('append-temp').click(function(e) {
+					if(selectList.includes(item.n)) {
+					    const toggleList = selectList.filter(si => si != item.n)
+					    selectList.length = 0
+					    selectList.push(...toggleList)
+					} else selectList.push(item.n)
+					$('ol.selected-songs').empty()
+					selectList.forEach(si => {
+					    const l = document.createElement('li')
+					    l.innerText = `${res.find(ri => ri.n == si).name} (${si})`
+					    $('ol.selected-songs').append(l)
+					})
+				}))
+			})
+		})
+	}
+	function initView() {
+		document.title = viewTitle
+		$('#view-title').text(viewTitle)
+		
+		colList.forEach(item => {
+			const td = document.createElement('td')
+			td.setAttribute('class', item.name)
+			temp.append(td)
+		})
+		getList()
+	}
+	function toast(msg, red) {
+		// todo common
+		const wrap = document.createElement('div')
+		const span = document.createElement('span')
+		$('body').append($(wrap).addClass('float-toast').append($(span).addClass(`w3-card ${red ? 'w3-red' : 'w3-green'} w3-padding`).text(msg)))
+		setTimeout(() => $(wrap).remove(), 3000)
+	}
+	function postPlay(e) {
+	    if(e.key == 'Enter') {
+	        console.log(selectList, toParam($('input.param')))
+	    }
+	}
+	
+	initView()
+	</script>
+</html>
