@@ -5,4 +5,6 @@
 
 <mapper namespace="com.comento.oracleSpringBoot.mapper.SongMapper">
 	<select id="select" resultType="com.comento.oracleSpringBoot.dto.song.Song">SELECT name, songBy, n FROM Song</select>
+
+    <insert id="insertPlay" parameterType="map">INSERT into song_play (stage, song, play_date) VALUES (#{stage}, #{song}, #{playDate})</insert>
 </mapper>

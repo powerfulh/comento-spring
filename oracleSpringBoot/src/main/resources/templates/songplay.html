@@ -136,7 +136,11 @@
 	}
 	function postPlay(e) {
 	    if(e.key == 'Enter') {
-	        console.log(selectList, toParam($('input.param')))
+	        ajax(`/api/song/play`, res => {
+							toast(`${res} 행 처리`)
+						}, {...toParam($('input.param')), list: selectList}, ({responseText}) => {
+							toast(responseText, true)
+						}, null, 'POST')
 	    }
 	}
 	
