@@ -19,4 +19,6 @@ public interface PlmMapper {
     Map<String, Object> selectOneLearn(int n);
     void deleteLearn(int n);
     void deleteCanceledWord();
+    void upsertContext(Map<String, Integer> param);
+    Map<String, Object> selectContext(Map<String, Integer> param);
 }

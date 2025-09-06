@@ -20,6 +20,13 @@
     </select>
     <select id="selectLearn" resultType="map">select * from plm_learn l order by l.n desc limit 100</select>
     <select id="selectOneLearn" resultType="map">select * from plm_learn l where l.word = #{n}</select>
+    <select id="selectContext" resultType="map" parameterType="map">
+        SELECT lw.word lw, rw.word rw, c.cnt from plm_context c, llm_word lw, llm_word rw
+        where c.leftword = #{leftword}
+        and c.rightword = #{rightword}
+        and c.leftword = lw.n
+        and c.rightword = rw.n
+    </select>
 
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
         insert into llm_word(word, type, memo) values(#{word}, #{type}, #{wordMemo})
@@ -27,6 +34,10 @@
     <insert id="insertCompound" parameterType="com.comento.oracleSpringBoot.dto.plm.Compound">
         INSERT into llm_word_compound (word, leftword, rightword) values(#{word}, #{leftword}, #{rightword})
         on duplicate key update leftword = #{leftword}, rightword = #{rightword}, updated_date = now()
+    </insert>
+    <insert id="upsertContext" parameterType="map">
+        insert into plm_context(leftword, rightword) values(#{leftword}, #{rightword})
+        ON DUPLICATE KEY UPDATE cnt = cnt + 1, updated_date = now()
     </insert>
 
     <delete id="deleteLearn">delete from plm_learn where word = #{n}</delete>

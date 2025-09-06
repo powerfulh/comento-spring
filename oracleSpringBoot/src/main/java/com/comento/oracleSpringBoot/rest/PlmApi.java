@@ -61,4 +61,10 @@ public class PlmApi extends RestApi {
     public Map<String, Object> getLearn(@PathVariable int n) {
         return mapper.selectOneLearn(n);
     }
+    @PostMapping("context")
+    public Map<String, Object> postContext(@RequestBody Map<String, Integer> dto, @ApiIgnore HttpSession s) {
+        requester(s);
+        mapper.upsertContext(dto);
+        return mapper.selectContext(dto);
+    }
 }
