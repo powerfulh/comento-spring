@@ -21,4 +21,5 @@ public interface PlmMapper {
     void deleteCanceledWord();
     void upsertContext(Map<String, Integer> param);
     Map<String, Object> selectContext(Map<String, Integer> param);
+    List<Map<String, Object>> selectContextList(int n);
 }

@@ -67,4 +67,8 @@ public class PlmApi extends RestApi {
         mapper.upsertContext(dto);
         return mapper.selectContext(dto);
     }
+    @GetMapping("context/{n}")
+    public List<Map<String, Object>> getContext(@PathVariable int n) {
+        return mapper.selectContextList(n);
+    }
 }

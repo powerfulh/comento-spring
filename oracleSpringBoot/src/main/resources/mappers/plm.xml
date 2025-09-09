@@ -27,6 +27,12 @@
         and c.leftword = lw.n
         and c.rightword = rw.n
     </select>
+    <select id="selectContextList" resultType="map">
+        select w.word lw, rw.word rw, c.cnt, c.leftword, c.rightword from plm_context c, llm_word w, llm_word rw
+        where c.leftword = w.n and c.rightword = rw.n
+        and #{n} in (c.leftword, c.rightword)
+        order by c.cnt desc
+    </select>
 
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
         insert into llm_word(word, type, memo) values(#{word}, #{type}, #{wordMemo})
