@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.comento.oracleSpringBoot.dto.plm.Compound;
+import com.comento.oracleSpringBoot.dto.plm.UnderstandBox;
 import org.springframework.web.bind.annotation.*;
 
 import com.comento.oracleSpringBoot.dto.plm.Word;
@@ -70,5 +71,9 @@ public class PlmApi extends RestApi {
     @GetMapping("context/{n}")
     public List<Map<String, Object>> getContext(@PathVariable int n) {
         return mapper.selectContextList(n);
+    }
+    @GetMapping("understand/box")
+    public List<UnderstandBox> getUnderstandBox() {
+        return UnderstandBox.of(mapper.selectUnderstandBox());
     }
 }
