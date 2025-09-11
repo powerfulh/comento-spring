@@ -30,6 +30,11 @@ public class RestExceptionReturn {
     public String needAuthenticate(Authentication e) {
         return "인증이 필요한 레스트";
     }
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String notNow(IllegalStateException e) {
+        return "지금은 그럴수 없음";
+    }
 	
 	@ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

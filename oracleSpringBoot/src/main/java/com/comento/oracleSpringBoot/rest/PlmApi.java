@@ -53,6 +53,7 @@ public class PlmApi extends RestApi {
     @DeleteMapping("learn/{n}")
     public Map<String, Object> deleteLearn(@PathVariable int n, @ApiIgnore HttpSession s) {
         requester(s);
+        if(!mapper.selectContextList(n).isEmpty()) throw new IllegalStateException();
         Map<String, Object> r = mapper.selectOneLearn(n);
         mapper.deleteLearn(n);
         mapper.deleteCanceledWord();
