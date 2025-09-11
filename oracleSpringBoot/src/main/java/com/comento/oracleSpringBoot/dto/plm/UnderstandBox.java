@@ -21,7 +21,7 @@ public class UnderstandBox extends BaseDto {
         Integer current = null;
         List<UnderstandBox> understandBoxList = new ArrayList<>();
         for (Map<String, Object> item: list) {
-            if(item.get("understand") == current) understandBoxList.get(understandBoxList.size() - 1).sentence.add(item);
+            if(item.get("understand").equals(current)) understandBoxList.get(understandBoxList.size() - 1).sentence.add(item);
             else understandBoxList.add(new UnderstandBox((String) item.get("src"), item));
             current = (Integer) item.get("understand");
             item.remove("src");
