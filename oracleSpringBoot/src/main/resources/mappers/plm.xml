@@ -37,6 +37,7 @@
         select b.src, w.word, w.type, w.memo, w.n, bw.i, b.n understand from plm_understand_box b, plm_understand_box_word bw, llm_word w
         where b.n = bw.understand
         and bw.word = w.n
+        and b.activate = TRUE
         order by b.src, bw.i
     </select>
 
