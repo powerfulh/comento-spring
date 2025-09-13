@@ -52,6 +52,8 @@
         insert into plm_context(leftword, rightword) values(#{leftword}, #{rightword})
         ON DUPLICATE KEY UPDATE cnt = cnt + 1, updated_date = now()
     </insert>
+    
+    <update id="deactivateUnderstandBox">UPDATE plm_understand_box set activate = FALSE WHERE n = #{n}</update>
 
     <delete id="deleteLearn">delete from plm_learn where word = #{n}</delete>
     <delete id="deleteCanceledWord">delete from llm_word where type like '학습%' and not exists(select 1 from plm_learn l where l.word = llm_word.n)</delete>

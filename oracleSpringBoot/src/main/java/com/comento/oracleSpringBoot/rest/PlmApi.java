@@ -77,4 +77,8 @@ public class PlmApi extends RestApi {
     public List<UnderstandBox> getUnderstandBox() {
         return UnderstandBox.of(mapper.selectUnderstandBox());
     }
+    @PutMapping("understand/box/{n}")
+    public void putUnderstandBoxActivation(@PathVariable int n) {
+    	mapper.deactivateUnderstandBox(n);
+    }
 }

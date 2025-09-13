@@ -23,4 +23,5 @@ public interface PlmMapper {
     Map<String, Object> selectContext(Map<String, Integer> param);
     List<Map<String, Object>> selectContextList(int n);
     List<Map<String, Object>> selectUnderstandBox();
+    void deactivateUnderstandBox(int n);
 }
