@@ -19,9 +19,10 @@ public interface PlmMapper {
     Map<String, Object> selectOneLearn(int n);
     void deleteLearn(int n);
     void deleteCanceledWord();
-    void upsertContext(Map<String, Integer> param);
+    void upsertContextCnt(Map<String, Integer> param);
     Map<String, Object> selectContext(Map<String, Integer> param);
     List<Map<String, Object>> selectContextList(int n);
     List<Map<String, Object>> selectUnderstandBox();
     void deactivateUnderstandBox(int n);
+    void upsertContextSpace(Map<String, Integer> param);
 }

@@ -66,7 +66,7 @@ public class PlmApi extends RestApi {
     @PostMapping("context")
     public Map<String, Object> postContext(@RequestBody Map<String, Integer> dto, @ApiIgnore HttpSession s) {
         requester(s);
-        mapper.upsertContext(dto);
+        mapper.upsertContextCnt(dto);
         return mapper.selectContext(dto);
     }
     @GetMapping("context/{n}")
@@ -80,5 +80,11 @@ public class PlmApi extends RestApi {
     @PutMapping("understand/box/{n}")
     public void putUnderstandBoxActivation(@PathVariable int n) {
     	mapper.deactivateUnderstandBox(n);
+    }
+    @PostMapping("context/space")
+    public Map<String, Object> postContextSpace(@RequestBody Map<String, Integer> dto, @ApiIgnore HttpSession s) {
+        requester(s);
+        mapper.upsertContextSpace(dto);
+        return mapper.selectContext(dto);
     }
 }
