@@ -31,7 +31,7 @@
         select w.word lw, rw.word rw, c.cnt, c.space, c.leftword, c.rightword from plm_context c, llm_word w, llm_word rw
         where c.leftword = w.n and c.rightword = rw.n
         and #{n} in (c.leftword, c.rightword)
-        order by c.cnt desc
+        order by c.cnt + c.space desc
     </select>
     <select id="selectUnderstandBox" resultType="map">
         select b.src, w.word, w.type, w.memo, w.n, bw.i, b.n understand from plm_understand_box b, plm_understand_box_word bw, llm_word w
@@ -57,7 +57,7 @@
         ON DUPLICATE KEY UPDATE space = space + 1, updated_date = now()
     </insert>
     
-    <update id="deactivateUnderstandBox">UPDATE plm_understand_box set activate = FALSE WHERE n = #{n}</update>
+    <update id="deactivateUnderstandBox">UPDATE plm_understand_box set activate = FALSE, updated_date = now() WHERE n = #{n}</update>
 
     <delete id="deleteLearn">delete from plm_learn where word = #{n}</delete>
     <delete id="deleteCanceledWord">delete from llm_word where type like '학습%' and not exists(select 1 from plm_learn l where l.word = llm_word.n)</delete>
