@@ -87,4 +87,9 @@ public class PlmApi extends RestApi {
         mapper.upsertContextSpace(dto);
         return mapper.selectContext(dto);
     }
+    @PutMapping("word")
+    public void putWord(@RequestBody @Valid Word dto, @ApiIgnore HttpSession s) {
+        requester(s);
+        mapper.updateWord(dto);
+    }
 }

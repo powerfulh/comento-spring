@@ -25,4 +25,5 @@ public interface PlmMapper {
     List<Map<String, Object>> selectUnderstandBox();
     void deactivateUnderstandBox(int n);
     void upsertContextSpace(Map<String, Integer> param);
+    void updateWord(Word w);
 }
