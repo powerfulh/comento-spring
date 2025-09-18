@@ -40,6 +40,7 @@ public class PlmApi extends RestApi {
     public List<Compound> postCompound(@RequestBody @Valid Compound dto, @ApiIgnore HttpSession s) {
         requester(s);
         mapper.insertCompound(dto);
+        mapper.updateToCompound(dto.getWord());
         return mapper.selectCompounded(dto.getLeftword());
     }
     @GetMapping("leftright/{n}")
@@ -91,5 +92,6 @@ public class PlmApi extends RestApi {
     public void putWord(@RequestBody @Valid Word dto, @ApiIgnore HttpSession s) {
         requester(s);
         mapper.updateWord(dto);
+        mapper.deleteDefinedLearn();
     }
 }

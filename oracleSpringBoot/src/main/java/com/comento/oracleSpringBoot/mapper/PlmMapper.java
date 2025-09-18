@@ -26,4 +26,6 @@ public interface PlmMapper {
     void deactivateUnderstandBox(int n);
     void upsertContextSpace(Map<String, Integer> param);
     void updateWord(Word w);
+    void updateToCompound(int n);
+    void deleteDefinedLearn();
 }

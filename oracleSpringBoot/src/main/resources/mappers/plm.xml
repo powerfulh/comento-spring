@@ -61,7 +61,15 @@
     <update id="updateWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
         UPDATE llm_word w set w.type = #{type}, w.memo = #{wordMemo}, w.updated_date = now() where w.n = #{n}
     </update>
+    <update id="updateToCompound">update llm_word w set w.type = '결합', w.updated_date = now() where type != '결합' and w.n = #{n}</update>
 
     <delete id="deleteLearn">delete from plm_learn where word = #{n}</delete>
     <delete id="deleteCanceledWord">delete from llm_word where type like '학습%' and not exists(select 1 from plm_learn l where l.word = llm_word.n)</delete>
+    <delete id="deleteDefinedLearn">
+        delete from plm_learn where n IN (
+            select l.n from plm_learn l, llm_word w
+            where l.word = w.n
+            and w.type not like '학습%'
+        )
+    </delete>
 </mapper>
