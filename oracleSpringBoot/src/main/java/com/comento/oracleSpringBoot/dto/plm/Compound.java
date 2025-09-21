@@ -17,6 +17,14 @@ public class Compound extends BaseDto {
     String lw;
     String rw;
 
+    public static Compound of(int word, int leftword, int rightword) {
+        Compound compound = new Compound();
+        compound.word = word;
+        compound.leftword = leftword;
+        compound.rightword = rightword;
+        return compound;
+    }
+
     public Integer getN() {
         return n;
     }

@@ -40,6 +40,7 @@
         and b.activate = TRUE
         order by b.src, bw.i
     </select>
+    <select id="selectOneWord" resultType="com.comento.oracleSpringBoot.dto.plm.Word">SELECT * FROM llm_word w where w.n = #{n}</select>
 
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
         insert into llm_word(word, type, memo) values(#{word}, #{type}, #{wordMemo})
@@ -55,6 +56,9 @@
     <insert id="upsertContextSpace" parameterType="map">
         insert into plm_context(leftword, rightword, space) values(#{leftword}, #{rightword}, 1)
         ON DUPLICATE KEY UPDATE space = space + 1, updated_date = now()
+    </insert>
+    <insert id="insertWordTypeCompound">
+        insert into llm_word(word, type) values(#{word}, '결합')
     </insert>
     
     <update id="deactivateUnderstandBox">UPDATE plm_understand_box set activate = FALSE, updated_date = now() WHERE n = #{n}</update>

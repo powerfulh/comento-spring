@@ -28,4 +28,6 @@ public interface PlmMapper {
     void updateWord(Word w);
     void updateToCompound(int n);
     void deleteDefinedLearn();
+    Word selectOneWord(int n);
+    void insertWordTypeCompound(String word);
 }

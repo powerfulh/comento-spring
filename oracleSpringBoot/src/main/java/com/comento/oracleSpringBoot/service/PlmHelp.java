@@ -1,12 +1,17 @@
 package com.comento.oracleSpringBoot.service;
 
+import com.comento.oracleSpringBoot.dto.plm.Word;
+import com.comento.oracleSpringBoot.mapper.PlmMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class PlmHelp {
+    final PlmMapper mapper;
+
     /**
      * 주어진 한 문자(완성형 한글 음절)가
      * 1) 받침(종성)이 없고
@@ -58,5 +63,15 @@ public class PlmHelp {
         result.add((char) code2);
 
         return result;
+    }
+    public Map<Character, Integer> getCompound(char ch) {
+        Map<Character, Integer> map = new HashMap<>();
+        List<Character> helped = help(ch);
+        map.put(helped.get(0), 184); // 어
+        map.put(helped.get(1), 162); // 었
+        return map;
+    }
+    public Word getJustPost(String word) {
+        return mapper.selectWord(word).stream().max(Comparator.comparing(Word::getN)).orElseThrow(RuntimeException::new);
     }
 }
