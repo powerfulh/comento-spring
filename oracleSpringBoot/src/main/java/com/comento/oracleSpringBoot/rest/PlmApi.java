@@ -1,10 +1,13 @@
 package com.comento.oracleSpringBoot.rest;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import com.comento.oracleSpringBoot.dto.plm.Compound;
+import com.comento.oracleSpringBoot.dto.plm.Suggestion;
 import com.comento.oracleSpringBoot.dto.plm.UnderstandBox;
+import com.comento.oracleSpringBoot.service.PlmHelp;
 import org.springframework.web.bind.annotation.*;
 
 import com.comento.oracleSpringBoot.dto.plm.Word;
@@ -22,15 +25,20 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class PlmApi extends RestApi {
 	final PlmMapper mapper;
+    final PlmHelp help;
 	
 	@GetMapping("word")
 	public List<Word> getWord(String s) {
 		return mapper.selectWord(s);
 	}
 	@PostMapping("word")
-	public void postWord(@RequestBody @Valid Word dto, @ApiIgnore HttpSession s) {
+	public Suggestion postWord(@RequestBody @Valid Word dto, @ApiIgnore HttpSession s) {
         requester(s);
 		mapper.insertWord(dto);
+        final Word word = mapper.selectWord(dto.getWord()).stream().max(Comparator.comparing(Word::getN)).orElseThrow(RuntimeException::new);
+        final char last = word.getWord().charAt(word.getWord().length() - 1);
+        if(word.getType().equals("0") && help.helpable(last)) return new Suggestion(word, help.help(last));
+        return null;
 	}
     @GetMapping("compound/{n}")
     public List<Compound> getCompound(@PathVariable int n) {
