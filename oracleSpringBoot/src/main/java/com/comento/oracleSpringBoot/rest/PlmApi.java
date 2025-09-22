@@ -102,9 +102,9 @@ public class PlmApi extends RestApi {
     public void post0Compound(@PathVariable int n, @ApiIgnore HttpSession s) {
         requester(s);
         final Word word = mapper.selectOneWord(n);
-        Map<Character, Integer> compoundHelp = help.getCompound(word.getWord().charAt(word.getWord().length() - 1));
+        Map<String, Integer> compoundHelp = help.getCompound(word.getWord().charAt(word.getWord().length() - 1));
         compoundHelp.keySet().forEach(item -> {
-            final String target = word.getWord().substring(0, word.getWord().length() - 1).concat(item.toString());
+            final String target = word.getWord().substring(0, word.getWord().length() - 1).concat(item);
             mapper.insertWordTypeCompound(target);
             mapper.insertCompound(Compound.of(help.getJustPost(target).getN(), word.getN(), compoundHelp.get(item)));
         });
