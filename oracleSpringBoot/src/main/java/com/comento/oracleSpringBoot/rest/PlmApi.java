@@ -31,7 +31,7 @@ public class PlmApi extends RestApi {
 		mapper.insertWord(dto);
         final Word word = help.getJustPost(dto.getWord());
         final char last = word.getWord().charAt(word.getWord().length() - 1);
-        if(word.getType().equals("0") && help.helpable(last) < 1) return new Suggestion(word, help.help(last).stream().map(HelpResult::getWord).collect(Collectors.toList()));
+        if(word.getType().equals("0") && help.helpable(last) > 0) return new Suggestion(word, help.help(last).stream().map(HelpResult::getWord).collect(Collectors.toList()));
         return null;
 	}
     @GetMapping("compound/{n}")
