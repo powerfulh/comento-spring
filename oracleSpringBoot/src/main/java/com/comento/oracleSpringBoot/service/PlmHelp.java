@@ -1,5 +1,6 @@
 package com.comento.oracleSpringBoot.service;
 
+import com.comento.oracleSpringBoot.dto.plm.HelpResult;
 import com.comento.oracleSpringBoot.dto.plm.Word;
 import com.comento.oracleSpringBoot.mapper.PlmMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,82 +14,70 @@ public class PlmHelp {
     final PlmMapper mapper;
 
     final int SBase = 0xAC00;
-    final int JUNG_YEO = 6; // ㅕ
     final int JONG_NONE = 0;
     final int JONG_PAST = 20; // ㅆ
-    final int JUNG_IEU = 20; // ㅣ
     final int JONG_GOING = 8; // ㄹ
     final int JONG_COMPLETE = 4; // ㄴ
+    final int JONG_RESPECT = 17; // ㅂ
     /**
-     * 주어진 한 문자(완성형 한글 음절)가
-     * 1) 받침(종성)이 없고
-     * 2) 중성(모음)이 'ㅣ'인지 검사하여 true/false 반환
      * @author ChatGPT
      */
-    public boolean helpable(char ch) {
+    public int helpable(char ch) {
         final int SLast = 0xD7A3;
-
         if ((int) ch < SBase || (int) ch > SLast) {
             // 완성형 한글 음절이 아님
-            return false;
+            return 0;
         }
-
         int SIndex = (int) ch - SBase;
-        int jongIndex = SIndex % 28;       // 0이면 받침 없음
+        int footer = SIndex % 28;       // 0이면 받침 없음
         int jungIndex = (SIndex / 28) % 21; // 0..20 (ㅏ..ㅣ)
-
-        final int JUNG_IEU = 20; // 'ㅣ'의 중성 인덱스는 20
-
-        return (jongIndex == JONG_NONE) && (jungIndex == JUNG_IEU);
+        if(footer == JONG_NONE) {
+            switch (jungIndex) {
+                case 0: // ㅏ
+                    return 1;
+                case 20: // ㅣ
+                    return 2;
+            }
+        }
+        return 0;
+    }
+    char addFooter(char target, int footerIndex) {
+        return (char) (target + footerIndex);
+    }
+    char changeMother(char target, int motherIndex) {
+        int SIndex = target - SBase;
+        int choIndex = SIndex / (21 * 28); // 초성 인덱스
+        return (char) (SBase + (choIndex * 21 + motherIndex) * 28);
     }
     /**
      * @author ChatGPT
      */
-    public List<String> help(char ch) {
-        List<String> result = new ArrayList<>();
-
-        int SIndex = ch - SBase;
-        int choIndex = SIndex / (21 * 28); // 초성 인덱스
-
-        // 1) ㅕ (받침 없음)
-        int codeYeo = SBase + (choIndex * 21 + JUNG_YEO) * 28 + JONG_NONE;
-        String sYeo = String.valueOf((char) codeYeo);
-        result.add(sYeo);
-
-        // 2) ㅕ + ㅆ (받침 ㅆ)
-        int codeYeoSs = SBase + (choIndex * 21 + JUNG_YEO) * 28 + JONG_PAST;
-        result.add(String.valueOf((char) codeYeoSs));
-
-        // 3) ㅕ + "서"  -> e.g. "려서"
-        result.add(sYeo + "서");
-
-        // 4) 받침 ㄹ 추가 (모음은 여전히 ㅣ) -> e.g. "릴"
-        int codeRiRieul = SBase + (choIndex * 21 + JUNG_IEU) * 28 + JONG_GOING;
-        result.add(String.valueOf((char) codeRiRieul));
-
-        // 5) 받침 ㄹ 추가 + "게" -> e.g. "릴게"
-        result.add((char) codeRiRieul + "게");
-
-        // 6) 받침 ㄴ 추가 (모음 ㅣ) -> e.g. "린"
-        int codeRiNieun = SBase + (choIndex * 21 + JUNG_IEU) * 28 + JONG_COMPLETE;
-        result.add(String.valueOf((char) codeRiNieun));
-
-        // 7) 받침 ㄴ 추가 + "다" -> e.g. "린다"
-        result.add((char) codeRiNieun + "다");
-
-        return result;
-    }
-    public Map<String, Integer> getCompound(char ch) {
-        Map<String, Integer> map = new HashMap<>();
-        List<String> helped = help(ch);
-        map.put(helped.get(0), 184); // 어
-        map.put(helped.get(1), 162); // 었
-        map.put(helped.get(2), 50); // 어서
-        map.put(helped.get(3), 48); // ㄹ
-        map.put(helped.get(4), 3053); // 을게
-        map.put(helped.get(5), 309); // 은
-        map.put(helped.get(6), 215); // 는다
-        return map;
+    public List<HelpResult> help(char target) {
+        List<HelpResult> list = new ArrayList<>();
+        switch (helpable(target)) {
+            case 1:
+                list.add(new HelpResult(215, addFooter(target, JONG_COMPLETE) + "다"));
+                list.add(new HelpResult(48, String.valueOf(addFooter(target, JONG_GOING))));
+                list.add(new HelpResult(3039, addFooter(target, JONG_COMPLETE) + "다고"));
+                list.add(new HelpResult(3053, addFooter(target, JONG_GOING) + "게"));
+                list.add(new HelpResult(309, String.valueOf(addFooter(target, JONG_COMPLETE))));
+                list.add(new HelpResult(2912, addFooter(target, JONG_GOING) + "지"));
+                list.add(new HelpResult(3069, addFooter(target, JONG_GOING) + "까"));
+                list.add(new HelpResult(3437, addFooter(target, JONG_COMPLETE) + "다는"));
+                list.add(new HelpResult(318, addFooter(target, JONG_RESPECT) + "니다"));
+                break;
+            case 2:
+                // 6: ㅕ
+                list.add(new HelpResult(184, String.valueOf(changeMother(target, 6))));
+                list.add(new HelpResult(162, String.valueOf(addFooter(changeMother(target, 6), JONG_PAST))));
+                list.add(new HelpResult(50, changeMother(target, 6) + "서"));
+                list.add(new HelpResult(48, String.valueOf(addFooter(target, JONG_GOING))));
+                list.add(new HelpResult(3053, addFooter(target, JONG_GOING) + "게"));
+                list.add(new HelpResult(309, String.valueOf(addFooter(target, JONG_COMPLETE))));
+                list.add(new HelpResult(215, addFooter(target, JONG_COMPLETE) + "다"));
+                break;
+        }
+        return list;
     }
     public Word getJustPost(String word) {
         return mapper.selectWord(word).stream().max(Comparator.comparing(Word::getN)).orElseThrow(RuntimeException::new);

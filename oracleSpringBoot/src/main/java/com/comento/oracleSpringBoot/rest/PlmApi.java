@@ -1,9 +1,6 @@
 package com.comento.oracleSpringBoot.rest;
 
-import com.comento.oracleSpringBoot.dto.plm.Compound;
-import com.comento.oracleSpringBoot.dto.plm.Suggestion;
-import com.comento.oracleSpringBoot.dto.plm.UnderstandBox;
-import com.comento.oracleSpringBoot.dto.plm.Word;
+import com.comento.oracleSpringBoot.dto.plm.*;
 import com.comento.oracleSpringBoot.mapper.PlmMapper;
 import com.comento.oracleSpringBoot.service.PlmHelp;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:5173", "https://powerfulh.github.io"}, allowCredentials = "true")
@@ -33,7 +31,7 @@ public class PlmApi extends RestApi {
 		mapper.insertWord(dto);
         final Word word = help.getJustPost(dto.getWord());
         final char last = word.getWord().charAt(word.getWord().length() - 1);
-        if(word.getType().equals("0") && help.helpable(last)) return new Suggestion(word, help.help(last));
+        if(word.getType().equals("0") && help.helpable(last) < 1) return new Suggestion(word, help.help(last).stream().map(HelpResult::getWord).collect(Collectors.toList()));
         return null;
 	}
     @GetMapping("compound/{n}")
@@ -102,11 +100,10 @@ public class PlmApi extends RestApi {
     public void post0Compound(@PathVariable int n, @ApiIgnore HttpSession s) {
         requester(s);
         final Word word = mapper.selectOneWord(n);
-        Map<String, Integer> compoundHelp = help.getCompound(word.getWord().charAt(word.getWord().length() - 1));
-        compoundHelp.keySet().forEach(item -> {
-            final String target = word.getWord().substring(0, word.getWord().length() - 1).concat(item);
+        help.help(word.getWord().charAt(word.getWord().length() - 1)).forEach(item -> {
+            final String target = word.getWord().substring(0, word.getWord().length() - 1).concat(item.getWord());
             mapper.insertWordTypeCompound(target);
-            mapper.insertCompound(Compound.of(help.getJustPost(target).getN(), word.getN(), compoundHelp.get(item)));
+            mapper.insertCompound(Compound.of(help.getJustPost(target).getN(), word.getN(), item.getN()));
         });
     }
 }
