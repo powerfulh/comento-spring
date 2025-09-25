@@ -38,6 +38,8 @@ public class PlmHelp {
                 case 20: // ㅣ
                     return 2;
             }
+        } else if(footer == 17) { // ㅂ
+            if(jungIndex != 8) return 3; // 8: 'ㅗ' 는 존나 규칙이 없음 (고운 좁은 고와 좁아)
         }
         return 0;
     }
@@ -48,6 +50,9 @@ public class PlmHelp {
         int SIndex = target - SBase;
         int choIndex = SIndex / (21 * 28); // 초성 인덱스
         return (char) (SBase + (choIndex * 21 + motherIndex) * 28);
+    }
+    char removeFooter(char target) {
+        return (char) (target - ((target - SBase) % 28));
     }
     /**
      * @author ChatGPT
@@ -75,6 +80,13 @@ public class PlmHelp {
                 list.add(new HelpResult(3053, addFooter(target, JONG_GOING) + "게"));
                 list.add(new HelpResult(309, String.valueOf(addFooter(target, JONG_COMPLETE))));
                 list.add(new HelpResult(215, addFooter(target, JONG_COMPLETE) + "다"));
+                break;
+            case 3:
+                list.add(new HelpResult(4602, removeFooter(target) + "운데"));
+                list.add(new HelpResult(105, removeFooter(target) + "움"));
+                list.add(new HelpResult(184, removeFooter(target) + "워"));
+                list.add(new HelpResult(309, removeFooter(target) + "운"));
+                list.add(new HelpResult(50, removeFooter(target) + "워서"));
                 break;
         }
         return list;
