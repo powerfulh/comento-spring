@@ -72,6 +72,7 @@ public class PlmHelp {
                 list.add(new HelpResult(3069, addFooter(target, JONG_GOING) + "까"));
                 list.add(new HelpResult(3437, addFooter(target, JONG_COMPLETE) + "다는"));
                 list.add(new HelpResult(318, addFooter(target, JONG_RESPECT) + "니다"));
+                list.add(new HelpResult(208, String.valueOf(addFooter(target, JONG_PAST))));
                 break;
             case 2:
                 // 6: ㅕ
