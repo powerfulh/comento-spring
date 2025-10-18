@@ -41,7 +41,8 @@ public class PlmHelp {
                     if((SIndex / (21 * 28)) == 5) return 4; // 르
             }
         } else if(footer == 17) { // ㅂ
-            if(jungIndex != 8) return 3; // 8: 'ㅗ' 는 존나 규칙이 없음 (고운 좁은 고와 좁아)
+            if(jungIndex == 13) return 5; // 13: 'ㅜ'
+            else if(jungIndex != 8) return 3; // 8: 'ㅗ' 는 존나 규칙이 없음 (고운 좁은 고와 좁아)
         }
         return 0;
     }
@@ -99,6 +100,14 @@ public class PlmHelp {
                 list.add(new HelpResult(2912, addFooter(target, JONG_GOING) + "지"));
                 list.add(new HelpResult(3069, addFooter(target, JONG_GOING) + "까"));
                 list.add(new HelpResult(318, addFooter(target, JONG_RESPECT) + "니다"));
+                break;
+            case 5:
+                // 춥다: 추운데, 굽다: 굽는데 예외가 있어서 는/은데는 제외
+                list.add(new HelpResult(105, removeFooter(target) + "움"));
+                list.add(new HelpResult(184, removeFooter(target) + "워"));
+                list.add(new HelpResult(309, removeFooter(target) + "운"));
+                list.add(new HelpResult(50, removeFooter(target) + "워서"));
+                list.add(new HelpResult(824, removeFooter(target) + "우면")); // case 5 로 빠진 이유
                 break;
         }
         return list;
