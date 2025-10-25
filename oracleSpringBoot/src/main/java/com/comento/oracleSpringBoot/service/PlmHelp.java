@@ -86,6 +86,7 @@ public class PlmHelp {
                 list.add(new HelpResult(215, addFooter(target, JONG_COMPLETE) + "다"));
                 list.add(new HelpResult(154, changeMother(target, 6) + "지"));
                 list.add(new HelpResult(3765, changeMother(target, 6) + "진"));
+                list.add(new HelpResult(3047, addFooter(target, JONG_GOING) + "래"));
                 break;
             case 3:
                 list.add(new HelpResult(4602, removeFooter(target) + "운데"));
