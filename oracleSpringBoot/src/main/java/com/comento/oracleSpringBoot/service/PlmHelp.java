@@ -39,6 +39,8 @@ public class PlmHelp {
                     return 2;
                 case 18: // ㅡ
                     if((SIndex / (21 * 28)) == 5) return 4; // 르
+                case 13: // ㅜ
+                    return 6;
             }
         } else if(footer == 17) { // ㅂ
             if(jungIndex == 13) return 5; // 13: 'ㅜ'
@@ -59,6 +61,7 @@ public class PlmHelp {
     }
     /**
      * @author ChatGPT
+     * 참고: <a href="https://github.com/powerfulh/comento-spring/issues/29">...</a>
      */
     public List<HelpResult> help(char target) {
         List<HelpResult> list = new ArrayList<>();
@@ -76,8 +79,7 @@ public class PlmHelp {
                 list.add(new HelpResult(208, String.valueOf(addFooter(target, JONG_PAST))));
                 break;
             case 2:
-                // 6: ㅕ
-                list.add(new HelpResult(184, String.valueOf(changeMother(target, 6))));
+                list.add(new HelpResult(184, String.valueOf(changeMother(target, 6)))); // 6: ㅕ
                 list.add(new HelpResult(162, String.valueOf(addFooter(changeMother(target, 6), JONG_PAST))));
                 list.add(new HelpResult(50, changeMother(target, 6) + "서"));
                 list.add(new HelpResult(48, String.valueOf(addFooter(target, JONG_GOING))));
@@ -110,6 +112,15 @@ public class PlmHelp {
                 list.add(new HelpResult(309, removeFooter(target) + "운"));
                 list.add(new HelpResult(50, removeFooter(target) + "워서"));
                 list.add(new HelpResult(824, removeFooter(target) + "우면")); // case 5 로 빠진 이유
+                break;
+            case 6:
+                list.add(new HelpResult(184, String.valueOf(changeMother(target, 14)))); // 14: ㅝ
+                list.add(new HelpResult(154, changeMother(target, 14) + "지"));
+                list.add(new HelpResult(212, changeMother(target, 14) + "져"));
+                list.add(new HelpResult(50, changeMother(target, 14) + "서"));
+                list.add(new HelpResult(48, String.valueOf(addFooter(target, JONG_GOING))));
+                list.add(new HelpResult(3069, addFooter(target, JONG_GOING) + "까"));
+                list.add(new HelpResult(309, String.valueOf(addFooter(target, JONG_COMPLETE))));
                 break;
         }
         return list;
