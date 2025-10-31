@@ -22,13 +22,16 @@ public class PlmHelp {
     /**
      * @author ChatGPT
      */
-    public int helpable(char ch) {
+    public int helpable(final String word) {
+        final int length = word.length();
+        final char last = word.charAt(length - 1);
+        final Character second = length > 1 ? word.charAt(length - 2) : null;
         final int SLast = 0xD7A3;
-        if ((int) ch < SBase || (int) ch > SLast) {
+        if ((int) last < SBase || (int) last > SLast) {
             // 완성형 한글 음절이 아님
             return 0;
         }
-        int SIndex = (int) ch - SBase;
+        int SIndex = (int) last - SBase;
         int footer = SIndex % 28;       // 0이면 받침 없음
         int jungIndex = (SIndex / 28) % 21; // 0..20 (ㅏ..ㅣ)
         if(footer == JONG_NONE) {
@@ -38,7 +41,12 @@ public class PlmHelp {
                 case 20: // ㅣ
                     return 2;
                 case 18: // ㅡ
-                    if((SIndex / (21 * 28)) == 5) return 4; // 르
+                    if((SIndex / (21 * 28)) == 5) { // 5: 르
+                        if(second == null) return 4;
+                        final int secondIndex = second - SBase;
+                        final int secondMother = (secondIndex / 28) % 21;
+                        return (secondMother == 4 || secondMother == 13) ? 4 : 7; // ㅓ || ㅜ
+                    }
                 case 13: // ㅜ
                     return 6;
             }
@@ -59,68 +67,97 @@ public class PlmHelp {
     char removeFooter(char target) {
         return (char) (target - ((target - SBase) % 28));
     }
+    String recomp(final char[] src, char last, final String append, Character second) {
+        final int addLength = append.length();
+        final char[] res = new char[src.length + addLength];
+        System.arraycopy(src, 0, res, 0, src.length);
+        res[src.length - 1] = last;
+        for (int i = 0; i < addLength; i++) {
+            res[src.length + i] = append.charAt(i);
+        }
+        if(second != null) res[src.length - 2] = second;
+        return String.valueOf(res);
+    }
+    String recomp(String src, char last, final String append, Character second) {
+        return recomp(src.toCharArray(), last, append, second);
+    }
     /**
      * @author ChatGPT
      * 참고: <a href="https://github.com/powerfulh/comento-spring/issues/29">...</a>
      */
-    public List<HelpResult> help(char target) {
+    public List<HelpResult> help(final String word) {
+        final int length = word.length();
+        final char last = word.charAt(length - 1);
+        final Character second = length > 1 ? word.charAt(length - 2) : null;
         List<HelpResult> list = new ArrayList<>();
-        switch (helpable(target)) {
+        switch (helpable(word)) {
             case 1:
-                list.add(new HelpResult(215, addFooter(target, JONG_COMPLETE) + "다"));
-                list.add(new HelpResult(48, String.valueOf(addFooter(target, JONG_GOING))));
-                list.add(new HelpResult(3039, addFooter(target, JONG_COMPLETE) + "다고"));
-                list.add(new HelpResult(3053, addFooter(target, JONG_GOING) + "게"));
-                list.add(new HelpResult(309, String.valueOf(addFooter(target, JONG_COMPLETE))));
-                list.add(new HelpResult(2912, addFooter(target, JONG_GOING) + "지"));
-                list.add(new HelpResult(3069, addFooter(target, JONG_GOING) + "까"));
-                list.add(new HelpResult(3437, addFooter(target, JONG_COMPLETE) + "다는"));
-                list.add(new HelpResult(318, addFooter(target, JONG_RESPECT) + "니다"));
-                list.add(new HelpResult(208, String.valueOf(addFooter(target, JONG_PAST))));
+                list.add(new HelpResult(309, recomp(word, addFooter(last, JONG_COMPLETE), "", second)));
+                list.add(new HelpResult(215, recomp(word, addFooter(last, JONG_COMPLETE), "다", second)));
+                list.add(new HelpResult(3039, recomp(word, addFooter(last, JONG_COMPLETE), "다고", second)));
+                list.add(new HelpResult(3437, recomp(word, addFooter(last, JONG_COMPLETE), "다는", second)));
+                list.add(new HelpResult(48, recomp(word, addFooter(last, JONG_GOING), "", second)));
+                list.add(new HelpResult(3053, recomp(word, addFooter(last, JONG_GOING), "게", second)));
+                list.add(new HelpResult(2912, recomp(word, addFooter(last, JONG_GOING), "지", second)));
+                list.add(new HelpResult(3069, recomp(word, addFooter(last, JONG_GOING), "까", second)));
+                list.add(new HelpResult(318, recomp(word, addFooter(last, JONG_RESPECT), "니다", second)));
+                list.add(new HelpResult(208, recomp(word, addFooter(last, JONG_PAST), "", second)));
                 break;
             case 2:
-                list.add(new HelpResult(184, String.valueOf(changeMother(target, 6)))); // 6: ㅕ
-                list.add(new HelpResult(162, String.valueOf(addFooter(changeMother(target, 6), JONG_PAST))));
-                list.add(new HelpResult(50, changeMother(target, 6) + "서"));
-                list.add(new HelpResult(48, String.valueOf(addFooter(target, JONG_GOING))));
-                list.add(new HelpResult(3053, addFooter(target, JONG_GOING) + "게"));
-                list.add(new HelpResult(309, String.valueOf(addFooter(target, JONG_COMPLETE))));
-                list.add(new HelpResult(215, addFooter(target, JONG_COMPLETE) + "다"));
-                list.add(new HelpResult(154, changeMother(target, 6) + "지"));
-                list.add(new HelpResult(3765, changeMother(target, 6) + "진"));
-                list.add(new HelpResult(3047, addFooter(target, JONG_GOING) + "래"));
+                list.add(new HelpResult(184, recomp(word, changeMother(last, 6), "", second))); // 6: ㅕ
+                list.add(new HelpResult(50, recomp(word, changeMother(last, 6), "서", second)));
+                list.add(new HelpResult(154, recomp(word, changeMother(last, 6), "지", second)));
+                list.add(new HelpResult(3765, recomp(word, changeMother(last, 6), "진", second)));
+                list.add(new HelpResult(162, recomp(word, addFooter(changeMother(last, 6), JONG_PAST), "", second)));
+                list.add(new HelpResult(48, recomp(word, addFooter(last, JONG_GOING), "", second)));
+                list.add(new HelpResult(3053, recomp(word, addFooter(last, JONG_GOING), "게", second)));
+                list.add(new HelpResult(3047, recomp(word, addFooter(last, JONG_GOING), "래", second)));
+                list.add(new HelpResult(309, recomp(word, addFooter(last, JONG_COMPLETE), "", second)));
+                list.add(new HelpResult(215, recomp(word, addFooter(last, JONG_COMPLETE), "다", second)));
                 break;
             case 3:
-                list.add(new HelpResult(4602, removeFooter(target) + "운데"));
-                list.add(new HelpResult(105, removeFooter(target) + "움"));
-                list.add(new HelpResult(184, removeFooter(target) + "워"));
-                list.add(new HelpResult(309, removeFooter(target) + "운"));
-                list.add(new HelpResult(50, removeFooter(target) + "워서"));
+                list.add(new HelpResult(4602, recomp(word, removeFooter(last), "운데", second)));
+                list.add(new HelpResult(105, recomp(word, removeFooter(last), "움", second)));
+                list.add(new HelpResult(184, recomp(word, removeFooter(last), "워", second)));
+                list.add(new HelpResult(309, recomp(word, removeFooter(last), "운", second)));
+                list.add(new HelpResult(50, recomp(word, removeFooter(last), "워서", second)));
                 break;
             case 4:
-                list.add(new HelpResult(309, String.valueOf(addFooter(target, JONG_COMPLETE))));
-                list.add(new HelpResult(48, String.valueOf(addFooter(target, JONG_GOING))));
-                list.add(new HelpResult(3053, addFooter(target, JONG_GOING) + "게"));
-                list.add(new HelpResult(2912, addFooter(target, JONG_GOING) + "지"));
-                list.add(new HelpResult(3069, addFooter(target, JONG_GOING) + "까"));
-                list.add(new HelpResult(318, addFooter(target, JONG_RESPECT) + "니다"));
+                list.add(new HelpResult(309, recomp(word, addFooter(last, JONG_COMPLETE), "", second)));
+                list.add(new HelpResult(48, recomp(word, addFooter(last, JONG_GOING), "", second)));
+                list.add(new HelpResult(3053, recomp(word, addFooter(last, JONG_GOING), "게", second)));
+                list.add(new HelpResult(2912, recomp(word, addFooter(last, JONG_GOING), "지", second)));
+                list.add(new HelpResult(3069, recomp(word, addFooter(last, JONG_GOING), "까", second)));
+                list.add(new HelpResult(318, recomp(word, addFooter(last, JONG_RESPECT), "니다", second)));
+                assert second != null;
+                list.add(new HelpResult(184, recomp(word, changeMother(last, 4), "", addFooter(second, JONG_GOING)))); // 4: ㅓ
                 break;
             case 5:
                 // 춥다: 추운데, 굽다: 굽는데 예외가 있어서 는/은데는 제외
-                list.add(new HelpResult(105, removeFooter(target) + "움"));
-                list.add(new HelpResult(184, removeFooter(target) + "워"));
-                list.add(new HelpResult(309, removeFooter(target) + "운"));
-                list.add(new HelpResult(50, removeFooter(target) + "워서"));
-                list.add(new HelpResult(824, removeFooter(target) + "우면")); // case 5 로 빠진 이유
+                list.add(new HelpResult(105, recomp(word, removeFooter(last), "움", second)));
+                list.add(new HelpResult(184, recomp(word, removeFooter(last), "워", second)));
+                list.add(new HelpResult(50, recomp(word, removeFooter(last), "워서", second)));
+                list.add(new HelpResult(309, recomp(word, removeFooter(last), "운", second)));
+                list.add(new HelpResult(824, recomp(word, removeFooter(last), "우면", second))); // case 5 로 빠진 이유
                 break;
             case 6:
-                list.add(new HelpResult(184, String.valueOf(changeMother(target, 14)))); // 14: ㅝ
-                list.add(new HelpResult(154, changeMother(target, 14) + "지"));
-                list.add(new HelpResult(212, changeMother(target, 14) + "져"));
-                list.add(new HelpResult(50, changeMother(target, 14) + "서"));
-                list.add(new HelpResult(48, String.valueOf(addFooter(target, JONG_GOING))));
-                list.add(new HelpResult(3069, addFooter(target, JONG_GOING) + "까"));
-                list.add(new HelpResult(309, String.valueOf(addFooter(target, JONG_COMPLETE))));
+                list.add(new HelpResult(184, recomp(word, changeMother(last, 14), "", second))); // 14: ㅝ
+                list.add(new HelpResult(50, recomp(word, changeMother(last, 14), "서", second)));
+                list.add(new HelpResult(154, recomp(word, changeMother(last, 14), "지", second)));
+                list.add(new HelpResult(212, recomp(word, changeMother(last, 14), "져", second)));
+                list.add(new HelpResult(48, recomp(word, addFooter(last, JONG_GOING), "", second)));
+                list.add(new HelpResult(3069, recomp(word, addFooter(last, JONG_GOING), "까", second)));
+                list.add(new HelpResult(309, recomp(word, addFooter(last, JONG_COMPLETE), "", second)));
+                break;
+            case 7:
+                list.add(new HelpResult(48, recomp(word, addFooter(last, JONG_GOING), "", second)));
+                list.add(new HelpResult(2912, recomp(word, addFooter(last, JONG_GOING), "지", second)));
+                list.add(new HelpResult(3053, recomp(word, addFooter(last, JONG_GOING), "게", second)));
+                list.add(new HelpResult(3069, recomp(word, addFooter(last, JONG_GOING), "까", second)));
+                list.add(new HelpResult(309, recomp(word, addFooter(last, JONG_COMPLETE), "", second)));
+                list.add(new HelpResult(318, recomp(word, addFooter(last, JONG_RESPECT), "니다", second)));
+                assert second != null;
+                list.add(new HelpResult(62, recomp(word, changeMother(last, 0), "", addFooter(second, JONG_GOING)))); // 4: ㅏ
                 break;
         }
         return list;

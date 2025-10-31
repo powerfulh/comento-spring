@@ -4,7 +4,6 @@ import com.comento.oracleSpringBoot.dto.BaseDto;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class Suggestion extends BaseDto {
@@ -12,7 +11,7 @@ public class Suggestion extends BaseDto {
 
     public Suggestion(Word word, List<String> characters) {
         this.n = word.getN();
-        this.expect = characters.stream().map(item -> word.getWord().substring(0, word.getWord().length() - 1).concat(item)).collect(Collectors.toList());
+        this.expect = characters;
     }
 
     public Integer getN() {

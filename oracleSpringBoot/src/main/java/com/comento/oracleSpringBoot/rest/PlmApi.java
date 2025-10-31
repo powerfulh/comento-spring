@@ -30,8 +30,7 @@ public class PlmApi extends RestApi {
         requester(s);
 		mapper.insertWord(dto);
         final Word word = help.getJustPost(dto.getWord());
-        final char last = word.getWord().charAt(word.getWord().length() - 1);
-        if(word.getType().equals("0") && help.helpable(last) > 0) return new Suggestion(word, help.help(last).stream().map(HelpResult::getWord).collect(Collectors.toList()));
+        if(word.getType().equals("0") && help.helpable(word.getWord()) > 0) return new Suggestion(word, help.help(word.getWord()).stream().map(HelpResult::getWord).collect(Collectors.toList()));
         return null;
 	}
     @GetMapping("compound/{n}")
@@ -100,8 +99,8 @@ public class PlmApi extends RestApi {
     public void post0Compound(@PathVariable int n, @ApiIgnore HttpSession s) {
         requester(s);
         final Word word = mapper.selectOneWord(n);
-        help.help(word.getWord().charAt(word.getWord().length() - 1)).forEach(item -> {
-            final String target = word.getWord().substring(0, word.getWord().length() - 1).concat(item.getWord());
+        help.help(word.getWord()).forEach(item -> {
+            final String target = item.getWord();
             mapper.insertWordTypeCompound(target);
             mapper.insertCompound(Compound.of(help.getJustPost(target).getN(), word.getN(), item.getN()));
         });
