@@ -30,4 +30,5 @@ public interface PlmMapper {
     void deleteDefinedLearn();
     Word selectOneWord(int n);
     void insertWordTypeCompound(String word);
+    void insertUnderstandBox(String src);
 }

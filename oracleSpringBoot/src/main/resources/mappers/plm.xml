@@ -60,6 +60,7 @@
     <insert id="insertWordTypeCompound">
         insert into llm_word(word, type) values(#{word}, '결합')
     </insert>
+    <insert id="insertUnderstandBox">INSERT into plm_understand_box(src) values(#{src})</insert>
     
     <update id="deactivateUnderstandBox">UPDATE plm_understand_box set activate = FALSE, updated_date = now() WHERE n = #{n}</update>
     <update id="updateWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">

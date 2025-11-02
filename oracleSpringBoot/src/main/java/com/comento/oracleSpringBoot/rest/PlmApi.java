@@ -105,4 +105,9 @@ public class PlmApi extends RestApi {
             mapper.insertCompound(Compound.of(help.getJustPost(target).getN(), word.getN(), item.getN()));
         });
     }
+    @PostMapping("understand/box")
+    public void postUnderstandBox(@RequestBody @Valid SrcBox box, @ApiIgnore HttpSession s) {
+        requester(s);
+        mapper.insertUnderstandBox(box.src);
+    }
 }
