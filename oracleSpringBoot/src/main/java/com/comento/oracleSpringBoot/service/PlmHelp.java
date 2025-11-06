@@ -47,6 +47,7 @@ public class PlmHelp {
                         final int secondMother = (secondIndex / 28) % 21;
                         return (secondMother == 4 || secondMother == 13) ? 4 : 7; // ㅓ || ㅜ
                     }
+                    break;
                 case 13: // ㅜ
                     return 6;
             }
