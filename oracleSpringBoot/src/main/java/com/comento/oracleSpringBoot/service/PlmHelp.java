@@ -45,7 +45,7 @@ public class PlmHelp {
                         if(second == null) return 4;
                         final int secondIndex = second - SBase;
                         final int secondMother = (secondIndex / 28) % 21;
-                        return (secondMother == 4 || secondMother == 13) ? 4 : 7; // ㅓ || ㅜ
+                        return (secondMother == 4 || secondMother == 13 || secondMother == 18) ? 4 : 7; // ㅓ || ㅜ || ㅡ
                     }
                     break;
                 case 13: // ㅜ
@@ -158,7 +158,7 @@ public class PlmHelp {
                 list.add(new HelpResult(309, recomp(word, addFooter(last, JONG_COMPLETE), "", second)));
                 list.add(new HelpResult(318, recomp(word, addFooter(last, JONG_RESPECT), "니다", second)));
                 assert second != null;
-                list.add(new HelpResult(62, recomp(word, changeMother(last, 0), "", addFooter(second, JONG_GOING)))); // 4: ㅏ
+                list.add(new HelpResult(62, recomp(word, changeMother(last, 0), "", addFooter(second, JONG_GOING)))); // 0: ㅏ
                 break;
         }
         return list;
