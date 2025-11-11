@@ -47,7 +47,7 @@ public class PlmHelp {
                         final int secondMother = (secondIndex / 28) % 21;
                         return (secondMother == 4 || secondMother == 13 || secondMother == 18) ? 4 : 7; // ㅓ || ㅜ || ㅡ
                     }
-                    break;
+                    return 8;
                 case 13: // ㅜ
                     return 6;
             }
@@ -159,6 +159,16 @@ public class PlmHelp {
                 list.add(new HelpResult(318, recomp(word, addFooter(last, JONG_RESPECT), "니다", second)));
                 assert second != null;
                 list.add(new HelpResult(62, recomp(word, changeMother(last, 0), "", addFooter(second, JONG_GOING)))); // 0: ㅏ
+                break;
+            case 8:
+                list.add(new HelpResult(62, recomp(word, changeMother(last, 0), "", second))); // 0: ㅏ
+                list.add(new HelpResult(61, recomp(word, changeMother(last, 0), "서", second))); // 위 두개는 '고프' 해당인데 예외 있을듯..
+                list.add(new HelpResult(309, recomp(word, addFooter(last, JONG_COMPLETE), "", second)));
+                list.add(new HelpResult(48, recomp(word, addFooter(last, JONG_GOING), "", second)));
+                list.add(new HelpResult(3053, recomp(word, addFooter(last, JONG_GOING), "게", second)));
+                list.add(new HelpResult(2912, recomp(word, addFooter(last, JONG_GOING), "지", second)));
+                list.add(new HelpResult(3069, recomp(word, addFooter(last, JONG_GOING), "까", second)));
+                list.add(new HelpResult(318, recomp(word, addFooter(last, JONG_RESPECT), "니다", second)));
                 break;
         }
         return list;
