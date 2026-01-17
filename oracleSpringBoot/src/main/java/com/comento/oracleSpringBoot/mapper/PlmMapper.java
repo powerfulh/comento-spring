@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.comento.oracleSpringBoot.dto.plm.Compound;
+import com.comento.oracleSpringBoot.dto.plm.UnderstandBoxCommit;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.comento.oracleSpringBoot.dto.plm.Word;
@@ -31,5 +32,5 @@ public interface PlmMapper {
     Word selectOneWord(int n);
     void insertWordTypeCompound(String word);
     void insertUnderstandBox(String src);
-    Map<String, Object> selectUnderstandBox(int n);
+    UnderstandBoxCommit selectUnderstandBox(int n);
 }
