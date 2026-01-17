@@ -33,7 +33,7 @@
         and #{n} in (c.leftword, c.rightword)
         order by c.cnt + c.space desc
     </select>
-    <select id="selectUnderstandBox" resultType="map">
+    <select id="selectActivatedUnderstandBox" resultType="map">
         select b.src, w.word, w.type, w.memo, w.n, bw.i, b.n understand from plm_understand_box b, plm_understand_box_word bw, llm_word w
         where b.n = bw.understand
         and bw.word = w.n
@@ -41,6 +41,7 @@
         order by b.src, bw.i
     </select>
     <select id="selectOneWord" resultType="com.comento.oracleSpringBoot.dto.plm.Word">SELECT * FROM llm_word w where w.n = #{n}</select>
+    <select id="selectUnderstandBox" resultType="map">select b.src from plm_understand_box b where b.n = #{n}</select>
 
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
         insert into llm_word(word, type, memo) values(#{word}, #{type}, #{wordMemo})

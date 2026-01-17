@@ -22,7 +22,7 @@ public interface PlmMapper {
     void upsertContextCnt(Map<String, Integer> param);
     Map<String, Object> selectContext(Map<String, Integer> param);
     List<Map<String, Object>> selectContextList(int n);
-    List<Map<String, Object>> selectUnderstandBox();
+    List<Map<String, Object>> selectActivatedUnderstandBox();
     void deactivateUnderstandBox(int n);
     void upsertContextSpace(Map<String, Integer> param);
     void updateWord(Word w);
@@ -31,4 +31,5 @@ public interface PlmMapper {
     Word selectOneWord(int n);
     void insertWordTypeCompound(String word);
     void insertUnderstandBox(String src);
+    Map<String, Object> selectUnderstandBox(int n);
 }

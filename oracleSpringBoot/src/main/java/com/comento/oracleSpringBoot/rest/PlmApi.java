@@ -3,6 +3,7 @@ package com.comento.oracleSpringBoot.rest;
 import com.comento.oracleSpringBoot.dto.plm.*;
 import com.comento.oracleSpringBoot.mapper.PlmMapper;
 import com.comento.oracleSpringBoot.service.PlmHelp;
+import com.comento.oracleSpringBoot.service.PlmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class PlmApi extends RestApi {
 	final PlmMapper mapper;
     final PlmHelp help;
+    final PlmService service;
 	
 	@GetMapping("word")
 	public List<Word> getWord(String s) {
@@ -77,11 +79,11 @@ public class PlmApi extends RestApi {
     }
     @GetMapping("understand/box")
     public List<UnderstandBox> getUnderstandBox() {
-        return UnderstandBox.of(mapper.selectUnderstandBox());
+        return UnderstandBox.of(mapper.selectActivatedUnderstandBox());
     }
     @PutMapping("understand/box/{n}")
     public void putUnderstandBoxActivation(@PathVariable int n) {
-    	mapper.deactivateUnderstandBox(n);
+    	service.commitUnderstandBox(n);
     }
     @PostMapping("context/space")
     public Map<String, Object> postContextSpace(@RequestBody Map<String, Integer> dto, @ApiIgnore HttpSession s) {
