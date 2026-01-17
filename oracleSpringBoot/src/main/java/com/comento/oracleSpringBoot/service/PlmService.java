@@ -20,7 +20,7 @@ public class PlmService {
     final PlmMapper mapper;
 
 //    final String jpaServerCommit = "http://localhost:8080/llm/commit";
-    final String jpaServerCommit = "https://port-0-jpa-5o1j2llh1wq9rp.sel4.cloudtype.app//llm/commit";
+    final String jpaServerCommit = "https://port-0-jpa-5o1j2llh1wq9rp.sel4.cloudtype.app/llm/commit";
 
     @Transactional
     public void commitUnderstandBox(int n) {
