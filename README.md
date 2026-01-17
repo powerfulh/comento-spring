@@ -1,5 +1,8 @@
 # comento-spring
 ## 일지
+### 260117
+- JPA 서버 연계 시작 `(Rest template)`
+
 ### 250824
 - Powerful SLM 지원 시작
 
