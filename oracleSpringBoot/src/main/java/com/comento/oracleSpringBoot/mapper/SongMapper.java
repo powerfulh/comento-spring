@@ -11,4 +11,5 @@ import com.comento.oracleSpringBoot.dto.song.Song;
 public interface SongMapper {
 	List<Song> select();
     void insertPlay(Map<String, Object> param);
+    int update(Song dto, int n);
 }

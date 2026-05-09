@@ -15,7 +15,7 @@ import com.comento.oracleSpringBoot.mapper.SongMapper;
 public class SongApi {
 	@Autowired
 	SongMapper mapper;
-	
+
 	@GetMapping
 	public List<Song> get() {
 		return mapper.select();
@@ -31,5 +31,9 @@ public class SongApi {
             mapper.insertPlay(p);
         });
         return list.size();
+    }
+    @PutMapping("{n}")
+    public int put(@RequestBody Song dto, @PathVariable int n) {
+        return mapper.update(dto, n);
     }
 }
