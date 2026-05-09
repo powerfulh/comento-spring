@@ -37,15 +37,18 @@ public class Aop {
 		System.out.println();
 		logger.info("Controll start");
 	}
-	String getSid(HttpServletRequest req) {
-		return (String) req.getSession().getAttribute("sid");
+	String getRequesterId(HttpServletRequest req) {
+		String sid = (String) req.getSession().getAttribute("sid");
+		if(sid != null) return sid;
+		Integer sn = (Integer) req.getSession().getAttribute("sn");
+		return sn == null ? null : String.valueOf(sn);
 	}
 	@After("allPoint()")
 	public void insertLog() {
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		if(attributes == null) return;
 		HttpServletRequest req = attributes.getRequest();
-		String id = StaticUtil.nullElse(getSid(req), "비로그인");
+		String id = StaticUtil.nullElse(getRequesterId(req), "비로그인");
 		String m = req.getMethod();
 		String uri = req.getRequestURI();
 		StringBuilder p = new StringBuilder("{");
