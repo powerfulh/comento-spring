@@ -28,7 +28,7 @@ public class Aop {
 	static Logger logger = LoggerFactory.getLogger(Aop.class);
 	final LogMapper mapper;
 	
-	@Pointcut("execution(* com.comento.oracleSpringBoot.webController.*.*(..)) || execution(* com.comento.oracleSpringBoot.rest.*.*(..)) || execution(* com.comento.oracleSpringBoot.powerfulh.*.*(..))")
+	@Pointcut("@within(org.springframework.stereotype.Controller) || @within(org.springframework.web.bind.annotation.RestController)")
 	public void allPoint() {
 
 	}
