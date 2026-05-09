@@ -30,7 +30,7 @@ public class Aop {
 	
 	@Pointcut("execution(* com.comento.oracleSpringBoot.webController.*.*(..)) || execution(* com.comento.oracleSpringBoot.rest.*.*(..))")
 	public void allPoint() {
-		System.out.println("포인트컷은 명시적인 함수로 실제로 실행되는 일은 없다");
+
 	}
 	@Before("allPoint()")
 	public void startControl() {
@@ -43,11 +43,12 @@ public class Aop {
 	@After("allPoint()")
 	public void insertLog() {
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		if(attributes == null) return;
 		HttpServletRequest req = attributes.getRequest();
 		String id = StaticUtil.nullElse(getSid(req), "비로그인");
 		String m = req.getMethod();
 		String uri = req.getRequestURI();
-		StringBuffer p = new StringBuffer("{");
+		StringBuilder p = new StringBuilder("{");
 		for(int i = 0; i < req.getParameterMap().size(); i++) {
 			if(i > 0) p.append(", ");
 			String k = (String) req.getParameterMap().keySet().toArray()[i];
