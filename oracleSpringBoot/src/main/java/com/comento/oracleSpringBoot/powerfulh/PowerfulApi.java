@@ -2,6 +2,7 @@ package com.comento.oracleSpringBoot.powerfulh;
 
 import javax.validation.constraints.NotBlank;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,5 +15,6 @@ public class PowerfulApi {
 	@NotBlank
 	final String data;
 	@Setter
+	@ApiModelProperty(hidden = true)
 	int owner;
 }
