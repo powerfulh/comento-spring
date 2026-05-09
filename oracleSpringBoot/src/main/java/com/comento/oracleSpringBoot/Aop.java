@@ -28,7 +28,7 @@ public class Aop {
 	static Logger logger = LoggerFactory.getLogger(Aop.class);
 	final LogMapper mapper;
 	
-	@Pointcut("execution(* com.comento.oracleSpringBoot.webController.*.*(..)) || execution(* com.comento.oracleSpringBoot.rest.*.*(..))")
+	@Pointcut("execution(* com.comento.oracleSpringBoot.webController.*.*(..)) || execution(* com.comento.oracleSpringBoot.rest.*.*(..)) || execution(* com.comento.oracleSpringBoot.powerfulh.*.*(..))")
 	public void allPoint() {
 
 	}
