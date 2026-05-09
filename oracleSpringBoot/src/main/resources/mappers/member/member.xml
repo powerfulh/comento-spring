@@ -5,13 +5,13 @@
 
 <mapper namespace="com.comento.oracleSpringBoot.member.MemberS">
 	<select id="logicProc" resultType="int" parameterType="LoginVo">
-		select count(*) from Member where id = #{id} and pw = #{pw}
+		select count(*) from `user` where id = #{id} and pw = #{pw}
 	</select>
 	<select id="get" resultType="MemberVo" parameterType="string">
-		select * from Member
+		select n, id, updated_date as createdDate, grade from `user`
 		where id = #{id}
 	</select>
 	<select id="selectPk" resultType="int" parameterType="LoginVo">
-		select n from Member where id = #{id} and pw = #{pw}
+		select n from `user` where id = #{id} and pw = #{pw}
 	</select>
 </mapper>
