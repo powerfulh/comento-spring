@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.comento.oracleSpringBoot.dto.song.Song;
 import com.comento.oracleSpringBoot.mapper.SongMapper;
+
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("api/song")
@@ -33,7 +37,8 @@ public class SongApi {
         return list.size();
     }
     @PutMapping("{n}")
-    public int put(@RequestBody Song dto, @PathVariable int n) {
+    public int put(@RequestBody Song dto, @PathVariable int n, @ApiIgnore HttpSession s) {
+        if(s.getAttribute("sid") == null) throw new Authentication();
         return mapper.update(dto, n);
     }
 }
