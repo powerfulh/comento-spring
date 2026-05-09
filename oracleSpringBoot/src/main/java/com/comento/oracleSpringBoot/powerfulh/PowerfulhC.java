@@ -34,12 +34,6 @@ public class PowerfulhC {
 	final PowerfulMapper mapper;
 	final HeaderSetter headerSetter;
 	
-	@PostMapping("login")
-	public int login(@Valid @RequestBody LoginVo lvo, @ApiIgnore HttpSession s) {
-		final int cnt = service.logicProc(lvo);
-		if(cnt == 1) s.setAttribute("sid", lvo.getId());
-		return cnt;
-	}
 	@GetMapping("member/{id}")
 	public MemberVo member(@PathVariable String id) {
 		return service.get(id);
