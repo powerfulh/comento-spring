@@ -7,4 +7,8 @@
 	<select id="select" resultType="com.comento.oracleSpringBoot.dto.song.Song">SELECT name, songBy, n FROM Song</select>
 
     <insert id="insertPlay" parameterType="map">INSERT into song_play (stage, song, play_date) VALUES (#{stage}, #{song}, #{playDate})</insert>
+
+    <update id="update">UPDATE Song SET name = #{dto.name}, songBy = #{dto.songBy} WHERE n = #{n}</update>
+
+    <insert id="insert" parameterType="com.comento.oracleSpringBoot.dto.song.Song">INSERT INTO Song (name, songBy) VALUES (#{name}, #{songBy})</insert>
 </mapper>

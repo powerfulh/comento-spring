@@ -4,18 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.comento.oracleSpringBoot.dto.song.Song;
 import com.comento.oracleSpringBoot.mapper.SongMapper;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 @RestController
 @RequestMapping("api/song")
-public class SongApi {
+public class SongApi extends RestApi {
 	@Autowired
 	SongMapper mapper;
-	
+
 	@GetMapping
 	public List<Song> get() {
 		return mapper.select();
@@ -31,5 +35,15 @@ public class SongApi {
             mapper.insertPlay(p);
         });
         return list.size();
+    }
+    @PutMapping("{n}")
+    public int put(@RequestBody Song dto, @PathVariable int n, @ApiIgnore HttpSession s) {
+        webRequester(s);
+        return mapper.update(dto, n);
+    }
+    @PostMapping
+    public int post(@RequestBody Song dto, @ApiIgnore HttpSession s) {
+        webRequester(s);
+        return mapper.insert(dto);
     }
 }

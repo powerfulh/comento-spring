@@ -86,7 +86,6 @@
 		targetInputJq.each(function() {
 			p[this.name] = this.type == 'checkbox' ? this.checked : this.value
 		})
-		p.gnb = {...p}
 		return p
 	}
 	function getList() {
@@ -100,9 +99,8 @@
 				})
 				$('tbody').append(temp.clone().removeClass('append-temp').keypress(function(e) {
 					if(e.key == 'Enter') {
-						return // todo
 						const p = toParam($(this).find('input'))
-						ajax(`/api/gnb/${item.n}`, res => {
+						ajax(`/api/song/${item.n}`, res => {
 							toast(`${res} 행 편집`)
 							if(res) getList()
 						}, p, ({responseText}) => {
@@ -131,10 +129,9 @@
 		getList()
 	}
 	function onEnterNew(e) {
-		return // todo
 		if(e.key == 'Enter') {
 			const p = toParam($('tr.new input'))
-			ajax('/api/gnb', res => {
+			ajax('/api/song', res => {
 				toast(`${res} 행 등록`)
 				if(res) getList()
 			}, p, ({responseText}) => {
