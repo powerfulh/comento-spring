@@ -16,7 +16,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("api/song")
-public class SongApi {
+public class SongApi extends RestApi {
 	@Autowired
 	SongMapper mapper;
 
@@ -38,12 +38,12 @@ public class SongApi {
     }
     @PutMapping("{n}")
     public int put(@RequestBody Song dto, @PathVariable int n, @ApiIgnore HttpSession s) {
-        if(s.getAttribute("sid") == null) throw new Authentication();
+        webRequester(s);
         return mapper.update(dto, n);
     }
     @PostMapping
     public int post(@RequestBody Song dto, @ApiIgnore HttpSession s) {
-        if(s.getAttribute("sid") == null) throw new Authentication();
+        webRequester(s);
         return mapper.insert(dto);
     }
 }
