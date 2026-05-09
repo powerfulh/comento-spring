@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.comento.oracleSpringBoot.mapper.PowerfulMapper;
 import com.comento.oracleSpringBoot.member.MemberS;
 import com.comento.oracleSpringBoot.member.entity.LoginVo;
-import com.comento.oracleSpringBoot.member.entity.MemberVo;
 import com.comento.oracleSpringBoot.service.HeaderSetter;
 
 import lombok.RequiredArgsConstructor;
@@ -34,10 +34,6 @@ public class PowerfulhC {
 	final PowerfulMapper mapper;
 	final HeaderSetter headerSetter;
 	
-	@GetMapping("member/{id}")
-	public MemberVo member(@PathVariable String id) {
-		return service.get(id);
-	}
 	@PostMapping("authenticate")
 	public boolean authenticate(@Valid @RequestBody LoginVo lvo, @ApiIgnore HttpSession s, HttpServletResponse res) {
 		try {			
