@@ -12,4 +12,5 @@ public interface SongMapper {
 	List<Song> select();
     void insertPlay(Map<String, Object> param);
     int update(Song dto, int n);
+    int insert(Song dto);
 }

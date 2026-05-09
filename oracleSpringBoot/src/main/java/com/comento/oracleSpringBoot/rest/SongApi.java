@@ -41,4 +41,9 @@ public class SongApi {
         if(s.getAttribute("sid") == null) throw new Authentication();
         return mapper.update(dto, n);
     }
+    @PostMapping
+    public int post(@RequestBody Song dto, @ApiIgnore HttpSession s) {
+        if(s.getAttribute("sid") == null) throw new Authentication();
+        return mapper.insert(dto);
+    }
 }
