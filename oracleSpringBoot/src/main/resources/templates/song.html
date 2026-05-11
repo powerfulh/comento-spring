@@ -133,7 +133,10 @@
 			const p = toParam($('tr.new input'))
 			ajax('/api/song', res => {
 				toast(`${res} 행 등록`)
-				if(res) getList()
+				if(res) {
+					$('tr.new input').val('')
+					getList()
+				}
 			}, p, ({responseText}) => {
 				toast(responseText, true)
 			}, null, 'POST')
