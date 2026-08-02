@@ -30,7 +30,7 @@ public class LoginC extends WebC {
 		return "index";
 	}
 	@GetMapping("out")
-	public RedirectView out(HttpSession s) {
+	public RedirectView out(@ApiIgnore HttpSession s) {
 		logger.info(s.getAttribute("sid") + " has logout");
 		s.removeAttribute("sid");
 		return new RedirectView("/");
