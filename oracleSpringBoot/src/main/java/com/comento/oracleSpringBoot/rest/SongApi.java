@@ -46,4 +46,19 @@ public class SongApi extends RestApi {
         webRequester(s);
         return mapper.insert(dto);
     }
+    @GetMapping("play")
+    public List<Map<String, Object>> getPlay(String from, String to, Integer stage) {
+        return mapper.selectPlay(toStorageDate(from), toStorageDate(to), stage);
+    }
+    @GetMapping("play/count")
+    public List<Map<String, Object>> getPlayCount(String from, String to, Integer stage) {
+        return mapper.selectPlayCount(toStorageDate(from), toStorageDate(to), stage);
+    }
+    @GetMapping("stage")
+    public List<Map<String, Object>> getStage() {
+        return mapper.selectStage();
+    }
+    private String toStorageDate(String iso) {
+        return iso == null || iso.isEmpty() ? null : iso.replace("-", "").substring(2);
+    }
 }
