@@ -14,4 +14,6 @@ public interface SongMapper {
     int update(Song dto, int n);
     int insert(Song dto);
     List<Map<String, Object>> selectPlay(String from, String to, Integer stage);
+    List<Map<String, Object>> selectPlayCount(String from, String to, Integer stage);
+    List<Map<String, Object>> selectStage();
 }

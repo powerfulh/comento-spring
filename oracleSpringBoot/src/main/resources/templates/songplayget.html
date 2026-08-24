@@ -31,7 +31,13 @@
 				<h3 id="view-title" class="w3-teal w3-card"></h3>
 				<div class="filter w3-card w3-padding w3-white">
 					<label>재생일 <input type="date" id="from" onkeypress="onFilterEnter(event)"> ~ <input type="date" id="to" onkeypress="onFilterEnter(event)"></label>
-					<label>스테이지 <input type="number" id="stage" style="width: 80px" onkeypress="onFilterEnter(event)"></label>
+					<label>스테이지
+						<select id="stage">
+							<option value="">전체</option>
+						</select>
+					</label>
+					<label><input type="radio" name="mode" value="list" checked> 목록</label>
+					<label><input type="radio" name="mode" value="count"> 그룹별 재생 횟수</label>
 					<button id="search" class="w3-btn w3-blue">조회</button>
 				</div>
 				<table class="w3-card">
@@ -39,7 +45,7 @@
 						<tr>
 							<th>곡</th>
 							<th>스테이지</th>
-							<th>재생일</th>
+							<th id="value-col">재생일</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
@@ -66,6 +72,13 @@
 			method: 'GET'
 		})
 	}
+	function loadStage() {
+		ajax('/api/song/stage', res => {
+			res.forEach(item => {
+				$('#stage').append($('<option>').val(item.n).text(item.name))
+			})
+		})
+	}
 	function loadList() {
 		const p = {}
 		const from = $('#from').val()
@@ -74,13 +87,16 @@
 		if(from) p.from = from
 		if(to) p.to = to
 		if(stage) p.stage = stage
-		ajax('/api/song/play', res => {
+		const mode = $('input[name=mode]:checked').val()
+		const url = mode == 'count' ? '/api/song/play/count' : '/api/song/play'
+		$('#value-col').text(mode == 'count' ? '재생 횟수' : '재생일')
+		ajax(url, res => {
 			$('tbody').empty()
 			res.forEach(item => {
 				const tr = $('<tr>')
 				tr.append($('<td>').text(item.songName))
 				tr.append($('<td>').text(item.stage))
-				tr.append($('<td>').text(fmtDate(item.playDate)))
+				tr.append($('<td>').text(mode == 'count' ? item.cnt : fmtDate(item.playDate)))
 				$('tbody').append(tr)
 			})
 		}, p)
@@ -92,6 +108,9 @@
 		document.title = viewTitle
 		$('#view-title').text(viewTitle)
 		$('#search').click(loadList)
+		$('#stage').change(loadList)
+		$('input[name=mode]').change(loadList)
+		loadStage()
 		loadList()
 	}
 
