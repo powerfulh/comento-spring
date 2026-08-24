@@ -26,7 +26,7 @@
     </select>
 
     <select id="selectPlayCount" resultType="map">
-        SELECT s.name songName, st.name stage, COUNT(*) cnt
+        SELECT s.name songName, st.name stage, COUNT(*) cnt, MAX(sp.play_date) lastDate
         FROM song_play sp
         JOIN Song s ON sp.song = s.n
         JOIN song_stage st ON sp.stage = st.n
@@ -36,7 +36,7 @@
             <if test="stage != null"> AND sp.stage = #{stage}</if>
         </where>
         GROUP BY sp.song, sp.stage, s.name, st.name
-        ORDER BY cnt DESC
+        ORDER BY cnt ASC
     </select>
 
     <select id="selectStage" resultType="map">SELECT n, name FROM song_stage ORDER BY n</select>

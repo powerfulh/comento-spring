@@ -46,6 +46,7 @@
 							<th>곡</th>
 							<th>스테이지</th>
 							<th id="value-col">재생일</th>
+							<th class="count-only" style="display:none">최근 재생일</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
@@ -90,6 +91,7 @@
 		const mode = $('input[name=mode]:checked').val()
 		const url = mode == 'count' ? '/api/song/play/count' : '/api/song/play'
 		$('#value-col').text(mode == 'count' ? '재생 횟수' : '재생일')
+		$('.count-only').toggle(mode == 'count')
 		ajax(url, res => {
 			$('tbody').empty()
 			res.forEach(item => {
@@ -97,6 +99,7 @@
 				tr.append($('<td>').text(item.songName))
 				tr.append($('<td>').text(item.stage))
 				tr.append($('<td>').text(mode == 'count' ? item.cnt : fmtDate(item.playDate)))
+				if(mode == 'count') tr.append($('<td>').text(fmtDate(item.lastDate)))
 				$('tbody').append(tr)
 			})
 		}, p)
