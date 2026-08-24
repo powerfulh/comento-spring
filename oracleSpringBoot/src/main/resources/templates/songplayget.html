@@ -96,7 +96,9 @@
 			$('tbody').empty()
 			res.forEach(item => {
 				const tr = $('<tr>')
-				tr.append($('<td>').text(item.songName))
+				const nameCell = $('<td>').text(item.songName)
+				nameCell.append($('<i>').addClass('fa fa-copy').css({cursor: 'pointer', 'margin-left': '6px'}).attr('title', '곡명 복사').click(() => copyName(item.songName)))
+				tr.append(nameCell)
 				tr.append($('<td>').text(item.stage))
 				tr.append($('<td>').text(mode == 'count' ? item.cnt : fmtDate(item.playDate)))
 				if(mode == 'count') tr.append($('<td>').text(fmtDate(item.lastDate)))
@@ -106,6 +108,15 @@
 	}
 	function onFilterEnter(e) {
 		if(e.key == 'Enter') loadList()
+	}
+	function toast(msg, red) {
+		const wrap = document.createElement('div')
+		const span = document.createElement('span')
+		$('body').append($(wrap).addClass('float-toast').append($(span).addClass(`w3-card ${red ? 'w3-red' : 'w3-green'} w3-padding`).text(msg)))
+		setTimeout(() => $(wrap).remove(), 3000)
+	}
+	function copyName(name) {
+		navigator.clipboard.writeText(name).then(() => toast(`${name} 복사됨`), () => toast('복사 실패', true))
 	}
 	function initView() {
 		document.title = viewTitle
