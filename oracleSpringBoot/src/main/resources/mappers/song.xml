@@ -13,9 +13,10 @@
     <insert id="insert" parameterType="com.comento.oracleSpringBoot.dto.song.Song">INSERT INTO Song (name, songBy) VALUES (#{name}, #{songBy})</insert>
 
     <select id="selectPlay" resultType="map">
-        SELECT s.name songName, sp.stage, sp.play_date playDate
+        SELECT s.name songName, st.name stage, sp.play_date playDate
         FROM song_play sp
         JOIN Song s ON sp.song = s.n
+        JOIN song_stage st ON sp.stage = st.n
         <where>
             <if test="from != null and from != ''"> AND sp.play_date &gt;= #{from}</if>
             <if test="to != null and to != ''"> AND sp.play_date &lt;= #{to}</if>

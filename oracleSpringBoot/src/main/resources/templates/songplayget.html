@@ -30,8 +30,8 @@
 			<section class="w3-left w3-padding">
 				<h3 id="view-title" class="w3-teal w3-card"></h3>
 				<div class="filter w3-card w3-padding w3-white">
-					<label>재생일 <input type="date" id="from"> ~ <input type="date" id="to"></label>
-					<label>스테이지 <input type="number" id="stage" style="width: 80px"></label>
+					<label>재생일 <input type="date" id="from" onkeypress="onFilterEnter(event)"> ~ <input type="date" id="to" onkeypress="onFilterEnter(event)"></label>
+					<label>스테이지 <input type="number" id="stage" style="width: 80px" onkeypress="onFilterEnter(event)"></label>
 					<button id="search" class="w3-btn w3-blue">조회</button>
 				</div>
 				<table class="w3-card">
@@ -84,6 +84,9 @@
 				$('tbody').append(tr)
 			})
 		}, p)
+	}
+	function onFilterEnter(e) {
+		if(e.key == 'Enter') loadList()
 	}
 	function initView() {
 		document.title = viewTitle
