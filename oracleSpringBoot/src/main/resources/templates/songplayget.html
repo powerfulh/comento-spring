@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/w3.css">
+		<link rel="stylesheet" href="/common.css">
+		<script src="/jq.js"></script>
+		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="a"></script>
+		<style type="text/css">
+		th, td {
+			border: 1px solid black;
+			padding: 4px;
+		}
+		.filter {
+			margin-bottom: 8px;
+		}
+		.filter label {
+			margin-right: 12px;
+		}
+		</style>
+	</head>
+
+	<body class="w3-light-gray">
+		<th:block th:replace="fragment/common :: header" />
+
+		<main class="w3-clear">
+			<th:block th:replace="fragment/common :: lnb" />
+
+			<section class="w3-left w3-padding">
+				<h3 id="view-title" class="w3-teal w3-card"></h3>
+				<div class="filter w3-card w3-padding w3-white">
+					<label>재생일 <input type="date" id="from"> ~ <input type="date" id="to"></label>
+					<label>스테이지 <input type="number" id="stage" style="width: 80px"></label>
+					<button id="search" class="w3-btn w3-blue">조회</button>
+				</div>
+				<table class="w3-card">
+					<thead class="w3-aqua">
+						<tr>
+							<th>곡</th>
+							<th>스테이지</th>
+							<th>재생일</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</section>
+		</main>
+
+		<th:block th:replace="fragment/common :: footer" />
+	</body>
+
+	<script type="text/javascript">
+	const viewTitle = 'Song play list'
+
+	function fmtDate(d) {
+		if(!d || d.length < 6) return d
+		return `20${d.slice(0,2)}-${d.slice(2,4)}-${d.slice(4,6)}`
+	}
+	function ajax(url, successCb, param, failCb) {
+		$.ajax({
+			url: url,
+			data: param,
+			success: successCb,
+			error: failCb,
+			method: 'GET'
+		})
+	}
+	function loadList() {
+		const p = {}
+		const from = $('#from').val()
+		const to = $('#to').val()
+		const stage = $('#stage').val()
+		if(from) p.from = from
+		if(to) p.to = to
+		if(stage) p.stage = stage
+		ajax('/api/song/play', res => {
+			$('tbody').empty()
+			res.forEach(item => {
+				const tr = $('<tr>')
+				tr.append($('<td>').text(item.songName))
+				tr.append($('<td>').text(item.stage))
+				tr.append($('<td>').text(fmtDate(item.playDate)))
+				$('tbody').append(tr)
+			})
+		}, p)
+	}
+	function initView() {
+		document.title = viewTitle
+		$('#view-title').text(viewTitle)
+		$('#search').click(loadList)
+		loadList()
+	}
+
+	initView()
+	</script>
+</html>

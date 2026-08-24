@@ -11,4 +11,16 @@
     <update id="update">UPDATE Song SET name = #{dto.name}, songBy = #{dto.songBy} WHERE n = #{n}</update>
 
     <insert id="insert" parameterType="com.comento.oracleSpringBoot.dto.song.Song">INSERT INTO Song (name, songBy) VALUES (#{name}, #{songBy})</insert>
+
+    <select id="selectPlay" resultType="map">
+        SELECT s.name songName, sp.stage, sp.play_date playDate
+        FROM song_play sp
+        JOIN Song s ON sp.song = s.n
+        <where>
+            <if test="from != null and from != ''"> AND sp.play_date &gt;= #{from}</if>
+            <if test="to != null and to != ''"> AND sp.play_date &lt;= #{to}</if>
+            <if test="stage != null"> AND sp.stage = #{stage}</if>
+        </where>
+        ORDER BY sp.play_date DESC
+    </select>
 </mapper>
