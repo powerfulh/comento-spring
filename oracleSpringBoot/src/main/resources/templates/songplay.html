@@ -47,7 +47,7 @@
                 <div style="display: inline-block; vertical-align: top">
                     <ol class="selected-songs"></ol>
                     <input type="date" name="playDate" class="param" onkeypress="postPlay(event)">
-                    <input type="number" name="stage" value="1" class="param" onkeypress="postPlay(event)">
+                    <select name="stage" class="param"></select>
                 </div>
 				<!-- 화면 끝 -->
 			</section>
@@ -116,15 +116,23 @@
 			})
 		})
 	}
+	function loadStage() {
+		ajax('/api/song/stage', res => {
+			res.forEach(item => {
+				$('select[name=stage]').append($('<option>').val(item.n).text(item.name))
+			})
+		}, null, null, null, 'GET')
+	}
 	function initView() {
 		document.title = viewTitle
 		$('#view-title').text(viewTitle)
-		
+
 		colList.forEach(item => {
 			const td = document.createElement('td')
 			td.setAttribute('class', item.name)
 			temp.append(td)
 		})
+		loadStage()
 		getList()
 	}
 	function toast(msg, red) {
@@ -138,7 +146,7 @@
 	    if(e.key == 'Enter') {
 	        ajax(`/api/song/play`, res => {
 							toast(`${res} 행 처리`)
-						}, {...toParam($('input.param')), list: selectList}, ({responseText}) => {
+						}, {...toParam($('.param')), list: selectList}, ({responseText}) => {
 							toast(responseText, true)
 						}, null, 'POST')
 	    }
