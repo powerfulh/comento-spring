@@ -58,6 +58,16 @@ public class SongApi extends RestApi {
     public List<Map<String, Object>> getStage() {
         return mapper.selectStage();
     }
+    @PostMapping("stage")
+    public int postStage(@RequestBody Map<String, Object> dto, @ApiIgnore HttpSession s) {
+        webRequester(s);
+        return mapper.insertStage((String) dto.get("name"));
+    }
+    @PutMapping("stage/{n}")
+    public int putStage(@PathVariable int n, @RequestBody Map<String, Object> dto, @ApiIgnore HttpSession s) {
+        webRequester(s);
+        return mapper.updateStage(n, (String) dto.get("name"));
+    }
     private String toStorageDate(String iso) {
         return iso == null || iso.isEmpty() ? null : iso.replace("-", "").substring(2);
     }

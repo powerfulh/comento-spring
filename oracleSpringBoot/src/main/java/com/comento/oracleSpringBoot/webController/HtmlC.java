@@ -41,4 +41,8 @@ public class HtmlC extends WebC {
     public String songplayget() {
         return "songplayget";
     }
+    @GetMapping("songstage")
+    public String songstage() {
+        return "songstage";
+    }
 }

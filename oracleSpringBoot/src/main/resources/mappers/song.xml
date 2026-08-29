@@ -40,4 +40,8 @@
     </select>
 
     <select id="selectStage" resultType="map">SELECT n, name FROM song_stage ORDER BY n</select>
+
+    <insert id="insertStage">INSERT INTO song_stage (name) VALUES (#{name})</insert>
+
+    <update id="updateStage">UPDATE song_stage SET name = #{name} WHERE n = #{n}</update>
 </mapper>
