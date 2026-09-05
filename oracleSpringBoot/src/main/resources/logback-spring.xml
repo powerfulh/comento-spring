@@ -13,7 +13,7 @@
             <pattern>%d{HH:mm:ss.SSS,Asia/Seoul} %-7level [%thread] [%logger{40}] - %msg%n</pattern>
         </encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<totalSizeCap>1GB</totalSizeCap>
+			<totalSizeCap>100MB</totalSizeCap>
 			<fileNamePattern>log/%d{yyyy-MM-dd}.log</fileNamePattern>
 		</rollingPolicy>
 	</appender>
