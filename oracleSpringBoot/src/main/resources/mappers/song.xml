@@ -28,7 +28,7 @@
     <select id="selectPlayCount" resultType="map">
         SELECT s.name songName, st.name stage, COUNT(*) cnt, MAX(sp.play_date) lastDate
         FROM song_play sp
-        JOIN Song s ON sp.song = s.n
+        JOIN Song s ON sp.song = s.n and s.activate = true
         JOIN song_stage st ON sp.stage = st.n
         <where>
             <if test="from != null and from != ''"> AND sp.play_date &gt;= #{from}</if>
