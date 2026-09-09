@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.comento.oracleSpringBoot.mapper.PowerfulMapper;
 import com.comento.oracleSpringBoot.member.MemberS;
 import com.comento.oracleSpringBoot.member.entity.LoginVo;
-import com.comento.oracleSpringBoot.member.entity.MemberVo;
 import com.comento.oracleSpringBoot.service.HeaderSetter;
 
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:5173", "https://powerfulh.github.io"}, allowCredentials = "true")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @RequestMapping("powerful")
 @RequiredArgsConstructor
 public class PowerfulhC {
@@ -34,16 +34,6 @@ public class PowerfulhC {
 	final PowerfulMapper mapper;
 	final HeaderSetter headerSetter;
 	
-	@PostMapping("login")
-	public int login(@Valid @RequestBody LoginVo lvo, @ApiIgnore HttpSession s) {
-		final int cnt = service.logicProc(lvo);
-		if(cnt == 1) s.setAttribute("sid", lvo.getId());
-		return cnt;
-	}
-	@GetMapping("member/{id}")
-	public MemberVo member(@PathVariable String id) {
-		return service.get(id);
-	}
 	@PostMapping("authenticate")
 	public boolean authenticate(@Valid @RequestBody LoginVo lvo, @ApiIgnore HttpSession s, HttpServletResponse res) {
 		try {			

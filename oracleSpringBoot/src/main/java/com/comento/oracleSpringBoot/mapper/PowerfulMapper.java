@@ -1,9 +1,11 @@
-package com.comento.oracleSpringBoot.powerfulh;
+package com.comento.oracleSpringBoot.mapper;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import com.comento.oracleSpringBoot.powerfulh.PowerfulApi;
 
 @Mapper
 public interface PowerfulMapper {

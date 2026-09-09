@@ -3,7 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.comento.oracleSpringBoot.powerfulh.PowerfulMapper">	
+<mapper namespace="com.comento.oracleSpringBoot.mapper.PowerfulMapper">
 	<insert id="insert">
 		INSERT into powerful_api(name, owner) values(#{name}, #{owner})
 	</insert>

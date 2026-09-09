@@ -14,6 +14,8 @@ import com.comento.oracleSpringBoot.member.MemberS;
 import com.comento.oracleSpringBoot.member.entity.LoginVo;
 import com.comento.oracleSpringBoot.member.entity.MemberVo;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 @Controller
 @RequestMapping("login")
 public class LoginC extends WebC {
@@ -28,13 +30,13 @@ public class LoginC extends WebC {
 		return "index";
 	}
 	@GetMapping("out")
-	public RedirectView out(HttpSession s) {
+	public RedirectView out(@ApiIgnore HttpSession s) {
 		logger.info(s.getAttribute("sid") + " has logout");
 		s.removeAttribute("sid");
 		return new RedirectView("/");
 	}
 	@GetMapping("info")
-	public String myInfo(HttpSession s, Model model) {
+	public String myInfo(@ApiIgnore HttpSession s, @ApiIgnore Model model) {
 		String sid = (String) s.getAttribute("sid");
 		System.out.println("SID: " + sid);
 		MemberVo vo = ms.get(sid);

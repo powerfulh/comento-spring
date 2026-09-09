@@ -37,4 +37,12 @@ public class HtmlC extends WebC {
     public String songplay(HttpSession s, Model m) {
         return loginCheck(s, m, "songplay");
     }
+    @GetMapping("songplayget")
+    public String songplayget() {
+        return "songplayget";
+    }
+    @GetMapping("songstage")
+    public String songstage() {
+        return "songstage";
+    }
 }
