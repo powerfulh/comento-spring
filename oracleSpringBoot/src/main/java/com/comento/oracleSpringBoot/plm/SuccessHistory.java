@@ -25,14 +25,6 @@ final class BranchKey {
         this.n = n;
     }
 
-    public String src() {
-        return src;
-    }
-
-    public int n() {
-        return n;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;

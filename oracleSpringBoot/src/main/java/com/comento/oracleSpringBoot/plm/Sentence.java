@@ -18,10 +18,6 @@ public class Sentence extends ArrayList<Toke> {
         contextPoint = p + list.stream().mapToInt(Toke::getRightContext).sum();
     }
 
-    public <T extends Context> T getContext(int li, int ri, List<T> list) {
-        return list.stream().filter(StaticUtilFromModel.getContextFinder(get(li).getN(), get(ri).getN())).findAny().orElse(null);
-    }
-
     public int getContextPoint() {
         return contextPoint;
     }
