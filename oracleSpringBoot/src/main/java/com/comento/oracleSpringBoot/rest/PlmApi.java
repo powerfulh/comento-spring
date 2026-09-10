@@ -112,9 +112,4 @@ public class PlmApi extends RestApi {
         requester(s);
         mapper.insertUnderstandBox(box.src);
     }
-    @GetMapping("fix/space")
-    public Object getFixed(String pureSrc) {
-        // 지금은 자체 구현이지만 나중엔 모델 부르게 해야 됨
-        return service.understand(pureSrc);
-    }
 }

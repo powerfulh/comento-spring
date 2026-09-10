@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.comento.oracleSpringBoot.service.PlmService;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ public class PowerfulhC {
 	final MemberS service;
 	final PowerfulMapper mapper;
 	final HeaderSetter headerSetter;
+	final PlmService plmService;
 	
 	@PostMapping("authenticate")
 	public boolean authenticate(@Valid @RequestBody LoginVo lvo, @ApiIgnore HttpSession s, HttpServletResponse res) {
@@ -64,5 +66,10 @@ public class PowerfulhC {
 	public int putApi(@RequestBody @Valid PowerfulApi a, @ApiIgnore HttpSession s) {
 		a.setOwner(requester(s));
 		return mapper.update(a);
+	}
+	@GetMapping("fix/space")
+	public Object getFixed(String pureSrc) {
+		// 지금은 자체 구현이지만 나중엔 모델 부르게 해야 됨
+		return plmService.understand(pureSrc);
 	}
 }
