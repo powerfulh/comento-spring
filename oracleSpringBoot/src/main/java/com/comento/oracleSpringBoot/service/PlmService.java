@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class PlmService {
     final PlmMapper mapper;
     final Bank bank;
-    final ReplaceRepeatedChars replaceRepeatedChars;
+    final StringHelper stringHelper;
     final ContextCore contextCore;
 
 //    final String jpaServerCommit = "http://localhost:8080/llm/commit";
@@ -50,7 +50,7 @@ public class PlmService {
     public List<Sentence> understand(String pureSrc) {
         List<Sentence> sentenceList = new ArrayList<>();
         SuccessHistory successHistory = new SuccessHistory();
-        final UnderstandTarget understandTarget = new UnderstandTarget(replaceRepeatedChars.replaceRepeatedChars(pureSrc, bank.symbols));
+        final UnderstandTarget understandTarget = new UnderstandTarget(stringHelper.replaceRepeatedChars(pureSrc, bank.symbols));
         List<Toke> openerList = bank.wordList.stream().map(understandTarget::getAvailableToke).filter(Objects::nonNull).collect(Collectors.toList());
 //        logger.info("opener cnt: {}", openerList.size());
         Map<String, List<Word>> failHistory = new HashMap<>();

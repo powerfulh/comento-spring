@@ -8,7 +8,7 @@ import java.util.Collections;
  * @author ChatGPT
  */
 @Service
-public class ReplaceRepeatedChars {
+public class StringHelper {
     void appendChars(StringBuilder sb, char ch, int count, char[] targets) {
         if (contains(targets, ch) && count >= 3) {
             sb.append(String.join("", Collections.nCopies(2, String.valueOf(ch)))); // 2번만 추가
