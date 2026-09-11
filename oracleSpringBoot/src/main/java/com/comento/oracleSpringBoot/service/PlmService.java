@@ -73,7 +73,7 @@ public class PlmService {
 //        logger.info("Understand success: sentence: {}, total length: {}", sentenceList.size(), sentenceList.stream().mapToInt(List::size).sum());
         return sentenceList.size() > 9 ? sentenceList.subList(0, 9) : sentenceList;
     }
-    public String fixSpace(String pureSrc) {
+    public Map<String, Object> fixSpace(String pureSrc) {
         final List<Sentence> understand = understand(pureSrc); // 지금은 자체 구현이지만 나중엔 모델 부르게 해야 됨
         if(understand.isEmpty()) throw new RuntimeException("모델이 문장을 이해하지 못했습니다 ㅠ");
         final Sentence sentence = understand.get(0);
@@ -100,6 +100,9 @@ public class PlmService {
             if(context.getSpace() > context.getCnt()) fixing.append(" ");
             fixing.append(next.getWord());
         }
-        return fixing.toString();
+        final Map<String, Object> map = new HashMap<>();
+        map.put("s", sentence);
+        map.put("result", fixing.toString());
+        return map;
     }
 }

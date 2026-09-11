@@ -69,7 +69,7 @@ public class PowerfulhC {
 		return mapper.update(a);
 	}
 	@GetMapping("fix/space")
-	public Object getFixed(String pureSrc) {
+	public Map<String, Object> getFixed(String pureSrc) {
         try {
             return plmService.fixSpace(pureSrc.replaceAll(" ", ""));
         } catch (PlmException e) {
