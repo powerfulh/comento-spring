@@ -40,6 +40,6 @@ public class Bank {
         compoundList = mapper.selectCompound().stream().map(item -> (Compound) new CompoundMap(item)).collect(Collectors.toList());
 //        log.info("Bank updated: words={}, contexts={}, compounds={}", wordList.size(), contextList.size(), compoundList.size());
         // fix space api
-        spaceMap = powerfulMapper.sumUltronAnswerSpaceCase().stream().collect(Collectors.toMap(k -> k.leftword, v -> v.cnt == 0 && v.space > 0));
+        spaceMap = powerfulMapper.sumUltronAnswerSpaceCase().stream().collect(Collectors.toMap(k -> k.leftword, v -> v.space > v.cnt * 10));
     }
 }
