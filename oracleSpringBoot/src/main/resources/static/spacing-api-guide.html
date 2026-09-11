@@ -213,10 +213,8 @@
     color:var(--ink-soft);
     margin-bottom:8px;
   }
-  textarea{
+  input[type="text"]{
     width:100%;
-    min-height:96px;
-    resize:vertical;
     font-family:var(--sans);
     font-size:15px;
     padding:14px;
@@ -225,7 +223,7 @@
     background:var(--paper);
     color:var(--ink);
   }
-  textarea:focus, button:focus-visible{
+  input[type="text"]:focus, button:focus-visible{
     outline:2px solid var(--red);
     outline-offset:1px;
   }
@@ -324,6 +322,14 @@
     padding:14px 16px;
   }
   .error-box.show{display:block;}
+  .error-box pre{
+    margin:10px 0 0;
+    white-space:pre-wrap;
+    word-break:break-word;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--red);
+  }
 
   footer{
     margin-top:70px;
@@ -398,9 +404,9 @@
     <h2>직접 호출해보기</h2>
     <div class="panel">
       <label for="pureSrc">pureSrc</label>
-      <textarea id="pureSrc" placeholder="예) 나는어제친구와함께영화를보러갔다">나는어제친구와함께영화를보러갔다</textarea>
+      <input type="text" id="pureSrc" placeholder="예) 나는어제친구와함께영화를보러갔다" value="나는어제친구와함께영화를보러갔다">
       <div class="panel-foot">
-        <span class="hint">Enter로 문단 구분, 실제 서버로 요청이 전송됩니다.</span>
+        <span class="hint">Enter를 누르면 실제 서버로 요청이 전송됩니다.</span>
         <button id="runBtn" type="button">교정 실행</button>
       </div>
 
@@ -455,10 +461,37 @@
     try{
       const url = ENDPOINT + '?pureSrc=' + encodeURIComponent(text);
       const res = await fetch(url);
-      if(!res.ok){
-        throw new Error('서버 응답 오류 (status ' + res.status + ')');
+      const rawBody = await res.text();
+
+      // 코드 500: 파싱하지 않고 응답을 그대로 표시
+      if(res.status === 500){
+        errorBox.innerHTML = '서버 오류 (status 500) · 응답 원문<pre></pre>';
+        errorBox.querySelector('pre').textContent = rawBody;
+        errorBox.classList.add('show');
+        return;
       }
-      const data = await res.json();
+
+      let data;
+      try{
+        data = JSON.parse(rawBody);
+      }catch(parseErr){
+        errorBox.textContent = '응답을 해석할 수 없습니다 (status ' + res.status + ')';
+        errorBox.classList.add('show');
+        return;
+      }
+
+      // 코드 200 && result 키가 없음: 교정 실패로 표시
+      if(res.status === 200 && !Object.prototype.hasOwnProperty.call(data, 'result')){
+        errorBox.textContent = '교정에 실패했습니다.';
+        errorBox.classList.add('show');
+        return;
+      }
+
+      if(!res.ok){
+        errorBox.textContent = '요청에 실패했습니다 (status ' + res.status + ')';
+        errorBox.classList.add('show');
+        return;
+      }
 
       resultText.textContent = data.result !== undefined ? data.result : '(result 필드 없음)';
 
@@ -484,7 +517,7 @@
 
       resultBox.classList.add('show');
     }catch(err){
-      errorBox.textContent = '요청에 실패했습니다: ' + err.message + ' (CORS 정책 또는 네트워크 문제일 수 있습니다)';
+      errorBox.textContent = '요청에 실패했습니다: ' + err.message;
       errorBox.classList.add('show');
     }finally{
       runBtn.disabled = false;
@@ -494,7 +527,8 @@
 
   runBtn.addEventListener('click', runTest);
   input.addEventListener('keydown', (e) => {
-    if(e.key === 'Enter' && (e.metaKey || e.ctrlKey)){
+    if(e.key === 'Enter'){
+      e.preventDefault();
       runTest();
     }
   });
