@@ -14,7 +14,7 @@
 		UPDATE powerful_api set data = #{data}, updated_date = NOW() WHERE name = #{name} and owner = #{owner}
 	</update>
 
-    <select id="sumSpaceCase" resultType="com.comento.oracleSpringBoot.powerfulh.SpaceCase">
+    <select id="sumSpaceCase" resultType="com.comento.oracleSpringBoot.powerfulh.plm.SpaceCase">
         select SUM(t.cnt) cnt, SUM(t.`space`) space from plm_context t, llm_word w
         where t.rightword = w.n
         and t.leftword = #{n}

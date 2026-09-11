@@ -1,4 +1,4 @@
-package com.comento.oracleSpringBoot.powerfulh;
+package com.comento.oracleSpringBoot.powerfulh.plm;
 
 public class SpaceCase {
     public Integer cnt;

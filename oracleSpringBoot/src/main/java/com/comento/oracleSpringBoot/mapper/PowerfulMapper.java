@@ -3,7 +3,7 @@ package com.comento.oracleSpringBoot.mapper;
 import java.util.List;
 import java.util.Map;
 
-import com.comento.oracleSpringBoot.powerfulh.SpaceCase;
+import com.comento.oracleSpringBoot.powerfulh.plm.SpaceCase;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.comento.oracleSpringBoot.powerfulh.PowerfulApi;

@@ -7,7 +7,7 @@ import com.comento.oracleSpringBoot.mapper.PowerfulMapper;
 import com.comento.oracleSpringBoot.plm.*;
 import com.comento.oracleSpringBoot.plm.entity.Context;
 import com.comento.oracleSpringBoot.plm.entity.Word;
-import com.comento.oracleSpringBoot.powerfulh.SpaceCase;
+import com.comento.oracleSpringBoot.powerfulh.plm.SpaceCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
