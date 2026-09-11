@@ -63,7 +63,7 @@ public class PlmService {
 //            logger.info("understanding with opener: {}", opener.getWord());
             List<Toke> understandList = new ArrayList<>();
             try {
-                StaticUtilFromModel.separateToken(understandList, understandTarget.pushToke(understandList, opener), new Dict(bank.wordList), failHistory, bank.contextList, sentenceList, bank.compoundList, successHistory, contextCore);
+                StaticUtilFromModel.separateToken(understandList, understandTarget.pushToke(understandList, opener), new Dict(bank.wordList), failHistory, bank.contextList, sentenceList, bank.compoundList, successHistory, contextCore, bank.spaceMap);
             } catch (PlmException plmException) {
                 e = plmException;
             }
