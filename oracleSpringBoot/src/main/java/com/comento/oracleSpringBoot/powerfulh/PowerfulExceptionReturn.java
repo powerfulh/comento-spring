@@ -28,6 +28,7 @@ public class PowerfulExceptionReturn {
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public String unexpected(RuntimeException e) {
+        e.printStackTrace();
 		return e.getMessage();
 	}
 }
