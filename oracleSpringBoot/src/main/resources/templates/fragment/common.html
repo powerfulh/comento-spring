@@ -32,9 +32,13 @@
 		</th:block>
 		<th:block th:unless="${session.sid}">
 			<form action="/login" method="post">
-				<input placeholder="ID" required name="id" style="width: 100%">
+				<label>
+					<input placeholder="ID" required name="id" style="width: 100%">
+				</label>
 				<br>
-				<input placeholder="PW" required name="pw" style="width: 100%" type="password">
+				<label>
+					<input placeholder="PW" required name="pw" style="width: 100%" type="password">
+				</label>
 				<br>
 				<input type="submit">
 			</form>
@@ -62,10 +66,10 @@
 			</script>
 		</th:block>
 		<script>
-		function initGnb() {					
+		function initGnb() {
 			const temp = {}
-			$('.template').each(i => {
-				temp[$($('.template')[i]).data('temp')] = $('.template')[i]
+			$('.template').each(function () {
+				temp[$(this).data('temp')] = this
 			})
 		
 			$.ajax({
