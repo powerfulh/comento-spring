@@ -16,7 +16,8 @@ public class StaticUtilFromModel {
         return item -> item.getLeftword() == lw && item.getRightword() == rw;
     }
 
-    public static void separateToken(List<Toke> understandList, UnderstandTarget src, final Dict wordList, Map<String, List<Word>> failHistory, List<Context> contextList, List<Sentence> sentenceList, List<Compound> compoundList, SuccessHistory successHistory, ContextCore contextCore) {
+    // fix space api 를 위해 `spaceMap` 인자 추가
+    public static void separateToken(List<Toke> understandList, UnderstandTarget src, final Dict wordList, Map<String, List<Word>> failHistory, List<Context> contextList, List<Sentence> sentenceList, List<Compound> compoundList, SuccessHistory successHistory, ContextCore contextCore, Map<Integer, Boolean> spaceMap) {
         if(src.success()) sentenceList.add(new Sentence(understandList, contextList));
         else {
             Toke lastUnderstand = understandList.get(understandList.size() - 1);
@@ -34,7 +35,8 @@ public class StaticUtilFromModel {
             final List<Word> page = wordList.book.get(src.getRight().charAt(0));
             List<Toke> sameList = page == null ? Collections.emptyList() : page.stream()
                     .map(item -> {
-                        Toke toke = src.getAvailableToke(item);
+                        final boolean shouldSpace = spaceMap.getOrDefault(item.getN(), false);
+                        Toke toke = src.getAvailableToke(item, shouldSpace);
                         if(toke == null || understandList.isEmpty()) return toke;
                         try {
                             contextCore.rightContext(toke, lastUnderstand, toke, contextList, compoundList, wordList, lastUnderstand.isRightSpace(), lastUnderstand.otherOption, 0);
@@ -58,7 +60,7 @@ public class StaticUtilFromModel {
                 failHistory.computeIfAbsent(src.getRight(), k -> new ArrayList<>());
                 failHistory.get(src.getRight()).add(lastUnderstand);
                 understandList.remove(understandList.size() - 1);
-                separateToken(understandList, src, wordList, failHistory, contextList, sentenceList, compoundList, successHistory, contextCore);
+                separateToken(understandList, src, wordList, failHistory, contextList, sentenceList, compoundList, successHistory, contextCore, spaceMap);
                 return;
             }
             final Toke best = sameList.get(sameList.size() - 1);
@@ -68,14 +70,14 @@ public class StaticUtilFromModel {
                         .filter(item -> item.getRightContext() > 0)
                         .forEach(item -> {
                             List<Toke> clone = new ArrayList<>(understandList);
-                            separateToken(clone, src.clone().pushToke(clone, item), wordList, failHistory, contextList, sentenceList, compoundList, successHistory, contextCore);
+                            separateToken(clone, src.clone().pushToke(clone, item), wordList, failHistory, contextList, sentenceList, compoundList, successHistory, contextCore, spaceMap);
                         });
                 if(best.getRightContext() < 1) best.otherOption = true;
             }
             final String right = src.getRight();
             final int understandSize = understandList.size();
             final List<Integer> currentUnderstand = understandList.stream().map(Toke::getN).collect(Collectors.toList());
-            separateToken(understandList, src.pushToke(understandList, best), wordList, failHistory, contextList, sentenceList, compoundList, successHistory, contextCore);
+            separateToken(understandList, src.pushToke(understandList, best), wordList, failHistory, contextList, sentenceList, compoundList, successHistory, contextCore, spaceMap);
             List<Sentence> branchList = sentenceList.subList(ss, sentenceList.size());
             if(!branchList.isEmpty()) {
                 int keepCnt = 0;

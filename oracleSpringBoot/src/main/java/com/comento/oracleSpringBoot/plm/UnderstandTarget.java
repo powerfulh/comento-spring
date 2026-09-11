@@ -16,7 +16,11 @@ public class UnderstandTarget implements Cloneable {
     public String getRight() {
         return src.substring(currentCut);
     }
+    // fix space api 를 위해 `spaceMap` 인자 추가 및 기존 함수 오버로드
     public Toke getAvailableToke(Word word) {
+        return getAvailableToke(word, false);
+    }
+    public Toke getAvailableToke(Word word, boolean shouldSpace) {
         final String right = getRight();
         int ignored = 0;
         int wordSpace = 0;
@@ -41,7 +45,8 @@ public class UnderstandTarget implements Cloneable {
         int nextSpace = 0;
         final int consumedLength = word.getWord().length() + ignored - wordSpace;
         while (right.length() > consumedLength + nextSpace && right.charAt(consumedLength + nextSpace) == ' ') nextSpace++;
-        return new Toke(word, currentCut, currentCut + consumedLength + nextSpace, 0 < nextSpace);
+        // fix space api 를 위한 shouldSpace 처리 추가
+        return new Toke(word, currentCut, currentCut + consumedLength + nextSpace, shouldSpace || 0 < nextSpace);
     }
     public UnderstandTarget pushToke(List<Toke> understandList, Toke toke) {
         understandList.add(toke);

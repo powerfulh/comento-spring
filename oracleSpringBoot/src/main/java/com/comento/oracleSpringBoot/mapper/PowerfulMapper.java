@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.comento.oracleSpringBoot.powerfulh.plm.SpaceCase;
+import com.comento.oracleSpringBoot.powerfulh.plm.UltronAnswerCase;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.comento.oracleSpringBoot.powerfulh.PowerfulApi;
@@ -14,4 +15,5 @@ public interface PowerfulMapper {
 	int insert(String name, int owner);
 	int update(PowerfulApi a);
     SpaceCase sumSpaceCase(int n, String type);
+    List<UltronAnswerCase> sumUltronAnswerSpaceCase();
 }

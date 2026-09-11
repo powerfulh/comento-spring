@@ -20,4 +20,10 @@
         and t.leftword = #{n}
         and w.`type` = #{type}
     </select>
+    <select id="sumUltronAnswerSpaceCase" resultType="com.comento.oracleSpringBoot.powerfulh.plm.UltronAnswerCase">
+        select c.leftword, SUM(c.cnt) cnt, SUM(c.`space`) space from plm_ultron_sentence s, plm_ultron_context uc, plm_context c
+        where s.n = uc.sentence and uc.context = c.n
+        and s.target is not null
+        group by c.leftword
+    </select>
 </mapper>
