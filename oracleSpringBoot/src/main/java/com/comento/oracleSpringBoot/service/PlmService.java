@@ -87,8 +87,10 @@ public class PlmService {
             if(context == null) {
                 final List<Context> contextList = bank.contextList.stream().filter(item -> item.getLeftword() == current.getN()).collect(Collectors.toList());
                 if(contextList.isEmpty()) {
-                    System.out.println(current.getN() + " + " + next.getN());
-                    throw new RuntimeException("모델이 문맥을 이해하지 못했습니다 ㅠ");
+//                    System.out.println(current.getN() + " + " + next.getN());
+//                    throw new RuntimeException("모델이 문맥을 이해하지 못했습니다 ㅠ");
+                    fixing.append(next.getWord());
+                    continue;
                 }
                 final SpaceCase spaceCase = powerfulMapper.sumSpaceCase(current.getN(), next.getType());
                 if(spaceCase != null && spaceCase.expectSpace()) fixing.append(" ");

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.comento.oracleSpringBoot.plm.PlmException;
 import com.comento.oracleSpringBoot.service.PlmService;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -69,6 +70,10 @@ public class PowerfulhC {
 	}
 	@GetMapping("fix/space")
 	public Object getFixed(String pureSrc) {
-		return plmService.fixSpace(pureSrc.replaceAll(" ", ""));
+        try {
+            return plmService.fixSpace(pureSrc.replaceAll(" ", ""));
+        } catch (PlmException e) {
+            return e.info;
+        }
 	}
 }
