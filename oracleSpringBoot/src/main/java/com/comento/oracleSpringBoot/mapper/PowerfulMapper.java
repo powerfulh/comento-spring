@@ -1,13 +1,12 @@
 package com.comento.oracleSpringBoot.mapper;
 
-import java.util.List;
-import java.util.Map;
-
+import com.comento.oracleSpringBoot.powerfulh.PowerfulApi;
 import com.comento.oracleSpringBoot.powerfulh.plm.SpaceCase;
 import com.comento.oracleSpringBoot.powerfulh.plm.UltronAnswerCase;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.comento.oracleSpringBoot.powerfulh.PowerfulApi;
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface PowerfulMapper {
@@ -16,4 +15,5 @@ public interface PowerfulMapper {
 	int update(PowerfulApi a);
     SpaceCase sumSpaceCase(int n, String type);
     List<UltronAnswerCase> sumUltronAnswerSpaceCase();
+	List<Integer> selectSuffix();
 }

@@ -43,7 +43,7 @@ public class StaticUtilFromModel {
                         } catch (PlmException e) {
                             return null;
                         }
-                        return contextCore.lengthRate(toke); // 이 부분만 모델이랑 울트론이 다르다. 울트론과 동일한 동작
+                        return contextCore.step2(toke, lastUnderstand.isRightSpace()); // 이 부분만 모델이랑 울트론이 다르다. 모델과 동일한 동작이며 울트론도 따라와야 되지 않나 싶다
                     })
                     .filter(item -> {
                         if(item != null) {

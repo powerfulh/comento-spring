@@ -26,4 +26,13 @@
         and s.target is not null
         group by c.leftword
     </select>
+    <select id="selectSuffix" resultType="int">
+        select w.n from llm_word w, plm_context c
+        where w.n = c.rightword
+        and c.cnt > 0
+        and w.`type` = '무엇'
+        and CHAR_LENGTH(w.word) = 1
+        group by w.n
+        having COUNT(w.n) > 2
+    </select>
 </mapper>

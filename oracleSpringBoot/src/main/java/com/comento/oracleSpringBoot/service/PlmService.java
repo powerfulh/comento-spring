@@ -93,7 +93,7 @@ public class PlmService {
                     continue;
                 }
                 final SpaceCase spaceCase = powerfulMapper.sumSpaceCase(current.getN(), next.getType());
-                if(spaceCase != null && spaceCase.expectSpace()) fixing.append(" ");
+                if(spaceCase != null && !contextCore.suffix.contains(next.getN()) && spaceCase.expectSpace()) fixing.append(" "); // 둘째 조건: 접미면 붙게 하는 건데 사실 데이타 부족이 원인인거라 이게 맞는지 검토가 좀 필요하다
                 fixing.append(next.getWord());
                 continue;
             }

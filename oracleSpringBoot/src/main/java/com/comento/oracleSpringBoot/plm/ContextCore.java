@@ -1,5 +1,6 @@
 package com.comento.oracleSpringBoot.plm;
 
+import com.comento.oracleSpringBoot.mapper.PowerfulMapper;
 import com.comento.oracleSpringBoot.plm.entity.Compound;
 import com.comento.oracleSpringBoot.plm.entity.Context;
 import com.comento.oracleSpringBoot.plm.entity.Word;
@@ -14,6 +15,12 @@ public class ContextCore {
     final String zeroType = "0";
     final String thingType = "무엇";
     final List<Integer> issue29except = Arrays.asList(2506, 105, 3876);
+
+    public final Set<Integer> suffix;
+
+    public ContextCore(PowerfulMapper mapper) {
+        suffix = new HashSet<>(mapper.selectSuffix());
+    }
 
     int contextPoint(List<Context> contextList, int left, int right, boolean space, List<Integer> history) {
         history.add(right);
@@ -57,9 +64,11 @@ public class ContextCore {
                         rightContext(target, wordList.get(compound.getRightword()), right, contextList, compoundList, wordList, space, false, left.getWord().length()));
     }
 
-    public Toke lengthRate(Toke target) {
-        // 문맥이 없어 모든 분기가 탈락하고 마지막 놈만 잡히는 것을 방지하려고 최종적으로 후보의 길이가 긴 녀석을 고르도록 한다
-        if(target.rightContext == 0) target.rightContext = target.getWord().length() - 1;
+    public Toke step2(Toke target, boolean space) {
+        if(target.rightContext == 0) {
+            if (!space && suffix.contains(target.getN())) target.rightContext++;
+            else target.rightContext = target.getWord().length() - 1; // 끝까지 문맥이 없는 경우 길이가 긴 것이라도 고르게 하는 최종 조치
+        }
         return target;
     }
 }
