@@ -2,6 +2,7 @@ package com.comento.oracleSpringBoot.rest;
 
 import com.comento.oracleSpringBoot.dto.plm.*;
 import com.comento.oracleSpringBoot.mapper.PlmMapper;
+import com.comento.oracleSpringBoot.plm.Bank;
 import com.comento.oracleSpringBoot.service.PlmHelp;
 import com.comento.oracleSpringBoot.service.PlmService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,6 +24,7 @@ public class PlmApi extends RestApi {
 	final PlmMapper mapper;
     final PlmHelp help;
     final PlmService service;
+    final Bank bank;
 	
 	@GetMapping("word")
 	public List<Word> getWord(String s) {
@@ -111,5 +114,14 @@ public class PlmApi extends RestApi {
     public void postUnderstandBox(@RequestBody @Valid SrcBox box, @ApiIgnore HttpSession s) {
         requester(s);
         mapper.insertUnderstandBox(box.src);
+    }
+    @PostMapping("bank/update")
+    public Map<String, Integer> updateBank() {
+        bank.update();
+        final Map<String, Integer> map = new HashMap<>();
+        map.put("w", bank.wordList.size());
+        map.put("comp", bank.compoundList.size());
+        map.put("context", bank.contextList.size());
+        return map;
     }
 }

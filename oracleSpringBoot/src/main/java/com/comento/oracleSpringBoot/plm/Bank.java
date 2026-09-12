@@ -31,7 +31,7 @@ public class Bank {
         update();
     }
 
-    void update() {
+    public void update() {
         wordList = mapper.selectWord().stream().map(item -> (Word) new WordMap(item)).collect(Collectors.toList());
 //        log.info("Words loaded");
         symbols = mapper.selectSymbolWord().stream().map(item -> item.get("word").toString()).collect(Collectors.joining()).toCharArray();
