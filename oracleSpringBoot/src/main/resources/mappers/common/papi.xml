@@ -17,7 +17,7 @@
     <select id="sumSpaceCase" resultType="com.comento.oracleSpringBoot.powerfulh.plm.SpaceCase">
         select SUM(t.cnt) cnt, SUM(t.`space`) space from plm_context t, llm_word w
         where t.rightword = w.n
-        and t.leftword = #{n}
+        and (t.leftword = #{n} or t.leftword = (select comp.rightword from llm_word_compound comp where comp.word = #{n})) -- 얕은 검사라 깊은 결합은 여전히 안 걸린다
         and w.`type` = #{type}
     </select>
     <select id="sumUltronAnswerSpaceCase" resultType="com.comento.oracleSpringBoot.powerfulh.plm.UltronAnswerCase">
