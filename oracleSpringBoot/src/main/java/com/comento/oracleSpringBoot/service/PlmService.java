@@ -5,6 +5,7 @@ import com.comento.oracleSpringBoot.dto.plm.UnderstandBoxCommit;
 import com.comento.oracleSpringBoot.mapper.PlmMapper;
 import com.comento.oracleSpringBoot.mapper.PowerfulMapper;
 import com.comento.oracleSpringBoot.plm.*;
+import com.comento.oracleSpringBoot.plm.entity.Compound;
 import com.comento.oracleSpringBoot.plm.entity.Context;
 import com.comento.oracleSpringBoot.plm.entity.Word;
 import com.comento.oracleSpringBoot.powerfulh.plm.SpaceCase;
@@ -85,13 +86,24 @@ public class PlmService {
             final Context context = bank.contextList.stream()
                     .filter(StaticUtilFromModel.getContextFinder(current.getN(), next.getN())).findFirst().orElse(null);
             if(context == null) {
+                // 오른쪽이 결합이면 얕게 해체해서 재시도해본다
+                final Compound compound = bank.compoundList.stream().filter(item -> item.getWord() == next.getN()).findFirst().orElse(null);
+                if(compound != null) {
+                    final Context decompContext = bank.contextList.stream()
+                            .filter(StaticUtilFromModel.getContextFinder(current.getN(), compound.getLeftword())).findFirst().orElse(null);
+                    if(decompContext != null) {
+                        if(decompContext.getSpace() > decompContext.getCnt()) fixing.append(" ");
+                        fixing.append(next.getWord());
+                        continue;
+                    }
+                }
+                // 왼쪽 단어 그룹 데이타없으면 무지성 붙여버리기
                 final List<Context> contextList = bank.contextList.stream().filter(item -> item.getLeftword() == current.getN()).collect(Collectors.toList());
                 if(contextList.isEmpty()) {
-//                    System.out.println(current.getN() + " + " + next.getN());
-//                    throw new RuntimeException("모델이 문맥을 이해하지 못했습니다 ㅠ");
                     fixing.append(next.getWord());
                     continue;
                 }
+                // 왼쪽 단어 그룹 데이타로 때려맞춰본다
                 final SpaceCase spaceCase = powerfulMapper.sumSpaceCase(current.getN(), next.getType());
                 if(spaceCase != null && !contextCore.suffix.contains(next.getN()) && spaceCase.expectSpace()) fixing.append(" "); // 둘째 조건: 접미면 붙게 하는 건데 사실 데이타 부족이 원인인거라 이게 맞는지 검토가 좀 필요하다
                 fixing.append(next.getWord());
