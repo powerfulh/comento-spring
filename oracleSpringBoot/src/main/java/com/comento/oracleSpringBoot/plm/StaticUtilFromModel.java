@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class StaticUtilFromModel {
     static final int opener = 2903;
 
-    static Predicate<Twoken> getContextFinder(int lw, int rw) {
+    public static Predicate<Twoken> getContextFinder(int lw, int rw) {
         return item -> item.getLeftword() == lw && item.getRightword() == rw;
     }
 

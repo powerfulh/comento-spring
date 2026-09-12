@@ -83,7 +83,7 @@ public class PlmService {
             final Toke current = sentence.get(i);
             final Toke next = sentence.get(i + 1);
             final Context context = bank.contextList.stream()
-                    .filter(item -> item.getLeftword() == current.getN() && item.getRightword() == next.getN()).findFirst().orElse(null);
+                    .filter(StaticUtilFromModel.getContextFinder(current.getN(), next.getN())).findFirst().orElse(null);
             if(context == null) {
                 final List<Context> contextList = bank.contextList.stream().filter(item -> item.getLeftword() == current.getN()).collect(Collectors.toList());
                 if(contextList.isEmpty()) {
