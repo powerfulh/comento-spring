@@ -45,4 +45,8 @@ public class HtmlC extends WebC {
     public String songstage() {
         return "songstage";
     }
+	@GetMapping("req-log")
+	public String reqLog() {
+		return "req-log";
+	}
 }
