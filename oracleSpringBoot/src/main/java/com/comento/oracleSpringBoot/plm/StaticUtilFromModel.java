@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 public class StaticUtilFromModel {
     static final int opener = 2903;
-    public static int debugCount = 0;
 
     public static Predicate<Twoken> getContextFinder(int lw, int rw) {
         return item -> item.getLeftword() == lw && item.getRightword() == rw;
@@ -19,7 +18,6 @@ public class StaticUtilFromModel {
 
     // fix space api 를 위해 `spaceMap` 인자 추가
     public static void separateToken(List<Toke> understandList, UnderstandTarget src, final Dict wordList, Map<String, List<Word>> failHistory, List<Context> contextList, List<Sentence> sentenceList, List<Compound> compoundList, SuccessHistory successHistory, ContextCore contextCore, Map<Integer, Boolean> spaceMap) {
-        debugCount++;
         if(src.success()) sentenceList.add(new Sentence(understandList, contextList));
         else {
             Toke lastUnderstand = understandList.get(understandList.size() - 1);
@@ -35,13 +33,10 @@ public class StaticUtilFromModel {
             }
             List<Word> h = failHistory.get(src.getRight());
             final List<Word> page = wordList.book.get(src.getRight().charAt(0));
-            List<Toke> includeShouldSpace = new ArrayList<>();
-            (page == null ? Collections.<Word>emptyList() : page).forEach(item -> {
-                includeShouldSpace.add(src.getAvailableToke(item, false));
-                if(spaceMap.getOrDefault(item.getN(), false)) includeShouldSpace.add(src.getAvailableToke(item, true));
-            });
-            List<Toke> sameList = includeShouldSpace.stream()
-                    .map(toke -> {
+            List<Toke> sameList = page == null ? Collections.emptyList() : page.stream()
+                    .map(item -> {
+                        final boolean shouldSpace = spaceMap.getOrDefault(item.getN(), false);
+                        Toke toke = src.getAvailableToke(item, shouldSpace);
                         if(toke == null || understandList.isEmpty()) return toke;
                         try {
                             contextCore.rightContext(toke, lastUnderstand, toke, contextList, compoundList, wordList, lastUnderstand.isRightSpace(), lastUnderstand.otherOption, 0);
