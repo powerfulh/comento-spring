@@ -108,7 +108,7 @@
 			res.forEach(item => {
 				colList.forEach(col => {
 					const cell = temp.find('td.' + col.name + (col.readonly ? '' : ' > input'))
-					if(col.type == 'checkbox') cell.prop('checked', item[col.name] ?? false)
+					if(col.type === 'checkbox') cell.prop('checked', item[col.name] ?? false)
 					else cell[col.readonly ? 'text' : 'val'](item[col.name])
 				})
 				$('tbody').append(temp.clone().removeClass('append-temp').keypress(function(e) {
@@ -132,7 +132,7 @@
 		colList.forEach(item => {
 			const td = document.createElement('td')
 			td.setAttribute('class', item.name)
-			if(item.readonly != true) {
+			if(item.readonly !== true) {
 				const input = document.createElement('input')
 				input.setAttribute('type', item.type)
 				input.setAttribute('name', item.name)

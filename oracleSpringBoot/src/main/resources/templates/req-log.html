@@ -18,7 +18,27 @@
 			<section class="w3-left w3-padding">
 				<h3 id="view-title" class="w3-teal w3-card"></h3>
 				<!-- 화면 시작 -->
-
+				<table class="w3-card">
+					<thead class="w3-aqua">
+						<tr>
+							<th>N</th>
+							<th>Method</th>
+							<th>URL</th>
+							<th>파라미터</th>
+							<th>요청자</th>
+							<th>요청일</th>
+						</tr>
+					</thead>
+					<tbody>
+<!--						<tr class="new" onkeypress="onEnterNew(event)">-->
+<!--							<td><input placeholder="New menu" name="name"></td>-->
+<!--							<td><input placeholder="New menu" name="href"></td>-->
+<!--							<td><input placeholder="New menu" name="seq" type="number" value=0></td>-->
+<!--							<td><input type="checkbox" name="activate"></td>-->
+<!--						</tr>-->
+						<tr class="append-temp"></tr>
+					</tbody>
+				</table>
 				<!-- 화면 끝 -->
 			</section>
 		</main>
@@ -28,10 +48,48 @@
 	
 	<script type="text/javascript">
 	const viewTitle = 'Req log'
+	const colList = [
+		{
+			name: 'n',
+		},
+		{
+			name: 'method',
+		},
+		{
+			name: 'url',
+		},
+		{
+			name: 'param',
+		},
+		{
+			name: 'insertId',
+		},
+		{
+			name: 'insertDate',
+		},
+	]
+	const temp = $('tr.append-temp')
 
 	function initView() {
 		document.title = viewTitle
 		$('#view-title').text(viewTitle)
+
+		colList.forEach(item => {
+			const td = document.createElement('td')
+			td.setAttribute('class', item.name)
+			temp.append(td)
+		})
+		fetch('/api/admin/req-log').then(async res => {
+			const j = await res.json()
+			$('tbody > tr:not(.new):not(.append-temp)').remove()
+			j.forEach(item => {
+				colList.forEach(col => {
+					const cell = temp.find('td.' + col.name)
+					cell.text(item[col.name])
+				})
+				$('tbody').append(temp.clone().removeClass('append-temp'))
+			})
+		})
 	}
 
 	initView()
