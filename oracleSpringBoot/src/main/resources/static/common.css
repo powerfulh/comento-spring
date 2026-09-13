@@ -11,3 +11,7 @@ div.float-toast {
 	text-align: center;
 	font-size: 24px;
 }
+th, td {
+	border: 1px solid black;
+	padding: 4px;
+}
