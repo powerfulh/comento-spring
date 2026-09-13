@@ -26,7 +26,7 @@ public class HtmlC extends WebC {
 	}
 	
 	@GetMapping("managegnb")
-	public String managegnb(HttpSession s, Model m) {
+	public String manageGnb(HttpSession s, Model m) {
 		return loginCheck(s, m, "managegnb");
 	}
 	@GetMapping("song")
@@ -34,15 +34,15 @@ public class HtmlC extends WebC {
 		return "song";
 	}
     @GetMapping("songplay")
-    public String songplay(HttpSession s, Model m) {
+    public String songPlay(HttpSession s, Model m) {
         return loginCheck(s, m, "songplay");
     }
     @GetMapping("songplayget")
-    public String songplayget() {
+    public String songPlayGet() {
         return "songplayget";
     }
     @GetMapping("songstage")
-    public String songstage() {
+    public String songStage() {
         return "songstage";
     }
 	@GetMapping("req-log")
