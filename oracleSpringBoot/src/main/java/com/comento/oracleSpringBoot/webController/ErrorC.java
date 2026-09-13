@@ -15,6 +15,6 @@ public class ErrorC implements ErrorController {
 		String err = req.getAttribute(RequestDispatcher.ERROR_STATUS_CODE).toString();
 		m.addAttribute("msg", err);
 		
-		return "index"; // 지금 보니 평범한 루트 진입 컨트롤이 없어서 홈 요청마다 이걸 타서 /error 로그가 하나씩 쌓이고 있다 ㅋㅋ 일단 지금은 에러가 홈으로 알고 있자 250628 
+		return "index"; // 개발자 도구를 열고 테스트하면 개발자 도구가 뭔가 이상한 요청을 해서 에러로 들어오는 경우가 있다 260913
 	}
 }
