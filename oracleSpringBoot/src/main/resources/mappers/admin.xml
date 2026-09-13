@@ -5,7 +5,7 @@
 
 <mapper namespace="com.comento.oracleSpringBoot.mapper.AdminMapper">
     <select id="selectUserLog" resultType="ReqLog">
-        select l.n, l.`method`, l.url, l.param, l.insert_id, l.insert_date from user_log l
-        order by l.n desc
+        select l.n, l.`method`, l.url, l.param, l.insert_id insertId, l.insert_date insertDate from user_log l
+        order by l.n desc limit 20
     </select>
 </mapper>
