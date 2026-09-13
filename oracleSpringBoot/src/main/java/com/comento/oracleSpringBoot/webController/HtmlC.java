@@ -30,7 +30,7 @@ public class HtmlC extends WebC {
 		return loginCheck(s, m, "managegnb");
 	}
 	@GetMapping("song")
-	public String song(HttpSession s, Model m) {
+	public String song() {
 		return "song";
 	}
     @GetMapping("songplay")
