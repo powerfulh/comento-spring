@@ -71,7 +71,7 @@ public class PlmService {
         }
         if(sentenceList.isEmpty() && e != null) throw e; // 싹 다 실패한 경우 나중에는 편집 거리로 리트해봐야겠지
         sentenceList.sort(Comparator.comparing(item -> item.getContextPoint() * -1));
-//        logger.info("Understand success: sentence: {}, total length: {}", sentenceList.size(), sentenceList.stream().mapToInt(List::size).sum());
+        System.out.println("Understand success: sentence: " + sentenceList.size());
         return sentenceList.size() > 9 ? sentenceList.subList(0, 9) : sentenceList;
     }
     public Map<String, Object> fixSpace(String pureSrc) {
