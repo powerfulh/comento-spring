@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 public class StaticUtilFromModel {
     static final int opener = 2903;
-    public static int dc = 0;
 
     public static Predicate<Twoken> getContextFinder(int lw, int rw) {
         return item -> item.getLeftword() == lw && item.getRightword() == rw;
@@ -28,7 +27,6 @@ public class StaticUtilFromModel {
     }
     // fix space api 를 위해 `spaceMap` 인자 추가
     public static void separateToken(List<Toke> understandList, UnderstandTarget src, final Dict wordList, Map<String, List<Word>> failHistory, List<Context> contextList, List<Sentence> sentenceList, List<Compound> compoundList, SuccessHistory successHistory, ContextCore contextCore, Map<Integer, Boolean> spaceMap) {
-        dc++;
         if(src.success()) sentenceList.add(new Sentence(understandList, contextList));
         else {
             Toke lastUnderstand = understandList.get(understandList.size() - 1);
