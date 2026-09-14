@@ -68,7 +68,7 @@ public class StaticUtilFromModel {
             final Toke best = sameList.get(sameList.size() - 1);
             int ss = sentenceList.size();
             if(sameList.size() > 1) {
-                final boolean shouldSpace = spaceMap.getOrDefault(lastUnderstand.getN(), false);
+                final boolean shouldSpace = !lastUnderstand.rightSpace && spaceMap.getOrDefault(lastUnderstand.getN(), false);
                 sameList.subList(0, sameList.size() - 1)
 //                        .filter(item -> item.getRightContext() > 0)
                         .forEach(item -> {
