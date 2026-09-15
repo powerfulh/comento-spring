@@ -2,6 +2,7 @@ package com.comento.oracleSpringBoot.plm;
 
 import com.comento.oracleSpringBoot.plm.entity.Word;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ public class Toke implements Word {
     final Map<Integer, List<Integer>> contextHistory = new HashMap<>();
     @JsonIgnore
     public boolean otherOption;
+    @Getter // 교정 디버그용
     boolean leftShouldSpace; // fix api 에서 띄워 이해하기 위해 도입
 
     public Toke(Word llmWord, int start, int end, boolean rightSpace) {
@@ -28,10 +30,6 @@ public class Toke implements Word {
     @Override
     public Integer getN() {
         return src.getN();
-    }
-
-    public boolean isRightSpace() {
-        return rightSpace;
     }
 
     public int getRightContext() {

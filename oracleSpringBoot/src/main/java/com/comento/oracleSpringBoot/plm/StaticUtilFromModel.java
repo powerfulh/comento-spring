@@ -19,7 +19,7 @@ public class StaticUtilFromModel {
     static Toke generateToke(UnderstandTarget src, Word item, List<Toke> understandList, ContextCore contextCore, Toke lastUnderstand, List<Context> contextList, List<Compound> compoundList, final Dict wordList, boolean forceSpace) {
         Toke toke = src.getAvailableToke(item);
         if(toke == null || understandList.isEmpty()) return toke;
-        final boolean betweenSpace = lastUnderstand.isRightSpace() || forceSpace; // comento fix api 에서는 왼쪽은 항상 false라 의미 없는 폴백, 추후 모델 통합 고려
+        final boolean betweenSpace = lastUnderstand.rightSpace || forceSpace; // comento fix api 에서는 왼쪽은 항상 false라 의미 없는 폴백, 추후 모델 통합 고려
         try {
             contextCore.rightContext(toke, lastUnderstand, toke, contextList, compoundList, wordList, betweenSpace, lastUnderstand.otherOption, 0);
         } catch (PlmException e) {
