@@ -15,16 +15,17 @@ public class StaticUtilFromModel {
     public static Predicate<Twoken> getContextFinder(int lw, int rw) {
         return item -> item.getLeftword() == lw && item.getRightword() == rw;
     }
-    // 재사용하려고 함수화했다가 그 부분 날리고 지금은 호출처와 1:1 상태
-    static Toke generateToke(UnderstandTarget src, Word item, List<Toke> understandList, ContextCore contextCore, Toke lastUnderstand, List<Context> contextList, List<Compound> compoundList, final Dict wordList) {
+    // 재사용하려고 함수화
+    static Toke generateToke(UnderstandTarget src, Word item, List<Toke> understandList, ContextCore contextCore, Toke lastUnderstand, List<Context> contextList, List<Compound> compoundList, final Dict wordList, boolean forceSpace) {
         Toke toke = src.getAvailableToke(item);
         if(toke == null || understandList.isEmpty()) return toke;
+        final boolean betweenSpace = lastUnderstand.isRightSpace() || forceSpace; // comento fix api 에서는 왼쪽은 항상 false라 의미 없는 폴백, 추후 모델 통합 고려
         try {
-            contextCore.rightContext(toke, lastUnderstand, toke, contextList, compoundList, wordList, lastUnderstand.isRightSpace(), lastUnderstand.otherOption, 0);
+            contextCore.rightContext(toke, lastUnderstand, toke, contextList, compoundList, wordList, betweenSpace, lastUnderstand.otherOption, 0);
         } catch (PlmException e) {
             return null;
         }
-        return contextCore.step2(toke, lastUnderstand.isRightSpace()); // 이 부분만 모델이랑 울트론이 다르다. 모델과 동일한 동작이며 울트론도 따라와야 되지 않나 싶다
+        return contextCore.step2(toke, betweenSpace); // 이 부분만 모델이랑 울트론이 다르다. 모델과 동일한 동작이며 울트론도 따라와야 되지 않나 싶다
     }
     // fix space api 를 위해 `spaceMap` 인자 추가
     public static void separateToken(List<Toke> understandList, UnderstandTarget src, final Dict wordList, Map<String, List<Word>> failHistory, List<Context> contextList, List<Sentence> sentenceList, List<Compound> compoundList, SuccessHistory successHistory, ContextCore contextCore, Map<Integer, Boolean> spaceMap) {
@@ -44,8 +45,8 @@ public class StaticUtilFromModel {
             }
             List<Word> h = failHistory.get(src.getRight());
             final List<Word> page = wordList.book.get(src.getRight().charAt(0));
-            List<Toke> sameList = page == null ? Collections.emptyList() : page.stream()
-                    .map(item -> generateToke(src, item, understandList, contextCore, lastUnderstand, contextList, compoundList, wordList))
+            List<Toke> tokeList = page == null ? Collections.emptyList() : page.stream()
+                    .map(item -> generateToke(src, item, understandList, contextCore, lastUnderstand, contextList, compoundList, wordList, false))
                     .filter(item -> {
                         if(item != null) {
                             if(h == null) return true;
@@ -53,8 +54,20 @@ public class StaticUtilFromModel {
                         }
                         return false;
                     })
-                    .sorted(Comparator.comparing(Toke::getRightContext))
+//                    .sorted(Comparator.comparing(Toke::getRightContext))
                     .collect(Collectors.toList());
+            final List<Toke> sameList = new ArrayList<>(); // 띄워 이해 분기 추가하기 위해 도입
+            final boolean trySpace = spaceMap.getOrDefault(lastUnderstand.getN(), false);
+            tokeList.forEach(item -> {
+                sameList.add(item);
+                if(trySpace) {
+                    final Toke spaced = generateToke(src, item.src, understandList, contextCore, lastUnderstand, contextList, compoundList, wordList, true);
+                    if(spaced == null) return;
+                    spaced.leftShouldSpace = true;
+                    sameList.add(spaced);
+                }
+            });
+            sameList.sort(Comparator.comparing(Toke::getRightContext)); // 띄워 분기 복제까지 하고 정렬해야 되므로 여기서
             if(sameList.isEmpty()) {
                 if(understandList.size() < 2) throw failHistory.isEmpty() ? new PlmException("Fail to continue after open", lastUnderstand.getWord()) : new PlmException("Fail to understand", failHistory);
                 src.rollback(lastUnderstand);

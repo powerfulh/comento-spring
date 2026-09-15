@@ -16,6 +16,7 @@ public class Toke implements Word {
     final Map<Integer, List<Integer>> contextHistory = new HashMap<>();
     @JsonIgnore
     public boolean otherOption;
+    boolean leftShouldSpace; // fix api 에서 띄워 이해하기 위해 도입
 
     public Toke(Word llmWord, int start, int end, boolean rightSpace) {
         src = llmWord;
