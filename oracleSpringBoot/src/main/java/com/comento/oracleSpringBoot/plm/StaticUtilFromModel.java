@@ -15,8 +15,9 @@ public class StaticUtilFromModel {
     public static Predicate<Twoken> getContextFinder(int lw, int rw) {
         return item -> item.getLeftword() == lw && item.getRightword() == rw;
     }
-    static Toke generateToke(UnderstandTarget src, Word item, List<Toke> understandList, ContextCore contextCore, Toke lastUnderstand, List<Context> contextList, List<Compound> compoundList, final Dict wordList, boolean shouldSpace) {
-        Toke toke = src.getAvailableToke(item, shouldSpace);
+    // 재사용하려고 함수화했다가 그 부분 날리고 지금은 호출처와 1:1 상태
+    static Toke generateToke(UnderstandTarget src, Word item, List<Toke> understandList, ContextCore contextCore, Toke lastUnderstand, List<Context> contextList, List<Compound> compoundList, final Dict wordList) {
+        Toke toke = src.getAvailableToke(item);
         if(toke == null || understandList.isEmpty()) return toke;
         try {
             contextCore.rightContext(toke, lastUnderstand, toke, contextList, compoundList, wordList, lastUnderstand.isRightSpace(), lastUnderstand.otherOption, 0);
@@ -44,8 +45,7 @@ public class StaticUtilFromModel {
             List<Word> h = failHistory.get(src.getRight());
             final List<Word> page = wordList.book.get(src.getRight().charAt(0));
             List<Toke> sameList = page == null ? Collections.emptyList() : page.stream()
-                    // fix space 흐름에서는 재사용이 필요하므로 함수로 분리했다
-                    .map(item -> generateToke(src, item, understandList, contextCore, lastUnderstand, contextList, compoundList, wordList, false))
+                    .map(item -> generateToke(src, item, understandList, contextCore, lastUnderstand, contextList, compoundList, wordList))
                     .filter(item -> {
                         if(item != null) {
                             if(h == null) return true;
@@ -67,22 +67,11 @@ public class StaticUtilFromModel {
             final Toke best = sameList.get(sameList.size() - 1);
             int ss = sentenceList.size();
             if(sameList.size() > 1) {
-                final boolean shouldSpace = !lastUnderstand.rightSpace && spaceMap.getOrDefault(lastUnderstand.getN(), false);
-                sameList.subList(0, sameList.size() - 1)
-//                        .filter(item -> item.getRightContext() > 0)
+                sameList.subList(0, sameList.size() - 1).stream()
+                        .filter(item -> item.getRightContext() > 0)
                         .forEach(item -> {
                             List<Toke> clone = new ArrayList<>(understandList);
-                            if (item.getRightContext() > 0) {
-                                separateToken(clone, src.clone().pushToke(clone, item), wordList, failHistory, contextList, sentenceList, compoundList, successHistory, contextCore, spaceMap);
-                            } else if(shouldSpace) {
-                                UnderstandTarget rollbackSrcClone = src.clone();
-                                rollbackSrcClone.rollback(lastUnderstand);
-                                if(clone.size() == 1) clone.set(0, rollbackSrcClone.getAvailableToke(lastUnderstand.src, true));
-                                else {
-                                    clone.set(clone.size() - 1, generateToke(rollbackSrcClone, lastUnderstand.src, understandList.subList(0, understandList.size() - 1), contextCore, understandList.get(understandList.size() - 2), contextList, compoundList, wordList, true));
-                                }
-                                separateToken(clone, src.clone().pushToke(clone, item), wordList, failHistory, contextList, sentenceList, compoundList, successHistory, contextCore, spaceMap);
-                            }
+                            separateToken(clone, src.clone().pushToke(clone, item), wordList, failHistory, contextList, sentenceList, compoundList, successHistory, contextCore, spaceMap);
                         });
                 if(best.getRightContext() < 1) best.otherOption = true;
             }
