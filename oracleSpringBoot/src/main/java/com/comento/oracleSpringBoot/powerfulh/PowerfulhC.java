@@ -92,6 +92,7 @@ public class PowerfulhC {
 		testP.add("생각보다많은사람들이이문제를비슷한방법으로해결하고있다는사실이흥미로웠다.");
 		testP.add("테스트결과를확인해보니일부상황에서는예상했던것과다른결과가나타나는것을알수있었다.");
 		testP.add("그때부터가시작이었어");
+		testP.add("여기서보기엔집에서밖에안쓴다"); // 오른쪽 결합을 파헤치면 붙는데 안 파헤치면 띄워지는 캐이스
 		return testP.stream().map(item -> plmService.fixSpace(item).get("result")).collect(Collectors.toList());
 	}
 }

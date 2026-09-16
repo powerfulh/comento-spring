@@ -5,6 +5,7 @@ import com.comento.oracleSpringBoot.dto.plm.UnderstandBoxCommit;
 import com.comento.oracleSpringBoot.mapper.PlmMapper;
 import com.comento.oracleSpringBoot.mapper.PowerfulMapper;
 import com.comento.oracleSpringBoot.plm.*;
+import com.comento.oracleSpringBoot.plm.entity.Compound;
 import com.comento.oracleSpringBoot.plm.entity.Context;
 import com.comento.oracleSpringBoot.plm.entity.Word;
 import com.comento.oracleSpringBoot.powerfulh.plm.SpaceCase;
@@ -82,7 +83,14 @@ public class PlmService {
             final Toke current = sentence.get(i);
             final Toke next = sentence.get(i + 1);
             final Context context = bank.contextList.stream()
-                    .filter(StaticUtilFromModel.getContextFinder(current.getN(), next.getN())).findFirst().orElse(null);
+                    .filter(StaticUtilFromModel.getContextFinder(current.getN(), next.getN())).findFirst().orElseGet(() -> {
+                        if(next.getType().equals("결합")) {
+                            final Compound compound = bank.compoundList.stream().filter(item -> item.getWord() == next.getN()).findFirst().orElse(null);
+                            if(compound == null) throw new PlmException("결합인데 컴파운드 등록 안된 캐이스 발견", "N: " + next.getN());
+                            // 오른쪽 결합 사례 '보기엔' 때문에 도입. 왼쪽 결합 사례 발견 시 왼쪽 결합도 고려
+                            return bank.contextList.stream().filter(StaticUtilFromModel.getContextFinder(current.getN(), compound.getLeftword())).findFirst().orElse(null);
+                        } else return null;
+                    });
             if(context == null) {
                 if(next.isLeftShouldSpace()) fixing.append(" ");
                 else {
