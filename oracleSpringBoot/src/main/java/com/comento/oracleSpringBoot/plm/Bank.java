@@ -40,6 +40,7 @@ public class Bank {
         compoundList = mapper.selectCompound().stream().map(item -> (Compound) new CompoundMap(item)).collect(Collectors.toList());
 //        log.info("Bank updated: words={}, contexts={}, compounds={}", wordList.size(), contextList.size(), compoundList.size());
         // fix space api
-        spaceMap = powerfulMapper.sumUltronAnswerSpaceCase().stream().collect(Collectors.toMap(k -> k.leftword, v -> v.space > v.cnt * 10));
+        final int spaceAvg = powerfulMapper.avgUltronAnswerSpace(); // 도입 배경: 197 `이` 는 띄워 이해할 여지가 다분하지만 cnt 사례도 많아 띄우지 않고 있었다
+        spaceMap = powerfulMapper.sumUltronAnswerSpaceCase().stream().collect(Collectors.toMap(k -> k.leftword, v -> v.space > spaceAvg || v.space > v.cnt * 10));
     }
 }

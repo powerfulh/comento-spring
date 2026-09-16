@@ -16,4 +16,5 @@ public interface PowerfulMapper {
     SpaceCase sumSpaceCase(int n, String type);
     List<UltronAnswerCase> sumUltronAnswerSpaceCase();
 	List<Integer> selectSuffix();
+    int avgUltronAnswerSpace();
 }

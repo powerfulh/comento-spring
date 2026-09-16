@@ -35,4 +35,13 @@
         group by w.n
         having COUNT(w.n) > 2
     </select>
+    <select id="avgUltronAnswerSpace" resultType="int">
+        select AVG(sq.`space`) avg from (
+            select SUM(c.`space`) space from plm_ultron_sentence s, plm_ultron_context uc, plm_context c
+            where s.n = uc.sentence and uc.context = c.n
+            and s.target is not null
+            and c.`space` > 0
+            group by c.leftword
+        ) sq
+    </select>
 </mapper>
