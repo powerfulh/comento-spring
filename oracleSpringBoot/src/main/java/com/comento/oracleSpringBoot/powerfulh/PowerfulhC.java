@@ -1,33 +1,22 @@
 package com.comento.oracleSpringBoot.powerfulh;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.comento.oracleSpringBoot.mapper.PowerfulMapper;
+import com.comento.oracleSpringBoot.member.MemberS;
+import com.comento.oracleSpringBoot.member.entity.LoginVo;
+import com.comento.oracleSpringBoot.plm.PlmException;
+import com.comento.oracleSpringBoot.service.HeaderSetter;
+import com.comento.oracleSpringBoot.service.PlmService;
+import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.binding.BindingException;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import com.comento.oracleSpringBoot.plm.PlmException;
-import com.comento.oracleSpringBoot.service.PlmService;
-import org.apache.ibatis.binding.BindingException;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.comento.oracleSpringBoot.mapper.PowerfulMapper;
-import com.comento.oracleSpringBoot.member.MemberS;
-import com.comento.oracleSpringBoot.member.entity.LoginVo;
-import com.comento.oracleSpringBoot.service.HeaderSetter;
-
-import lombok.RequiredArgsConstructor;
-import springfox.documentation.annotations.ApiIgnore;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(originPatterns = "*", allowCredentials = "true")
