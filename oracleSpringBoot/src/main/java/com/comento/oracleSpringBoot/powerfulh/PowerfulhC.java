@@ -73,26 +73,31 @@ public class PowerfulhC {
 	@GetMapping("fix/space")
 	public Map<String, Object> getFixed(String pureSrc) {
         try {
-            return plmService.fixSpace(pureSrc.replace(" ", ""));
+            return plmService.fixSpace(pureSrc);
         } catch (PlmException e) {
             return e.info;
         }
 	}
 	@GetMapping("fix/space/test")
-	public List<Object> testGetFixed() {
+	public List<String> testGetFixed() {
 		List<String> testP = new ArrayList<>();
-		testP.add("오늘은날씨가좋아서오랜만에공원에산책을나갔다.");
-		testP.add("프로젝트를시작하기전에필요한요구사항을먼저정리해두는것이좋다.");
-		testP.add("예상보다문제가복잡해서원인을찾는데시간이좀더걸렸다.");
-		testP.add("사용자가입력한값이올바른형식인지확인한후데이터베이스에저장해야한다.");
-		testP.add("회의가끝난뒤에결정된사항을팀원들에게공유해주시기바랍니다.");
-		testP.add("이기능은인터넷에연결되어있지않아도정상적으로사용할수있도록만들었다.");
-		testP.add("오류가발생했을때로그를확인해보면문제의원인을파악하는데도움이된다.");
-		testP.add("새로운기능을추가하기전에기존기능에영향을주는부분이없는지꼼꼼하게확인해야한다.");
-		testP.add("생각보다많은사람들이이문제를비슷한방법으로해결하고있다는사실이흥미로웠다.");
-		testP.add("테스트결과를확인해보니일부상황에서는예상했던것과다른결과가나타나는것을알수있었다.");
-		testP.add("그때부터가시작이었어");
-		testP.add("여기서보기엔집에서밖에안쓴다"); // 오른쪽 결합을 파헤치면 붙는데 안 파헤치면 띄워지는 캐이스
-		return testP.stream().map(item -> plmService.fixSpace(item).get("result")).collect(Collectors.toList());
+		testP.add("오늘은 날씨가 좋아서 오랜만에 공원에 산책을 나갔다.");
+		testP.add("프로젝트를 시작하기 전에 필요한 요구사항을 먼저 정리해두는 것이 좋다.");
+		testP.add("예상보다 문제가 복잡해서 원인을 찾는 데 시간이 좀 더 걸렸다.");
+		testP.add("사용자가 입력한 값이 올바른 형식인지 확인한 후 데이터베이스에 저장해야 한다.");
+		testP.add("회의가 끝난 뒤에 결정된 사항을 팀원들에게 공유해주시기 바랍니다.");
+		testP.add("이 기능은 인터넷에 연결되어있지 않아도 정상적으로 사용할 수 있도록 만들었다.");
+		testP.add("오류가 발생했을 때 로그를 확인해보면 문제의 원인을 파악하는데 도움이 된다.");
+		testP.add("새로운 기능을 추가하기 전에 기존기능에 영향을 주는 부분이 없는지 꼼꼼하게 확인해야 한다.");
+		testP.add("생각보다 많은 사람들이 이 문제를 비슷한 방법으로 해결하고 있다는 사실이 흥미로웠다.");
+		testP.add("테스트 결과를 확인해보니 일부 상황에서는 예상했던 것과 다른 결과가 나타나는 것을 알수있었다.");
+		testP.add("그때부터가 시작이었어");
+		testP.add("여기서 보기엔 집에서 밖에 안 쓴다"); // 오른쪽 결합을 파헤치면 붙는데 안 파헤치면 띄워지는 캐이스
+        final List<String> checkList = new ArrayList<>();
+        for(String item: testP) {
+            final String result = (String) plmService.fixSpace(item).get("result");
+            if(!result.equals(item)) checkList.add(result);
+        }
+		return checkList;
 	}
 }

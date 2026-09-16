@@ -75,7 +75,7 @@ public class PlmService {
         return sentenceList.size() > 9 ? sentenceList.subList(0, 9) : sentenceList;
     }
     public Map<String, Object> fixSpace(String pureSrc) {
-        final List<Sentence> understand = understand(pureSrc); // 지금은 자체 구현이지만 나중엔 모델 부르게 해야 됨
+        final List<Sentence> understand = understand(pureSrc.replace(" ", "")); // 지금은 자체 구현이지만 나중엔 모델 부르게 해야 됨
         final Sentence sentence = understand.get(0);
         StringBuilder fixing = new StringBuilder(sentence.get(0).getWord());
         for(int i = 0; i < sentence.size(); i++) {
