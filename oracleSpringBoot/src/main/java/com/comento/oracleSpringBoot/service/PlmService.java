@@ -76,6 +76,7 @@ public class PlmService {
     }
     public Map<String, Object> fixSpace(String pureSrc) {
         final List<Sentence> understand = understand(pureSrc.replace(" ", "")); // 지금은 자체 구현이지만 나중엔 모델 부르게 해야 됨
+        if(understand.isEmpty()) throw new RuntimeException("모델이 문장을 이해하지 못했습니다 ㅠ"); // 오프너 0 캐이스
         final Sentence sentence = understand.get(0);
         StringBuilder fixing = new StringBuilder(sentence.get(0).getWord());
         for(int i = 0; i < sentence.size(); i++) {
