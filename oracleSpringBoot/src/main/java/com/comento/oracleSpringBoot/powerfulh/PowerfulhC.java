@@ -64,6 +64,10 @@ public class PowerfulhC {
         try {
             return plmService.fixSpace(pureSrc);
         } catch (PlmException e) {
+            if(e.info.containsKey("Fail to understand")) {
+                final List<Map<String, Object>> fhList = (List<Map<String, Object>>) e.info.get("Fail to understand");
+                return plmService.fixSpace(pureSrc, (String) fhList.get(0).get("key"));
+            }
             return e.info;
         }
 	}
