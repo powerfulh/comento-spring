@@ -18,6 +18,21 @@
 			<section class="w3-left w3-padding">
 				<h3 id="view-title" class="w3-teal w3-card"></h3>
 				<!-- 화면 시작 -->
+				<div class="w3-card w3-padding">
+					<label>
+						<select id="filter" onchange="get()">
+							<option>전체</option>
+							<option>send-string</option>
+							<option>login</option>
+							<option>powerful</option>
+							<option>swagger-resources</option>
+							<option>error</option>
+							<option>plm</option>
+							<option>index</option>
+							<option>api</option>
+						</select>
+					</label>
+				</div>
 				<table class="w3-card">
 					<thead class="w3-aqua">
 						<tr>
@@ -66,16 +81,9 @@
 	]
 	const temp = $('tr.append-temp')
 
-	function initView() {
-		document.title = viewTitle
-		$('#view-title').text(viewTitle)
-
-		colList.forEach(item => {
-			const td = document.createElement('td')
-			td.setAttribute('class', item.name)
-			temp.append(td)
-		})
-		fetch('/api/admin/req-log').then(async res => {
+	function get() {
+		const filterVal = $('#filter').val()
+		fetch('/api/admin/req-log' + (filterVal != '전체' ? '?filter=' + filterVal : '')).then(async res => {
 			const j = await res.json()
 			$('tbody > tr:not(.new):not(.append-temp)').remove()
 			j.forEach(item => {
@@ -86,6 +94,17 @@
 				$('tbody').append(temp.clone().removeClass('append-temp'))
 			})
 		})
+	}
+	function initView() {
+		document.title = viewTitle
+		$('#view-title').text(viewTitle)
+
+		colList.forEach(item => {
+			const td = document.createElement('td')
+			td.setAttribute('class', item.name)
+			temp.append(td)
+		})
+		get()
 	}
 
 	initView()

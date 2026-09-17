@@ -6,7 +6,7 @@
 <mapper namespace="com.comento.oracleSpringBoot.mapper.AdminMapper">
     <select id="selectUserLog" resultType="ReqLog">
         select l.n, l.`method`, l.url, l.param, l.insert_id insertId, l.insert_date insertDate from user_log l
-        where l.`method` != 'GET' or l.url != '/gnb' -- 메뉴 목록은 안 궁금하다
+        where (l.`method` != 'GET' or l.url != '/gnb') -- 메뉴 목록은 안 궁금하다
         <if test="filter != null">and l.url like #{filter}</if>
         order by l.n desc limit 20
     </select>

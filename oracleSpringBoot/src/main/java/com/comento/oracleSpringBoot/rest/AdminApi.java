@@ -17,6 +17,6 @@ public class AdminApi {
 
     @GetMapping("req-log")
     public List<ReqLog> getReqLog(String filter) {
-        return mapper.selectUserLog(filter == null ? null : filter + "%");
+        return mapper.selectUserLog(filter == null ? null : "/" + filter + "%");
     }
 }
