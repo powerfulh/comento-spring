@@ -8,6 +8,7 @@ import com.comento.oracleSpringBoot.plm.entity.Word;
 import com.comento.oracleSpringBoot.plm.entmap.CompoundMap;
 import com.comento.oracleSpringBoot.plm.entmap.ContextMap;
 import com.comento.oracleSpringBoot.plm.entmap.WordMap;
+import com.comento.oracleSpringBoot.powerfulh.plm.UltronAnswerCase;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,6 +32,9 @@ public class Bank {
         update();
     }
 
+    boolean shouldSpaceBranch(UltronAnswerCase ultronAnswerCase) {
+        return ultronAnswerCase.space > ultronAnswerCase.cnt * 2; // 분기를 만드는 건 진보적으로 결정해야된다고 보고 배수 하향 ('지금 무슨' 을 안 띄우고 있었다)
+    }
     public void update() {
         wordList = mapper.selectWord().stream().map(item -> (Word) new WordMap(item)).collect(Collectors.toList());
 //        log.info("Words loaded");
@@ -41,6 +45,6 @@ public class Bank {
 //        log.info("Bank updated: words={}, contexts={}, compounds={}", wordList.size(), contextList.size(), compoundList.size());
         // fix space api
         final int spaceAvg = powerfulMapper.avgUltronAnswerSpace(); // 도입 배경: 197 `이` 는 띄워 이해할 여지가 다분하지만 cnt 사례도 많아 띄우지 않고 있었다
-        spaceMap = powerfulMapper.sumUltronAnswerSpaceCase().stream().collect(Collectors.toMap(k -> k.leftword, v -> v.space > spaceAvg || v.space > v.cnt * 10));
+        spaceMap = powerfulMapper.sumUltronAnswerSpaceCase().stream().collect(Collectors.toMap(k -> k.leftword, v -> v.space > spaceAvg || shouldSpaceBranch(v)));
     }
 }

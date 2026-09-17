@@ -86,6 +86,7 @@ public class PowerfulhC {
 		testP.add("테스트 결과를 확인해보니 일부 상황에서는 예상했던 것과 다른 결과가 나타나는 것을 알수있었다.");
 		testP.add("그때부터가 시작이었어");
 		testP.add("여기서 보기엔 집에서 밖에 안 쓴다"); // 오른쪽 결합을 파헤치면 붙는데 안 파헤치면 띄워지는 캐이스
+		testP.add("지금 무슨 생각"); // 띄워 이해해야하지만 붙는 게 맞는 경우도 많은 단어 캐이스
         final List<String> checkList = new ArrayList<>();
         for(String item: testP) {
             final String result = (String) plmService.fixSpace(item).get("result");
