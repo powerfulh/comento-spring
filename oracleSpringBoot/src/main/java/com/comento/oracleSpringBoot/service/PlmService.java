@@ -110,7 +110,7 @@ public class PlmService {
         return map;
     }
     public Map<String, Object> fixSpace(String pureSrc, String failKey) {
-        final Map<String, Object> map = fixSpace(pureSrc.replace(" ", "").replace(failKey, ""));
+        final Map<String, Object> map = fixSpace(stringHelper.replaceRepeatedChars(pureSrc, bank.symbols).replace(" ", "").replace(failKey, ""));
         map.put("result", map.get("result") + failKey);
         return map;
     }
