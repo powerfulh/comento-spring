@@ -7,5 +7,5 @@ import java.util.List;
 
 @Mapper
 public interface AdminMapper {
-	List<ReqLog> selectUserLog();
+	List<ReqLog> selectUserLog(String filter);
 }
