@@ -7,6 +7,7 @@
     <select id="selectUserLog" resultType="ReqLog">
         select l.n, l.`method`, l.url, l.param, l.insert_id insertId, l.insert_date insertDate from user_log l
         where (l.`method` != 'GET' or l.url != '/gnb') -- 메뉴 목록은 안 궁금하다
+        and l.url not like '/login%' and l.url != '/powerful/authenticate' -- 로그인 제외
         <if test="filter != null">and l.url like #{filter}</if>
         order by l.n desc limit 20
     </select>
