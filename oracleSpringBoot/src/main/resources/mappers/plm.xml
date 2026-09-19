@@ -42,6 +42,55 @@
     </select>
     <select id="selectOneWord" resultType="com.comento.oracleSpringBoot.dto.plm.Word">SELECT * FROM llm_word w where w.n = #{n}</select>
     <select id="selectUnderstandBox" resultType="com.comento.oracleSpringBoot.dto.plm.UnderstandBoxCommit">select b.src from plm_understand_box b where b.n = #{n}</select>
+    <select id="selectSentenceString" resultType="SentenceString">
+        WITH result AS (
+        SELECT
+        IFNULL(
+        CONCAT(
+        o.word,
+        GROUP_CONCAT(
+        CONCAT(
+        IF(c.space > c.cnt, ' ', ''),
+        rw.word
+        )
+        ORDER BY uc.i
+        SEPARATOR ''
+        )
+        ),
+        o.word
+        ) AS sentence,
+        s.n,
+        s.target,
+        s.updated_date updatedDate
+        FROM llm_word o
+        JOIN plm_ultron_sentence s
+        ON s.opener = o.n
+        LEFT JOIN plm_ultron_context uc
+        ON s.n = uc.sentence
+        LEFT JOIN plm_context c
+        ON c.n = uc.context
+        LEFT JOIN llm_word rw
+        ON c.rightword = rw.n
+        GROUP BY s.n
+        ),
+        matched AS (
+        SELECT *
+        FROM result
+        WHERE sentence LIKE #{keyword}
+        )
+        SELECT DISTINCT r.*
+        FROM result r
+        JOIN matched m
+        ON r.n = m.n
+        OR (
+        m.target IS NOT NULL
+        AND r.n = m.target
+        )
+        OR (
+        m.target IS NULL
+        AND r.target = m.n
+        )
+    </select>
 
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
         insert into llm_word(word, type, memo) values(#{word}, #{type}, #{wordMemo})

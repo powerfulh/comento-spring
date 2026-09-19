@@ -124,4 +124,8 @@ public class PlmApi extends RestApi {
         map.put("context", bank.contextList.size());
         return map;
     }
+    @GetMapping("sentence/string/{keyword}")
+    public List<SentenceString> getSentenceString(@PathVariable String keyword) {
+        return mapper.selectSentenceString("%" + keyword + "%");
+    }
 }
