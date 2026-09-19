@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 public class SentenceString extends BaseDto {
 	String sentence;
-	int target;
+	Integer target;
 	LocalDateTime updatedDate;
 	public Integer getN() {
 		return n;
