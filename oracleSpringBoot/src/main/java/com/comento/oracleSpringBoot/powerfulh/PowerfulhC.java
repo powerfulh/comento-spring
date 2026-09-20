@@ -60,11 +60,11 @@ public class PowerfulhC {
 		return mapper.update(a);
 	}
 	@GetMapping("fix/space")
-	public Map<String, Object> getFixed(String pureSrc) {
+	public Map<String, Object> getFixed(String pureSrc, boolean strict) {
         try {
             return plmService.fixSpace(pureSrc);
         } catch (PlmException e) {
-            if(e.info.containsKey("Fail to understand")) {
+            if(e.info.containsKey("Fail to understand") && !strict) {
                 final List<Map<String, Object>> fhList = (List<Map<String, Object>>) e.info.get("Fail to understand");
                 return plmService.fixSpace(pureSrc, (String) fhList.get(0).get("key"));
             }
