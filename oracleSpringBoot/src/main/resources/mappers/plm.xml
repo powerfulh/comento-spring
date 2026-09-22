@@ -46,18 +46,18 @@
         WITH result AS (
         SELECT
         IFNULL(
-        CONCAT(
-        o.word,
-        GROUP_CONCAT(
-        CONCAT(
-        IF(c.space > c.cnt, ' ', ''),
-        rw.word
-        )
-        ORDER BY uc.i
-        SEPARATOR ''
-        )
-        ),
-        o.word
+            CONCAT(
+                o.word,
+                GROUP_CONCAT(
+                    CONCAT(
+                        IF(c.space > c.cnt, ' ', ''),
+                        rw.word
+                    )
+                    ORDER BY uc.i
+                    SEPARATOR ''
+                )
+            ),
+            o.word
         ) AS sentence,
         s.n,
         s.target,
@@ -76,20 +76,21 @@
         matched AS (
         SELECT *
         FROM result
-        WHERE sentence LIKE #{keyword}
+        <if test="keyword != null">WHERE sentence LIKE #{keyword}</if>
         )
         SELECT DISTINCT r.*
         FROM result r
         JOIN matched m
         ON r.n = m.n
         OR (
-        m.target IS NOT NULL
-        AND r.n = m.target
+			m.target IS NOT NULL
+			AND r.n = m.target
         )
         OR (
-        m.target IS NULL
-        AND r.target = m.n
+			m.target IS NULL
+			AND r.target = m.n
         )
+		order by n desc limit 20
     </select>
 
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">

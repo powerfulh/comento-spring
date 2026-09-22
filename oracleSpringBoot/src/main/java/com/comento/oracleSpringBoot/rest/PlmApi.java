@@ -125,7 +125,11 @@ public class PlmApi extends RestApi {
         return map;
     }
     @GetMapping("sentence/string/{keyword}")
-    public List<SentenceString> getSentenceString(@PathVariable String keyword) {
+    public List<SentenceString> getSentenceStringOld(@PathVariable String keyword) {
         return mapper.selectSentenceString("%" + keyword + "%");
     }
+	@GetMapping("sentence/string")
+	public List<SentenceString> getSentenceString(String keyword) {
+		return mapper.selectSentenceString(keyword == null ? null : "%" + keyword + "%");
+	}
 }
