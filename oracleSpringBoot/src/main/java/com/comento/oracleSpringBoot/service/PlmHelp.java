@@ -122,6 +122,7 @@ public class PlmHelp {
                 list.add(new HelpResult(184, recomp(word, removeFooter(last), "워", second)));
                 list.add(new HelpResult(309, recomp(word, removeFooter(last), "운", second)));
                 list.add(new HelpResult(50, recomp(word, removeFooter(last), "워서", second)));
+                list.add(new HelpResult(162, recomp(word, removeFooter(last), "웠", second)));
                 break;
             case 4:
                 list.add(new HelpResult(309, recomp(word, addFooter(last, JONG_COMPLETE), "", second)));
@@ -140,6 +141,7 @@ public class PlmHelp {
                 list.add(new HelpResult(50, recomp(word, removeFooter(last), "워서", second)));
                 list.add(new HelpResult(309, recomp(word, removeFooter(last), "운", second)));
                 list.add(new HelpResult(824, recomp(word, removeFooter(last), "우면", second))); // case 5 로 빠진 이유
+                list.add(new HelpResult(162, recomp(word, removeFooter(last), "웠", second)));
                 break;
             case 6:
                 list.add(new HelpResult(184, recomp(word, changeMother(last, 14), "", second))); // 14: ㅝ
