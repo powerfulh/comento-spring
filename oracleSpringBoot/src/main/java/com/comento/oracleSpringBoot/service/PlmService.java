@@ -96,7 +96,7 @@ public class PlmService {
                 if(next.isLeftShouldSpace()) fixing.append(" ");
                 else {
                     final SpaceCase spaceCase = powerfulMapper.sumSpaceCase(current.getN(), next.getType());
-                    if(spaceCase != null && spaceCase.expectSpace()) fixing.append(" "); // 260916 접미 조건을 빼고 접미 조건으로 해결하던 캐이스 하나를 데이타로 해결했다. 한번 더 사례가 나오면 접미 조건 부활을 고려해야한다
+                    if(spaceCase != null && spaceCase.expectSpace() && !contextCore.suffix.contains(next.getN())) fixing.append(" "); // 접미는 떨어뜨리지 않는다
                 }
                 fixing.append(next.getWord());
                 continue;
