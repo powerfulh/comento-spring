@@ -29,6 +29,7 @@
     <select id="selectSuffix" resultType="int">
         select w.n from llm_word w, plm_context c
         where w.n = c.rightword
+		and exists (select 1 from plm_ultron_sentence s, plm_ultron_context uc where s.target is not null and s.n = uc.sentence and uc.context = c.n)
         and c.cnt > 0
         and w.`type` = '무엇'
         and CHAR_LENGTH(w.word) = 1
