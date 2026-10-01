@@ -93,7 +93,7 @@ public class PlmService {
                         } else return null;
                     });
             if(context == null) {
-                if(next.isLeftShouldSpace()) fixing.append(" ");
+                if(next.isLeftShouldSpace() && !next.getType().equals("기호")) fixing.append(" "); // 기호 조건 도입 이유: '회사 규모/업종에' 를 '회사 규모 /업종에' 로 뱉길래
                 else {
                     final SpaceCase spaceCase = powerfulMapper.sumSpaceCase(current.getN(), next.getType());
                     if(spaceCase != null && spaceCase.expectSpace() && !contextCore.suffix.contains(next.getN())) fixing.append(" "); // 접미는 떨어뜨리지 않는다
