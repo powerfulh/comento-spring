@@ -58,9 +58,11 @@ public class StaticUtilFromModel {
                     .collect(Collectors.toList());
             final List<Toke> sameList = new ArrayList<>(); // 띄워 이해 분기 추가하기 위해 도입
             final boolean trySpace = spaceMap.getOrDefault(lastUnderstand.getN(), false);
+            final boolean leftThing = lastUnderstand.getType().equals(contextCore.thingType);
             tokeList.forEach(item -> {
                 sameList.add(item);
-                if(trySpace) {
+                final boolean thingSpaceChance = leftThing && item.rightContext < 1; // '요금줄이는법' 에서 '요금 줄' 문맥이 있지만 0점짜리 '요금줄'을 고르고 있어서 도입
+                if(trySpace || thingSpaceChance) {
                     final Toke spaced = generateToke(src, item.src, understandList, contextCore, lastUnderstand, contextList, compoundList, wordList, true);
                     if(spaced == null) return;
                     spaced.leftShouldSpace = true;
