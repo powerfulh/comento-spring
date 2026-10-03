@@ -65,7 +65,8 @@ public class StaticUtilFromModel {
                 if(trySpace || thingSpaceChance) {
                     final Toke spaced = generateToke(src, item.src, understandList, contextCore, lastUnderstand, contextList, compoundList, wordList, true);
                     if(spaced == null) return;
-                    spaced.leftShouldSpace = true;
+                    if(!trySpace && spaced.rightContext < 1) return;
+                    spaced.leftShouldSpace = trySpace;
                     sameList.add(spaced);
                 }
             });
