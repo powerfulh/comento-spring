@@ -70,7 +70,10 @@ public class StaticUtilFromModel {
                     sameList.add(spaced);
                 }
             });
-            sameList.sort(Comparator.comparing(Toke::getRightContext)); // 띄워 분기 복제까지 하고 정렬해야 되므로 여기서
+            sameList.sort( // 띄워 분기 복제까지 하고 정렬해야 되므로 여기서
+					Comparator.comparing(Toke::getRightContext)
+							.thenComparing(item -> item.getType().equals("기호") && item.rightSpace) // 기호는 입력 존중
+			);
             if(sameList.isEmpty()) {
                 if(understandList.size() < 2) throw failHistory.isEmpty() ? new PlmException("Fail to continue after open", lastUnderstand.getWord()) : new PlmException("Fail to understand", failHistory);
                 src.rollback(lastUnderstand);

@@ -89,6 +89,7 @@ public class PowerfulhC {
 		testP.add("지금 무슨 생각"); // 띄워 이해해야하지만 붙는 게 맞는 경우도 많은 단어 캐이스
 		testP.add("저장공간이나 데이터"); // 이상한 접미 없는지 테스트
 		testP.add("통신요금 줄이는 법"); // `thingSpaceChance` 정상 동작 테스트
+		testP.add("사업 기반: CJ그룹"); // 기호 인접 띄쓰 유지 테스트
         final List<String> checkList = new ArrayList<>();
         for(String item: testP) {
             final String result = (String) plmService.fixSpace(item).get("result");

@@ -75,7 +75,7 @@ public class PlmService {
         return sentenceList.size() > 9 ? sentenceList.subList(0, 9) : sentenceList;
     }
     public Map<String, Object> fixSpace(String pureSrc) {
-        final List<Sentence> understand = understand(pureSrc.replace(" ", "")); // 지금은 자체 구현이지만 나중엔 모델 부르게 해야 됨
+        final List<Sentence> understand = understand(pureSrc); // 지금은 자체 구현이지만 나중엔 모델 부르게 해야 됨
         if(understand.isEmpty()) throw new RuntimeException("모델이 문장을 이해하지 못했습니다 ㅠ"); // 오프너 0 캐이스
         final Sentence sentence = understand.get(0);
         StringBuilder fixing = new StringBuilder(sentence.get(0).getWord());
@@ -83,6 +83,11 @@ public class PlmService {
             if(i + 1 == sentence.size()) break;
             final Toke current = sentence.get(i);
             final Toke next = sentence.get(i + 1);
+			if(next.getType().equals("기호") || current.getType().equals("기호")) {
+				if(current.accessRightSpace()) fixing.append(" ");
+				fixing.append(next.getWord());
+				continue;
+			}
             final Context context = bank.contextList.stream()
                     .filter(StaticUtilFromModel.getContextFinder(current.getN(), next.getN())).findFirst().orElseGet(() -> {
                         if(next.getType().equals("결합")) {

@@ -50,4 +50,8 @@ public class Toke implements Word {
     public String getMemo() {
         return src.getMemo();
     }
+
+	public boolean accessRightSpace() { // @JsonIgnore 안 쓰고 싶어서 ㅋ
+		return rightSpace;
+	}
 }
