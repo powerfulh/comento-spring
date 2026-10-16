@@ -49,4 +49,8 @@ public class HtmlC extends WebC {
 	public String reqLog() {
 		return "req-log";
 	}
+	@GetMapping("learnword")
+	public String learnWord() {
+		return "learn-word";
+	}
 }

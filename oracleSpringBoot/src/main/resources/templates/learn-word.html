@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/w3.css">
+		<link rel="stylesheet" href="/common.css">
+		<script src="/jq.js"></script>
+		<script src="https://kit.fontawesome.com/db65e38582.js" crossorigin="anonymous"></script>
+	</head>
+	
+	<body class="w3-light-gray">
+		<th:block th:replace="fragment/common :: header" />
+		
+		<main class="w3-clear">
+			<th:block th:replace="fragment/common :: lnb" />
+			
+			<section class="w3-left w3-padding">
+				<h3 id="view-title" class="w3-teal w3-card"></h3>
+				<!-- 화면 시작 -->
+<!--				<div class="w3-card w3-padding">-->
+<!--					<label>-->
+<!--						<select id="filter" onchange="get()">-->
+<!--							<option>전체</option>-->
+<!--							<option>send-string</option>-->
+<!--							<option>powerful</option>-->
+<!--							<option>swagger-resources</option>-->
+<!--							<option>error</option>-->
+<!--							<option>plm</option>-->
+<!--							<option>index</option>-->
+<!--							<option>api</option>-->
+<!--						</select>-->
+<!--					</label>-->
+<!--				</div>-->
+				<table class="w3-card">
+					<thead class="w3-aqua">
+						<tr>
+							<th><span class="fa fa-key"></span></th>
+							<th>Word</th>
+							<th>Type</th>
+							<th>Memo</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="append-temp"></tr>
+					</tbody>
+				</table>
+				<!-- 화면 끝 -->
+			</section>
+		</main>
+		
+		<th:block th:replace="fragment/common :: footer" />
+	</body>
+	
+	<script type="text/javascript">
+	const viewTitle = 'Learn word'
+	const colList = [
+		{
+			name: 'n',
+		},
+		{
+			name: 'word',
+		},
+		{
+			name: 'type',
+		},
+		{
+			name: 'memo',
+		},
+	]
+	const temp = $('tr.append-temp')
+
+	function get() {
+		fetch('/plm/word/learn').then(async res => {
+			const j = await res.json()
+			$('tbody > tr:not(.new):not(.append-temp)').remove()
+			j.forEach(item => {
+				colList.forEach(col => {
+					const cell = temp.find('td.' + col.name)
+					cell.text(item[col.name])
+				})
+				$('tbody').append(temp.clone().removeClass('append-temp'))
+			})
+		})
+	}
+	function initView() {
+		document.title = viewTitle
+		$('#view-title').text(viewTitle)
+
+		colList.forEach(item => {
+			const td = document.createElement('td')
+			td.setAttribute('class', item.name)
+			temp.append(td)
+		})
+		get()
+	}
+
+	initView()
+	</script>
+</html>

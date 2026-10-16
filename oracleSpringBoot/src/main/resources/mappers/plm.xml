@@ -136,6 +136,7 @@
         JOIN plm_ultron_context uc ON uc.context = c.n
         WHERE wc.rightword = w.n
         )
+        limit 100
     </select>
 
     <insert id="insertWord" parameterType="com.comento.oracleSpringBoot.dto.plm.Word">
