@@ -132,4 +132,8 @@ public class PlmApi extends RestApi {
 	public List<SentenceString> getSentenceString(String keyword) {
 		return mapper.selectSentenceString(keyword == null ? null : "%" + keyword + "%");
 	}
+    @GetMapping("word/learn")
+    public List<Word> getLearnWord() {
+        return mapper.selectLearnWord();
+    }
 }

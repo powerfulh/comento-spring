@@ -35,4 +35,5 @@ public interface PlmMapper {
     void insertUnderstandBox(String src);
     UnderstandBoxCommit selectUnderstandBox(int n);
     List<SentenceString> selectSentenceString(String keyword);
+    List<Word> selectLearnWord();
 }
