@@ -136,6 +136,7 @@
         JOIN plm_ultron_context uc ON uc.context = c.n
         WHERE wc.rightword = w.n
         )
+        order by w.`type` = '결합', w.n
         limit 100
     </select>
 
