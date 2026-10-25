@@ -3,6 +3,7 @@ package com.comento.oracleSpringBoot.rest.curtain;
 import java.util.List;
 import java.util.Map;
 
+import com.comento.oracleSpringBoot.dto.curtain.Board;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class CurtainApi {
 	CurtainMapper mapper;
 	
 	@GetMapping
-	public List<Map<String, Object>> blind100() {
+	public List<Board> blind100() {
 		return mapper.select100();
 	}
 	@GetMapping("{company}")
