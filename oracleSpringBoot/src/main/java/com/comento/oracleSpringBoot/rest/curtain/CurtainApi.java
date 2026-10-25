@@ -1,4 +1,4 @@
-package com.comento.oracleSpringBoot.rest;
+package com.comento.oracleSpringBoot.rest.curtain;
 
 import java.util.List;
 import java.util.Map;
