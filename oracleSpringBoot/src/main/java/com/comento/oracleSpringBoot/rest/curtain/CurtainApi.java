@@ -1,7 +1,6 @@
 package com.comento.oracleSpringBoot.rest.curtain;
 
 import java.util.List;
-import java.util.Map;
 
 import com.comento.oracleSpringBoot.dto.curtain.Board;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class CurtainApi {
 		return Chart.builder().total(mapper.selectCnt().get(0)).comp(mapper.selectCompCnt()).topic(mapper.selectTopicCnt()).build();
 	}
 	@GetMapping("rand")
-	public List<Map<String, Object>> blind100rand() {
+	public List<Board> blind100rand() {
 		return mapper.select100rand();
 	}
 }
