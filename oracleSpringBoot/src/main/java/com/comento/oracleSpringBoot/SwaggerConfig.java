@@ -22,4 +22,14 @@ public class SwaggerConfig {
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder().title("Swagger").build();
 	}
+	@Bean
+	public Docket curtainApiGroup() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("curtainApi")
+				.select()
+				.apis(RequestHandlerSelectors.basePackage(
+						"com.comento.oracleSpringBoot.rest.curtain"))
+				.paths(PathSelectors.any())
+				.build();
+	}
 }
