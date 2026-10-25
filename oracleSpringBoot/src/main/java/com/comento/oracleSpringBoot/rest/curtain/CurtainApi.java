@@ -26,7 +26,7 @@ public class CurtainApi {
 		return mapper.select100();
 	}
 	@GetMapping("{company}")
-	public List<Map<String, Object>> blind100company(@PathVariable String company) {
+	public List<Board> blind100company(@PathVariable String company) {
 		return mapper.select100comp(company);
 	}
 	@GetMapping("chart")
