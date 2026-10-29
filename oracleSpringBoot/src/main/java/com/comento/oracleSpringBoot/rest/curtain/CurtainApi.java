@@ -37,4 +37,8 @@ public class CurtainApi {
 	public int postRefresh() {
 		return mapper.refreshCurtain();
 	}
+	@GetMapping("build/{key}")
+	public List<Board> getCurtain(@PathVariable String key, int offset) {
+		return mapper.selectChunk(key, offset);
+	}
 }

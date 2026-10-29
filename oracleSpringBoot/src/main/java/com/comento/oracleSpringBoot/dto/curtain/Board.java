@@ -19,4 +19,11 @@ public class Board {
 	String cn;
 	@ApiModelProperty(value = "User category", example = "Gold")
 	String cp;
+	// 커텐 전용
+	@ApiModelProperty(value = "Post ID")
+	Integer n;
+	@ApiModelProperty(value = "Post category ID")
+	Integer cid;
+	@ApiModelProperty(value = "User category ID")
+	Integer cpid;
 }

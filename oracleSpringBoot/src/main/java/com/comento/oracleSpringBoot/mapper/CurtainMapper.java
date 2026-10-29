@@ -15,4 +15,5 @@ public interface CurtainMapper {
 	List<Chart.CurtainPost> selectTopicCnt();
 	List<Board> select100rand();
 	int refreshCurtain();
+	List<Board> selectChunk(String key, int offset);
 }

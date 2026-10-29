@@ -11,4 +11,9 @@
 	<select id="selectTopicCnt" resultType="com.comento.oracleSpringBoot.dto.curtain.Chart$CurtainPost">call blindtopic()</select>
 	<select id="select100rand" resultType="map">call blind100rand()</select>
 	<select id="refreshCurtain" resultType="int">CALL refresh_curtain_article()</select>
+	<select id="selectChunk" resultType="map">
+		select * from curtain_article t
+		where t.build_key = #{key}
+		order by t.n limit 1000 offset #{offset}
+	</select>
 </mapper>
