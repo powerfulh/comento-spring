@@ -10,4 +10,5 @@
 	<select id="selectCompCnt" resultType="com.comento.oracleSpringBoot.dto.curtain.Chart$CurtainUser">call blindcompany()</select>
 	<select id="selectTopicCnt" resultType="com.comento.oracleSpringBoot.dto.curtain.Chart$CurtainPost">call blindtopic()</select>
 	<select id="select100rand" resultType="map">call blind100rand()</select>
+	<select id="refreshCurtain" resultType="int">CALL refresh_curtain_article()</select>
 </mapper>

@@ -14,4 +14,5 @@ public interface CurtainMapper {
 	List<Chart.CurtainUser> selectCompCnt();
 	List<Chart.CurtainPost> selectTopicCnt();
 	List<Board> select100rand();
+	int refreshCurtain();
 }

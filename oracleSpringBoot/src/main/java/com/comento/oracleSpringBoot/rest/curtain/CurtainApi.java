@@ -1,17 +1,13 @@
 package com.comento.oracleSpringBoot.rest.curtain;
 
-import java.util.List;
-
 import com.comento.oracleSpringBoot.dto.curtain.Board;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.comento.oracleSpringBoot.dto.curtain.Chart;
 import com.comento.oracleSpringBoot.mapper.CurtainMapper;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/curtain")
@@ -35,5 +31,10 @@ public class CurtainApi {
 	@GetMapping("rand")
 	public List<Board> blind100rand() {
 		return mapper.select100rand();
+	}
+	@PostMapping("build/refresh")
+	@ApiOperation(value = "최신 만 건 적재 후 적재된 최신 글 번호 응답")
+	public int postRefresh() {
+		return mapper.refreshCurtain();
 	}
 }
