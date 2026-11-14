@@ -26,4 +26,9 @@ public class Board {
 	Integer cid;
 	@ApiModelProperty(value = "User category ID")
 	Integer cpid;
+	String img0url;
+	String img1url;
+	String img2url;
+	String img3url;
+	String img4url;
 }
