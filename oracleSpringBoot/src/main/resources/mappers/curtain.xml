@@ -16,4 +16,5 @@
 		where t.build_key = #{key}
 		order by t.n limit 1000 offset #{offset}
 	</select>
+    <select id="selectImg" resultType="map">call blindimg0(#{n})</select>
 </mapper>

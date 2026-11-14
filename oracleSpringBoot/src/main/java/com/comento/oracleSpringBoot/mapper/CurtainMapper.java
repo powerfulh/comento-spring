@@ -1,10 +1,11 @@
 package com.comento.oracleSpringBoot.mapper;
 
-import java.util.List;
-
 import com.comento.oracleSpringBoot.dto.curtain.Board;
 import com.comento.oracleSpringBoot.dto.curtain.Chart;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface CurtainMapper {
@@ -16,4 +17,5 @@ public interface CurtainMapper {
 	List<Board> select100rand();
 	int refreshCurtain();
 	List<Board> selectChunk(String key, int offset);
+	Map<String, byte[]> selectImg(int n);
 }

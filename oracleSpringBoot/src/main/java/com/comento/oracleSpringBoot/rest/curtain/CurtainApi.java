@@ -5,6 +5,8 @@ import com.comento.oracleSpringBoot.dto.curtain.Chart;
 import com.comento.oracleSpringBoot.mapper.CurtainMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,5 +42,12 @@ public class CurtainApi {
 	@GetMapping("build/{key}")
 	public List<Board> getCurtain(@PathVariable String key, int offset) {
 		return mapper.selectChunk(key, offset);
+	}
+	@GetMapping("img/{n}")
+	public ResponseEntity<byte[]> getImg(@PathVariable int n) {
+		byte[] bytes = mapper.selectImg(n).get("img0");
+		return ResponseEntity.ok()
+				.contentType(MediaType.IMAGE_JPEG)
+				.body(bytes);
 	}
 }
