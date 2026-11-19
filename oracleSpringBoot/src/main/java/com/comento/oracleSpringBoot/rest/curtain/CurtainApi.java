@@ -3,7 +3,9 @@ package com.comento.oracleSpringBoot.rest.curtain;
 import com.comento.oracleSpringBoot.dto.curtain.Board;
 import com.comento.oracleSpringBoot.dto.curtain.Chart;
 import com.comento.oracleSpringBoot.mapper.CurtainMapper;
+import com.comento.oracleSpringBoot.service.CurtainService;
 import io.swagger.annotations.ApiOperation;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import java.util.List;
 public class CurtainApi {
 	@Autowired
 	CurtainMapper mapper;
+	@Autowired
+	CurtainService service;
 	
 	@GetMapping
 	public List<Board> blind100() {
@@ -49,5 +53,9 @@ public class CurtainApi {
 		return ResponseEntity.ok()
 				.contentType(MediaType.IMAGE_JPEG)
 				.body(bytes);
+	}
+	@GetMapping("latest/img")
+	public List<Map<String, Object>> getLatestImg() {
+		return service.getDeniedImg();
 	}
 }

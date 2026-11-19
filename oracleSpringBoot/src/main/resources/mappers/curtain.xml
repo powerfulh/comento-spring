@@ -16,5 +16,10 @@
 		where t.build_key = #{key}
 		order by t.n limit 1000 offset #{offset}
 	</select>
-    <select id="selectImg" resultType="map">call blindimg0(#{n})</select>
+	<select id="selectImg" resultType="map">call blindimg0(#{n})</select>
+	<select id="selectLatestImg" resultType="map">
+		select t.blind_n, t.img0url from curtain_article t
+		where t.img0url is not null and t.img0url not like 'https://port-0%'
+		order by t.n limit 50
+	</select>
 </mapper>
