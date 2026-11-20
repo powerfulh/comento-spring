@@ -56,6 +56,7 @@ public class CurtainApi {
 	}
 	@GetMapping("latest/img")
 	public List<Map<String, Object>> getLatestImg() {
+		mapper.refreshCurtain();
 		return service.getDeniedImg();
 	}
 }
