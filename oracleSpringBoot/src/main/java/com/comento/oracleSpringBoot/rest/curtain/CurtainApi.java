@@ -2,10 +2,10 @@ package com.comento.oracleSpringBoot.rest.curtain;
 
 import com.comento.oracleSpringBoot.dto.curtain.Board;
 import com.comento.oracleSpringBoot.dto.curtain.Chart;
+import com.comento.oracleSpringBoot.dto.curtain.Expired;
 import com.comento.oracleSpringBoot.mapper.CurtainMapper;
 import com.comento.oracleSpringBoot.service.CurtainService;
 import io.swagger.annotations.ApiOperation;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +55,7 @@ public class CurtainApi {
 				.body(bytes);
 	}
 	@GetMapping("latest/img")
-	public List<Map<String, Object>> getLatestImg() {
+	public List<Expired> getLatestImg() {
 		mapper.refreshCurtain();
 		return service.getDeniedImg();
 	}

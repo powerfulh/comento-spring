@@ -18,5 +18,5 @@ public interface CurtainMapper {
 	int refreshCurtain();
 	List<Board> selectChunk(String key, int offset);
 	Map<String, byte[]> selectImg(int n);
-	List<Map<String, Object>> selectLatestImg();
+	List<Board> selectLatestImg();
 }
