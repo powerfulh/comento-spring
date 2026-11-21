@@ -19,4 +19,6 @@ public interface CurtainMapper {
 	List<Board> selectChunk(String key, int offset);
 	Map<String, byte[]> selectImg(int n);
 	List<Board> selectLatestImg();
+	void updateImg0url(String portUrl, int n);
+	void deactivate(int n);
 }

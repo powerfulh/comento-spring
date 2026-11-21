@@ -59,4 +59,12 @@ public class CurtainApi {
 		mapper.refreshCurtain();
 		return service.getDeniedImg();
 	}
+	@PutMapping("fix/img/{n}")
+	public void putImgUrl(@PathVariable int n) {
+		mapper.updateImg0url(Expired.builder().blindN(n).build().getResourceUrl(), n);
+	}
+	@DeleteMapping("discard-expired/{n}")
+	public void discardExpired(@PathVariable int n) {
+		mapper.deactivate(n);
+	}
 }
