@@ -18,7 +18,8 @@
 	</select>
 	<select id="selectImg" resultType="map">call blindimg0(#{n})</select>
 	<select id="selectLatestImg" resultType="Board">
-        select t.nn, t.b, t.t, t.d, t.cn, t.cp, t.blind_n n, t.img0url from curtain_article t
+        select t.nn, t.b, t.t, t.d, t.cn, t.cp, t.blind_n n, t.img0url, t.img1url is not null multiImage
+        from curtain_article t
 		where t.img0url is not null and t.img0url not like 'https://port-0%'
 		order by t.n limit 50
 	</select>

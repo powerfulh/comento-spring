@@ -31,4 +31,5 @@ public class Board {
 	String img2url;
 	String img3url;
 	String img4url;
+	boolean multiImage;
 }
