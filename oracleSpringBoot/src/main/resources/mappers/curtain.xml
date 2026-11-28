@@ -21,7 +21,7 @@
         select t.nn, t.b, t.t, t.d, t.cn, t.cp, t.blind_n n, t.img0url, t.img1url is not null multiImage
         from curtain_article t
 		where t.img0url is not null and t.img0url not like 'https://port-0%'
-		order by t.n limit 50
+		order by t.n limit #{limit}
 	</select>
     <update id="updateImg0url">update blind_article set img0url = #{portUrl}, updatedTime = now() where n = #{n}</update>
     <update id="deactivate">update blind_article set activate = false, updatedTime = now() where activate = true and img0url is not null and n = #{n}</update>

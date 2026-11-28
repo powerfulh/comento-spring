@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 public class CurtainService {
   final CurtainMapper mapper;
 
-  public List<Expired> getDeniedImg() {
-    List<Board> list = mapper.selectLatestImg();
+  public List<Expired> getDeniedImg(int limit) {
+    List<Board> list = mapper.selectLatestImg(limit);
     return list.stream().filter(item -> {
       String url = item.getImg0url();
       RestTemplate template = new RestTemplate();

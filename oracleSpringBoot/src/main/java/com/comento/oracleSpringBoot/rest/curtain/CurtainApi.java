@@ -57,7 +57,7 @@ public class CurtainApi {
 	@GetMapping("latest/img")
 	public List<Expired> getLatestImg(boolean refresh) {
 		if (refresh) mapper.refreshCurtain();
-		return service.getDeniedImg();
+		return service.getDeniedImg(refresh ? 50 : 100);
 	}
 	@PutMapping("fix/img/{n}")
 	public void putImgUrl(@PathVariable int n) {
