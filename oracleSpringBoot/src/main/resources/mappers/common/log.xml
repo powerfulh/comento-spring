@@ -5,7 +5,7 @@
 
 <mapper namespace="com.comento.oracleSpringBoot.LogMapper">	
 	<insert id="insert" parameterType="Log">
-		INSERT into user_log (method, url, param, insert_id)
-		values(#{method}, #{url}, #{param}, #{insertId})
+		INSERT into user_log (method, url, param, insert_id, ip)
+		values(#{method}, #{url}, #{param}, #{insertId}, #{ip})
 	</insert>
 </mapper>

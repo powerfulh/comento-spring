@@ -44,7 +44,7 @@ public class Aop {
 	@Before("allPoint()")
 	public void startControl() {
 		System.out.println();
-		logger.info("Controll start");
+		logger.info("Control start");
 	}
 	String getRequesterId(HttpServletRequest req) {
 		String sid = (String) req.getSession().getAttribute("sid");
@@ -76,7 +76,7 @@ public class Aop {
 		if(attributes == null) return;
 		HttpServletRequest req = attributes.getRequest();
 		String id = StaticUtil.nullElse(getRequesterId(req), "비로그인");
-		Log log = Log.builder().method(req.getMethod()).url(req.getRequestURI()).param(getParamJson(jp)).build();
+		Log log = Log.builder().method(req.getMethod()).url(req.getRequestURI()).param(getParamJson(jp)).ip(req.getRemoteAddr()).build();
 		log.setInsertId(id);
 		mapper.insert(log);
 	}
@@ -88,6 +88,7 @@ class Log extends Param {
 	final String method;
 	final String url;
 	final String param;
+	final String ip;
 }
 
 @Mapper
